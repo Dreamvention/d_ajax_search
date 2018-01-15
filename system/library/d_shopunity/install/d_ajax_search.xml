@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>d_ajax_search</name>
+    <code>d_ajax_search</code>
+    <description>Live Ajax Search</description>
+    <version>5.0.0</version>
+    <author>Dreamwention Team</author>
+    <link>http://www.dreamvention.ee/</link>
+
+
+        <file path="catalog/controller/common/header.php">
+            <operation error="skip">
+                <search><![CDATA[public function index() {]]></search>
+                <add position="after"><![CDATA[$data['d_ajax_search'] = $this->load->controller('extension/module/d_ajax_search');]]></add>
+            </operation>
+        </file>
+
+        <file path="catalog/view/theme/*/template/common/header.tpl">
+            <operation error="skip">
+                <search regex="true" limit="1"><![CDATA[($)]]></search>
+                <add><![CDATA[<?php echo $d_ajax_search; ?>]]></add>
+            </operation>
+        </file>
+
+
+        <!-- 3.x compatibility START -->
+        <file path="catalog/view/theme/*/template/common/header.twig">
+            <operation error="skip">
+                <search regex="true" limit="1"><![CDATA[($)]]></search>
+                <add><![CDATA[{{ d_ajax_search }}]]></add>
+            </operation>
+        </file>
+        <!-- 3.x compatibility END -->
+
+
+</modification>

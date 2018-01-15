@@ -1,0 +1,265 @@
+{{ header }}{{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+
+            <div class="form-inline pull-right">
+             <button id="save_and_stay" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
+             <button type="submit" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+             <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+         </div>
+
+         <h1>{{ heading_title }} {{ version }}</h1>
+         <ul class="breadcrumb">
+            {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="container-fluid">
+    {% if (error_warning) %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %}
+  {% if (success) %}
+  <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+    </div>
+
+    <div class="panel-body">
+        <form id="form" action="{{ action }}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
+
+            <ul class="nav nav-tabs">
+             <li class="active"><a href="#tab_main" data-toggle="tab">
+                <span class="fa fa-wrench"></span>
+                {{ main_settings }}Custom Settings
+            </a></li>
+            <li><a href="#tab_setting" data-toggle="tab">
+                <span class="fa fa-cog"></span>
+                {{ text_settings }}
+            </a></li>
+            <li><a href="#tab_instruction" data-toggle="tab">
+                <span class="fa fa-graduation-cap"></span>
+                {{ text_instructions }}
+            </a></li>
+        </ul>
+
+        <div class="tab-content">
+
+            <div class="tab-pane" id="tab_setting">
+                <div class="tab-body">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-status">
+                            <span data-toggle="tooltip" title="{{ entry_status }}">
+                                {{ entry_status }}
+                            </span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="hidden" value="0" name="{{ id }}_status"/>
+                            <input type="checkbox" value="1" name="{{ id }}_status" {{ d_ajax_search_status ? 'checked="checked"' : '' }} id="input-status" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-class"><span data-toggle="tooltip" title="{{ help_class }}">{{ entry_class }}</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="{{ id }}_setting[class]" value="{{ setting['class'] }}"  class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-width"><span data-toggle="tooltip" title="{{ help_width }}">{{ entry_width }}</span></label>
+                        <div class="col-sm-10">
+                            <input name="{{ id }}_setting[width]" value="{{ setting['width'] }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="{{ help_max_symbols }}">{{ entry_max_symbols }}</span></label>
+                        <div class="col-sm-10">
+                            <input name="{{ id }}_setting[max_symbols]" value="{{ setting['max_symbols'] }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-max-results"><span data-toggle="tooltip" title="{{ help_max_results }}">{{ entry_max_results }}</span></label>
+                        <div class="col-sm-10">
+                            <input name="{{ id }}_setting[max_results]" value="{{ setting['max_results'] }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="{{ id }}_setting[price]" value="0" />
+                            <input type="checkbox" name="{{ id }}_setting[price]" {{ setting['price'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="tab-pane active" id="tab_main">
+                <div class="tab-body">
+                    <div class="form-group">
+                        <div class="table-responsive col-sm-12">
+                            <table class="table table-bordered table-hover control-elements">
+                                <thead>
+                                    <tr class="fields">
+                                        <td class="field">
+                                            <h4 class="m-b-none"><span class="fa fa-sort-amount-asc"></span> Priority search <span class="info-window-item" ></span></h4>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody class="control-elements">
+                                    <tr class="control-element">
+                                        <td class="field">
+                                            <div class="col-sm-12">
+                                               <div id="extensions">
+                                                {% for extension in extensions %}
+                                                <div class="sort-item {{ extension['id'] }}" data-sort-order="{{ extension['sort_order'] }}">
+                                                    <span class="">
+                                                        <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][sort_order]" class="sort-value" value="{{ extension['sort_order'] }}" />
+                                                        <span class="drag-handle"><i class="fa fa-bars"></i></span>
+                                                    </span>
+                                                    <span>
+                                                        <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" value="0" />
+                                                        <input type="checkbox" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" {{ extension['enabled'] ? 'checked="checked"' : '' }} value="1" id="{{ id }}_module_item_{{ extension['id'] }}_enabled" />
+                                                        <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">{{ extension['id']|capitalize }} <i class="fa fa-caret-down"></i></label>
+                                                    </span>
+                                                    <div class="more-details form-group {{ extension['id'] }}_settings hidden_settings">
+                                                        {% for key, extension_ in extension['query'] %}
+                                                        <div class="col-sm-4 marbot">
+                                                            <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][query][{{key}}]" value="0" />
+                                                            <input type="checkbox" name="{{ id }}_setting[extension][{{ extension['id'] }}][query][{{key}}]" {{ extension_['status'] ? 'checked="checked"' : '' }} value="1" class="form-control">
+                                                            <label class=" control-label" for="input-{{ extension['id'] }}-query-{{key}}"><span data-toggle="tooltip" title="{{ extension_['tooltip'] }}">{{key}}</span></label>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab_instruction">
+            <div class="tab-body">{{ text_instructions_full }}</div>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+function showAlert(json) {
+    $('.alert, .text-danger').remove();
+    $('.form-group').removeClass('has-error');
+
+    if (json['error']) {
+        if (json['error']['warning']) {
+            $('#content > .container-fluid').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error']['warning'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        }
+
+        for (i in json['error']) {
+            var element = $('#input_' + i);
+
+            if (element.parent().hasClass('input-group')) {
+                $(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+            } else {
+                $(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+            }
+        }
+
+        $('.text-danger').parentsUntil('.form-group').parent().addClass('has-error');
+    }
+
+    if (json['success']) {
+        $('#content > .container-fluid').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '  <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+    }
+};
+
+$("[type='checkbox']").bootstrapSwitch({
+    'onColor': 'success',
+    'onText': '{{ status_on }}',
+    'offText': '{{ status_off }}',
+});
+</script>
+
+<script>
+$('body').on('click', '#save_and_stay', function(){
+    $.ajax( {
+        type: 'post',
+        url: $('#form').attr('action'),
+        data: $('#form').serialize(),
+        dataType: 'json',
+        beforeSend: function() {
+            $('#content').fadeTo('slow', 0.5);
+        },
+        complete: function() {
+            $('#content').fadeTo('slow', 1);
+        },
+        success: function(json) {
+            showAlert(json);
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+</script>
+
+<script>
+$('#extensions > .sort-item').tsort({attr:'data-sort-order'});
+
+Sortable.create(extensions, {
+    group: "sorting",
+    sort: true,
+    animation: 150,
+    handle: ".drag-handle",
+    onUpdate: function (event){
+        $('#extensions').find('.sort-item').each(function (i, row) {
+            $(row).find('.sort-value').val(i)
+        })
+    }
+});
+</script>
+
+<script>
+function check(data){
+    var classList = $('.'+data+'_settings').attr('class').split(/\s+/);
+    $.each(classList, function(index, item) {
+        if (item === 'hidden_settings' || item === 'hidden') {
+            $('.'+data+'_settings').slideToggle('slow').removeClass('hidden_settings');
+            $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").removeClass('fa-caret-down');
+            $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").addClass('fa-caret-up');
+        }else{
+            $('.'+data+'_settings').hide(500).addClass('hidden_settings');
+            $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").removeClass('fa-caret-up');
+            $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").addClass('fa-caret-down');
+        }
+    });
+
+}
+</script>
+
+{{ footer }}
