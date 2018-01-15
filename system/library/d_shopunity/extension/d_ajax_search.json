@@ -56,7 +56,6 @@
         "admin/view/javascript/d_ajax_search/d_ajax_search.css",
         "admin/view/javascript/d_ajax_search/d_design.css",
         "admin/view/javascript/d_ajax_search/jquery.tinysort.min.js",
-        "admin/view/javascript/d_ajax_search/anime.min.js",
         "catalog/controller/extension/module/d_ajax_search.php",
         "catalog/model/extension/module/d_ajax_search.php",
         "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
