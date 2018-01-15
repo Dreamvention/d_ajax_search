@@ -51,9 +51,9 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 $sql .= " " . implode(" OR ", $implode[$search]) . "";
             }
 
-            if(isset($settings['max_results']) && $settings['max_results'] != 0) {
-                $sql .= " ORDER BY ". $filter['table']['name']. '.' . $filter['table']['key'] ." DESC LIMIT ".$settings['max_results']."";
-            }
+            // if(isset($settings['max_results']) && $settings['max_results'] != 0) {
+            //     $sql .= " ORDER BY ". $filter['table']['name']. '.' . $filter['table']['key'] ." DESC LIMIT ".$settings['max_results']."";
+            // }
 
             if ($search=='blog') {
                 $search='post';
@@ -103,6 +103,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
           $resultOut = array_merge($resultOut,$val);
       }
   }
+  array_splice($resultOut,$settings['max_results']);
   return $resultOut;
 }
 }
