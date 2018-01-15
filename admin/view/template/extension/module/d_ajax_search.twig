@@ -135,7 +135,7 @@
                                                     <span>
                                                         <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" value="0" />
                                                         <input type="checkbox" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" {{ extension['enabled'] ? 'checked="checked"' : '' }} value="1" id="{{ id }}_module_item_{{ extension['id'] }}_enabled" />
-                                                        <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">{{ extension['id']|capitalize }} <i class="fa fa-caret-down"></i></label>
+                                                        <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">{{ extension['id']|capitalize|replace ({'_':' '}) }} <i class="fa fa-caret-down"></i></label>
                                                     </span>
                                                     <div class="more-details form-group {{ extension['id'] }}_settings hidden_settings">
                                                         {% for key, extension_ in extension['query'] %}
