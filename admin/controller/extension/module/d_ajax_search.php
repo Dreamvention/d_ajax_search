@@ -188,9 +188,18 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $setting = $this->model_setting_setting->getSetting($this->codename);
         $setting = (isset($setting[$this->codename.'_setting'])) ? $setting[$this->codename.'_setting'] : array();
 
+        if(in_array('product_simple',$extensions) && in_array('product',$extensions)){
+            foreach ($extensions as $key => $extension) {
+                if($extension=='product_simple'){
+                    unset($extensions[$key]);
+                }
+            }
+        }
+
         if ($extensions) {
             $this->load->model('user/user_group');
             foreach ($extensions as $extension) {
+
                 $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'access', 'extension/'.$this->codename.'/'.$extension);
                 $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'modify', 'extension/'.$this->codename.'/'.$extension);
 
