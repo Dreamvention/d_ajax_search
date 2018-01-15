@@ -57,6 +57,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
             if ($search=='blog') {
                 $search='post';
+            }elseif ($search = 'product_simple') {
+                $search='product';
             }
             $sql_array[$search]=$sql;
         }
@@ -66,6 +68,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         foreach($searches as $kek => $search){
             if ($search=='blog') {
                 $search='post';
+            }else if ($search = 'product_simple') {
+                $search='product';
             }
             $query=$this->db->query($sql_array[$search]);
             foreach ($query->rows as $key => $row) {

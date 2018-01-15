@@ -51,6 +51,7 @@
     "files": [
         "admin/controller/extension/module/d_ajax_search.php",
         "admin/model/extension/module/d_ajax_search.php",
+        "admin/controller/extension/d_ajax_search/product_simple.php",
         "admin/language/en-gb/extension/module/d_ajax_search.php",
         "admin/view/template/extension/module/d_ajax_search.twig",
         "admin/view/javascript/d_ajax_search/d_ajax_search.css",
@@ -62,13 +63,12 @@
         "catalog/view/theme/default/stylesheet/d_ajax_search.css",
         "system/library/d_shopunity/install/d_ajax_search.xml",
         "system/library/d_shopunity/extension/d_ajax_search.json",
+        "system/config/d_ajax_search/product_simple.php",
         "system/config/d_ajax_search.php"
     ],
     "dirs": [
 
-        "admin/controller/extension/d_ajax_search",
-        "admin/view/image/d_ajax_search/",
-        "system/config/d_ajax_search"
+        "admin/view/image/d_ajax_search/"
     ],
     "changelog": [
         {

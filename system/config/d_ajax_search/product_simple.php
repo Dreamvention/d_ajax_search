@@ -1,5 +1,5 @@
 <?php
-$_['d_ajax_search_product'] = array(
+$_['d_ajax_search_product_simple'] = array(
     'table' => array(
         'name' => 'p',
         'full_name' => 'product',
