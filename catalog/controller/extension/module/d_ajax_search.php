@@ -19,9 +19,13 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data=array();
         $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '.css');
         $setting1 = $this->model_setting_setting->getSetting($this->id);
-        $settings = $setting1['d_ajax_search_setting'];
-        $data['setting']=$settings;
-        return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
+        if(isset($setting1['d_ajax_search_setting'])){
+            $settings = $setting1['d_ajax_search_setting'];
+            $data['setting']=$settings;
+            if($setting1['d_ajax_search_status'] == 1){
+                return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
+            }
+        }
     }
 
     public function searchresults(){

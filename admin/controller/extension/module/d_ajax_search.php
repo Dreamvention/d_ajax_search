@@ -175,7 +175,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         $data['breadcrumbs'][] = array(
             'text'      => $this->language->get('text_module'),
-            'href'      => $this->model_extension_d_opencart_patch_url->getExtensionLink('modules')
+            'href'      => $this->model_extension_d_opencart_patch_url->getExtensionLink('module')
         );
 
         $data['breadcrumbs'][] = array(
