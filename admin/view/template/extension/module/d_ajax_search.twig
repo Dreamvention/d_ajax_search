@@ -128,11 +128,11 @@
                                                <div id="extensions">
                                                 {% for extension in extensions %}
                                                 <div class="sort-item {{ extension['id'] }}" data-sort-order="{{ extension['sort_order'] }}">
-                                                    <span class="">
+                                                    <span>
                                                         <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][sort_order]" class="sort-value" value="{{ extension['sort_order'] }}" />
                                                         <span class="drag-handle"><i class="fa fa-bars"></i></span>
                                                     </span>
-                                                    <span>
+                                                    <span class="extension">
                                                         <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" value="0" />
                                                         <input type="checkbox" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" {{ extension['enabled'] ? 'checked="checked"' : '' }} value="1" id="{{ id }}_module_item_{{ extension['id'] }}_enabled" />
                                                         <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">{{ extension['id']|capitalize|replace ({'_':' '}) }} <i class="fa fa-caret-down"></i></label>

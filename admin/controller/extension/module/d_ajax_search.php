@@ -91,7 +91,6 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->document->addScript('view/javascript/d_bootstrap_switch/js/bootstrap-switch.min.js');
         $this->document->addStyle('view/javascript/d_bootstrap_switch/css/bootstrap-switch.css');
         $this->document->addScript('view/javascript/d_ajax_search/jquery.tinysort.min.js');
-        $this->document->addScript('view/javascript/d_ajax_search/anime.min.js');
         $this->document->addScript('view/javascript/d_rubaxa_sortable/sortable.js');
         $this->document->addStyle('view/javascript/d_rubaxa_sortable/sortable.css');
         $this->document->addScript('view/javascript/d_rubaxa_sortable/sortable.js');
