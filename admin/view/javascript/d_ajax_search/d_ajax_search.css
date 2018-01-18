@@ -21,6 +21,15 @@
     left: 45%;
 }
 
+.extension {
+    margin-left: 12px;
+}
+h4 {
+    margin-bottom: 0px!important;
+}
+#extensions > div > span.extension > label:hover {
+    cursor: pointer;
+}
 .marbot{
     margin-bottom: 5px;
     /* margin-left: 50px; */
