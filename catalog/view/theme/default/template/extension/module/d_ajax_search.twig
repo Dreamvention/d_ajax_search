@@ -20,10 +20,11 @@ function doquick_search( ev, keywords ) {
     }
     keywords = encodeURI(keywords);
 
-    $.ajax({
+        $.ajax({
         url: $('base').attr('href') + 'index.php?route=extension/module/d_ajax_search/searchresults&keyword=' + keywords,
         dataType: 'json',
         beforeSend: function() {
+
             var html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
             html += '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>';
             $('#search').after(html);
@@ -74,10 +75,9 @@ function doquick_search( ev, keywords ) {
         }
         },
         error: function(xhr, ajaxOptions, thrownError) {
-            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            console.log('error');
         }
     });
-
     return true;
 }
 
@@ -116,20 +116,24 @@ function upDownEvent( ev ) {
 
 var updown = -1;
 
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
 $(document).ready(function(){
 
     $("{{ setting['class'] }}").keyup(function(ev){
-        doquick_search(ev, this.value);
-    }).focus(function(ev){
-        doquick_search(ev, this.value);
-    }).keydown(function(ev){
-        upDownEvent( ev );
-    }).blur(function(){
-        setTimeout(function() {
-            $('#d_ajax_search_results').remove();
-            updown = 0;
-        }, 500)
+        var a= ev;
+        var b =this.value;
+        delay(function() {
+            doquick_search(a, b);
+          }, 600);
     });
+
     $(document).bind('keydown', function(ev) {
         try {
             if( ev.keyCode == 13 && $('.selected').length > 0 ) {
