@@ -86,9 +86,10 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             }else{
                 $product_ides[$search][]=$row[$search.'_id'];
                 $result[$search][$key][$search.'_id'] = $row[$search.'_id'];
-                $result[$search][$key]['image'] = isset($row['image']) ? $this->model_tool_image->resize($row['image'], 40, 40) : '';
+                $result[$search][$key]['image'] = isset($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : '';
                 $result[$search][$key]['name'] = $row['name'];
                 $result[$search][$key]['description'] =  isset($row['description']) ? $row['description'] : '';
+                $result[$search][$key]['where_find']=$search;
                 if($search=='category'){
                     $result[$search][$key]['href']=$this->url->link('product/'.$search, 'path=' . $row[$search.'_id']);
                 }else if($search=='manufacturer'){

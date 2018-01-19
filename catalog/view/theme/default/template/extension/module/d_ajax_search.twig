@@ -1,9 +1,42 @@
 {% if (setting['width']) %}
 <style type="text/css">
-    #d_ajax_search_results{
-        width: {{setting['width']}};
-    }
+#d_ajax_search_results{
+    width: {{setting['width']}};
+}
 </style>
+{% endif %}
+
+{% if mobile %}
+<!-- <a href="#" data-toggle="modal" class="d_ajax_filter_popup_button clickable" data-target="#searchModal">
+    <i class="fa fa-filter" aria-hidden="true"></i> -->
+<button type="button" class="hidden btn btn-primary" data-toggle="modal" data-target="#searchModal">
+  Launch Live Ajax Search
+</button>
+
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel">Live Ajax Search</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+<div id="search_mobile" class="input-group">
+  <input type="text" name="search" value="" placeholder="Search" class="form-control input-lg">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
+  </span>
+</div>
+    </div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary">Save changes</button>
+</div>
+</div>
+</div>
+</div>
 {% endif %}
 
 <script>
@@ -13,14 +46,14 @@ function doquick_search( ev, keywords ) {
     }
 
     $('#d_ajax_search_results').remove();
-     updown = -1;
+    updown = -1;
 
     if( keywords == '' || keywords.length < 1 || keywords.length < {{setting['max_symbols']}} ) {
         return false;
     }
     keywords = encodeURI(keywords);
 
-        $.ajax({
+    $.ajax({
         url: $('base').attr('href') + 'index.php?route=extension/module/d_ajax_search/searchresults&keyword=' + keywords,
         dataType: 'json',
         beforeSend: function() {
@@ -34,20 +67,21 @@ function doquick_search( ev, keywords ) {
         success: function(results) {
             $('#d_ajax_search_results').remove();
             var result = $.map(results, function(value, index) {
-                            return [value];
-                        });
+                return [value];
+            });
 
-        if ( typeof result != 'undefined' && result.length>0) {
-            var html, i;
-            html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
-            for (i=0;i<result.length;i++) {
-                html += '<a class="row" href="' + result[i].href + '">';
-                if (result[i].image){
-                    html += '<div class="col col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
-                } else {
-                    html += '<div class="col col-sm-2 va-center text-center"></div>';
-                }
-                html += '<div class="col col-sm-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
+            if ( typeof result != 'undefined' && result.length>0) {
+                var html, i;
+                html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
+                for (i=0;i<result.length;i++) {
+                    html += '<a class="row" href="' + result[i].href + '">';
+                    if (result[i].image){
+                        html += '<div class="col col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
+                    } else {
+                        html += '<div class="col col-sm-2 va-center text-center"></div>';
+                    }
+                    html += '<div class="col col-sm-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
+                    html +='(<span class="model" style="color:grey;"> find in ' + result[i].where_find+ '</span>)';
                 // if (result[i]) html += ' (<span class="model">' + result[i].model + '</span>)';
                 html += '</div>';
 
@@ -61,6 +95,7 @@ function doquick_search( ev, keywords ) {
                         html += '<div class="col col-sm-3 va-center text-center"></div>';
                     }
                 }
+
                 html += '</a>';
             }
 
@@ -69,50 +104,54 @@ function doquick_search( ev, keywords ) {
             if ($('#d_ajax_search_results').length > 0) {
                 $('#d_ajax_search_results').remove();
             }
+            if({{mobile}}){
+                $('#search_mobile').after(html);
+            }else{
+                $('#search').after(html);
+            }
 
-            $('#search').after(html);
             $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
         }
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            console.log('error');
-        }
-    });
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+        console.log('error');
+    }
+});
     return true;
 }
 
-function upDownEvent( ev ) {
+// function upDownEvent( ev ) {
 
-    var elem = document.getElementById('d_ajax_search_results_body');
-    var fkey = $('#search').find("{{ setting['class'] }}").first();
+//     var elem = document.getElementById('d_ajax_search_results_body');
+//     var fkey = $('#search').find("{{ setting['class'] }}").first();
 
-    if( elem ) {
+//     if( elem ) {
 
-        var length = elem.childNodes.length - 1;
+//         var length = elem.childNodes.length - 1;
 
-        if( updown != -1 && typeof(elem.childNodes[updown]) != 'undefined' ) {
-            $(elem.childNodes[updown]).removeClass('selected');
-        }
+//         if( updown != -1 && typeof(elem.childNodes[updown]) != 'undefined' ) {
+//             $(elem.childNodes[updown]).removeClass('selected');
+//         }
 
-        if( ev.keyCode == 38 ) {
-            updown = ( updown > 0 ) ? --updown : updown;
-        }
-        else if( ev.keyCode == 40 ) {
-            updown = ( updown < length ) ? ++updown : updown;
-        }
+//         if( ev.keyCode == 38 ) {
+//             updown = ( updown > 0 ) ? --updown : updown;
+//         }
+//         else if( ev.keyCode == 40 ) {
+//             updown = ( updown < length ) ? ++updown : updown;
+//         }
 
-        if( updown >= 0 && updown <= length ) {
+//         if( updown >= 0 && updown <= length ) {
 
-            $(elem.childNodes[updown]).addClass('selected');
+//             $(elem.childNodes[updown]).addClass('selected');
 
-            var text = $(elem.childNodes[updown]).find('.name').html();
+//             var text = $(elem.childNodes[updown]).find('.name').html();
 
-            $('#search').find("{{ setting['class'] }}").first().val(text);
-        }
-    }
+//             $('#search').find("{{ setting['class'] }}").first().val(text);
+//         }
+//     }
 
-    return false;
-}
+//     return false;
+// }
 
 var updown = -1;
 
@@ -121,7 +160,7 @@ var delay = (function(){
   return function(callback, ms){
     clearTimeout (timer);
     timer = setTimeout(callback, ms);
-  };
+};
 })();
 
 $(document).ready(function(){
@@ -131,7 +170,7 @@ $(document).ready(function(){
         var b =this.value;
         delay(function() {
             doquick_search(a, b);
-          }, 600);
+        }, 500);
     });
 
     $(document).bind('keydown', function(ev) {

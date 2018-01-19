@@ -16,9 +16,17 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
     }
 
     public function index(){
+
         $data=array();
+
         $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '.css');
         $setting1 = $this->model_setting_setting->getSetting($this->id);
+        if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
+            $mobile = $data['mobile'] = 1;
+        }
+        else {
+            $mobile = $data['mobile'] = 0;
+        }
         if(isset($setting1['d_ajax_search_setting'])){
             $settings = $setting1['d_ajax_search_setting'];
             $data['setting']=$settings;

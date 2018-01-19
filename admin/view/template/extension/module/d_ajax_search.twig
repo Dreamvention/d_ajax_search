@@ -5,13 +5,13 @@
         <div class="container-fluid">
 
             <div class="form-inline pull-right">
-             <button id="save_and_stay" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
-             <button type="submit" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
-             <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
-         </div>
+               <button id="save_and_stay" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
+               <button type="submit" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+               <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+           </div>
 
-         <h1>{{ heading_title }} {{ version }}</h1>
-         <ul class="breadcrumb">
+           <h1>{{ heading_title }} {{ version }}</h1>
+           <ul class="breadcrumb">
             {% for breadcrumb in breadcrumbs %}
             <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
             {% endfor %}
@@ -40,13 +40,17 @@
         <form id="form" action="{{ action }}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
 
             <ul class="nav nav-tabs">
-             <li class="active"><a href="#tab_main" data-toggle="tab">
+               <li class="active"><a href="#tab_main" data-toggle="tab">
                 <span class="fa fa-wrench"></span>
                 {{ main_settings }}Custom Settings
             </a></li>
             <li><a href="#tab_setting" data-toggle="tab">
                 <span class="fa fa-cog"></span>
                 {{ text_settings }}
+            </a></li>
+            <li><a href="#tab_design" data-toggle="tab">
+                <span class="fa fa-picture-o"></span>
+                Design
             </a></li>
             <li><a href="#tab_instruction" data-toggle="tab">
                 <span class="fa fa-graduation-cap"></span>
@@ -98,15 +102,6 @@
                             <input name="{{ id }}_setting[max_results]" value="{{ setting['max_results'] }}" class="form-control">
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
-                        <div class="col-sm-10">
-                            <input type="hidden" name="{{ id }}_setting[price]" value="0" />
-                            <input type="checkbox" name="{{ id }}_setting[price]" {{ setting['price'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <div class="tab-pane active" id="tab_main">
@@ -125,7 +120,7 @@
                                     <tr class="control-element">
                                         <td class="field">
                                             <div class="col-sm-12">
-                                               <div id="extensions">
+                                             <div id="extensions">
                                                 {% for extension in extensions %}
                                                 <div class="sort-item {{ extension['id'] }}" data-sort-order="{{ extension['sort_order'] }}">
                                                     <span>
@@ -159,10 +154,33 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="tab_instruction">
-            <div class="tab-body">{{ text_instructions_full }}</div>
+        <div class="tab-pane" id="tab_design">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
+                <div class="col-sm-10">
+                    <input type="hidden" name="{{ id }}_setting[price]" value="0" />
+                    <input type="checkbox" name="{{ id }}_setting[price]" {{ setting['price'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-image-height"><span data-toggle="tooltip" title="{{ help_max_results }}">Result image height</span></label>
+                <div class="col-sm-10">
+                    <input name="{{ id }}_setting[image_height]" value="{{ setting['image_height'] }}" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+               <label class="col-sm-2 control-label" for="input-image-width"><span data-toggle="tooltip" title="{{ help_max_results }}">Result image width</span></label>
+               <div class="col-sm-10">
+                <input name="{{ id }}_setting[image_width]" value="{{ setting['image_width'] }}" class="form-control">
+            </div>
         </div>
     </div>
+    <div class="tab-pane" id="tab_instruction">
+        <div class="tab-body">{{ text_instructions_full }}</div>
+    </div>
+</div>
 </form>
 </div>
 </div>
