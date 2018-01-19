@@ -20,6 +20,12 @@
     position: relative;
     padding: 5px;
 }
+
+#d_ajax_search_results_body > a:hover{
+    background-color: #ffff99;
+    border: 2px solid red;
+    border-radius: 5px;
+}
 .fa-spinner{
     align-self: center;
 }
