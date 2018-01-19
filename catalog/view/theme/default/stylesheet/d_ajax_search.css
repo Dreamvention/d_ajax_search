@@ -23,8 +23,8 @@
 
 #d_ajax_search_results_body > a:hover{
     background-color: #ffff99;
-    border: 2px solid red;
-    border-radius: 5px;
+    border: 2px solid #ccff99;
+    border-radius: 17px;
 }
 .fa-spinner{
     align-self: center;
