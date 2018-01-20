@@ -5,13 +5,13 @@
 }
 </style>
 {% endif %}
-
+<button type="button" class="hidden modal_search btn btn-primary" data-toggle="modal" data-target="#searchModal">
+  Launch Live Ajax Search
+</button>
 {% if mobile %}
 <!-- <a href="#" data-toggle="modal" class="d_ajax_filter_popup_button clickable" data-target="#searchModal">
     <i class="fa fa-filter" aria-hidden="true"></i> -->
-<button type="button" class="hidden btn btn-primary" data-toggle="modal" data-target="#searchModal">
-  Launch Live Ajax Search
-</button>
+
 
 <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -60,7 +60,12 @@ function doquick_search( ev, keywords ) {
 
             var html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
             html += '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>';
-            $('#search').after(html);
+            if({{mobile}}){
+                $('#search_mobile').after(html);
+            }else{
+                $('#search').after(html);
+            }
+            // $('#search').after(html);
 
             $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
         },
@@ -163,7 +168,16 @@ var delay = (function(){
 };
 })();
 
+
+
 $(document).ready(function(){
+
+    if({{mobile}}){
+        $('#search').click(function(){
+            $('.modal_search').click();
+        });
+    }
+    
 
     $("{{ setting['class'] }}").keyup(function(ev){
         var a= ev;
