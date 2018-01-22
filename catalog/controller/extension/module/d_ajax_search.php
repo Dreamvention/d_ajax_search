@@ -19,13 +19,15 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
 
         $data=array();
 
-        $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '.css');
+
         $setting1 = $this->model_setting_setting->getSetting($this->id);
         if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
             $mobile = $data['mobile'] = 1;
+             $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '_mobile.css');
         }
         else {
             $mobile = $data['mobile'] = 0;
+             $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '.css');
         }
         if(isset($setting1['d_ajax_search_setting'])){
             $settings = $setting1['d_ajax_search_setting'];
