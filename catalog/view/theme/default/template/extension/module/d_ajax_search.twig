@@ -9,31 +9,20 @@
   Launch Live Ajax Search
 </button>
 {% if mobile %}
-<!-- <a href="#" data-toggle="modal" class="d_ajax_filter_popup_button clickable" data-target="#searchModal">
-    <i class="fa fa-filter" aria-hidden="true"></i> -->
-
 
 <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="searchModalLabel">Live Ajax Search</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
+         <div id="search_mobile" class="input-group">
+            <span class="pull-left" data-dismiss="modal"><i class="fa fa-arrow-left"></i></span>
+         <input id="wtf" type="text" name="search" value="" placeholder="Search" class="pull-left form-control input-lg">
+         <span data-dismiss="modal"><i class="fa fa-close"></i></span>
+          <span data-dismiss="modal"><i class="fa fa-search"></i></span>
+        </div>
   </div>
   <div class="modal-body">
-<div id="search_mobile" class="input-group">
-  <input type="text" name="search" value="" placeholder="Search" class="form-control input-lg">
-  <span class="input-group-btn">
-    <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
-  </span>
-</div>
     </div>
-<!-- <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary">Save changes</button>
-</div> -->
 </div>
 </div>
 </div>
@@ -64,10 +53,11 @@ function doquick_search( ev, keywords ) {
                 $('#search_mobile').after(html);
             }else{
                 $('#search').after(html);
+                $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
             }
             // $('#search').after(html);
 
-            $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+
         },
         success: function(results) {
             $('#d_ajax_search_results').remove();
@@ -113,6 +103,7 @@ function doquick_search( ev, keywords ) {
                 $('#search_mobile').after(html);
             }else{
                 $('#search').after(html);
+                $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
             }
 
             $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
