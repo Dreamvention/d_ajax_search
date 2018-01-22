@@ -182,6 +182,7 @@
     width: 100%;
     height: 50px;
     display: table;
+    color: black;
 }
 #d_ajax_search_results .row .col {
     display: table-cell;
