@@ -76,7 +76,7 @@ function doquick_search( ev, keywords ) {
                         html += '<div class="col col-sm-2 va-center text-center"></div>';
                     }
                     html += '<div class="col col-sm-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
-                    html +='(<span class="model" style="color:grey;"> find in ' + result[i].where_find+ '</span>)';
+                    html +='<br>(<span class="model" style="color:grey;"> find in ' + result[i].where_find+ '</span>)';
                 // if (result[i]) html += ' (<span class="model">' + result[i].model + '</span>)';
                 html += '</div>';
 
@@ -85,7 +85,7 @@ function doquick_search( ev, keywords ) {
                     html += '<span class="special">' + result[i].special + '</span></div>';
                 } else {
                     if (result[i].price > 0){
-                        html += '<div class="col col-sm-3 va-center text-center"><span class="price">' + result[i].price + '</span></div>';
+                        html += '<div class="col col-sm-3 va-center pull-right text-center"><span class="price">' + result[i].price + '</span></div>';
                     } else {
                         html += '<div class="col col-sm-3 va-center text-center"></div>';
                     }
