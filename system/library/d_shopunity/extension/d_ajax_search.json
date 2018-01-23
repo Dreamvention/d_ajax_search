@@ -61,6 +61,7 @@
         "catalog/model/extension/module/d_ajax_search.php",
         "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
         "catalog/view/theme/default/stylesheet/d_ajax_search.css",
+        "catalog/view/theme/default/stylesheet/d_ajax_search_mobile.css",
         "system/library/d_shopunity/install/d_ajax_search.xml",
         "system/library/d_shopunity/extension/d_ajax_search.json",
         "system/config/d_ajax_search/product_simple.php",

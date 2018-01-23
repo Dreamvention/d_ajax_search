@@ -177,6 +177,9 @@
 .fa-spinner{
     align-self: center;
 }
+.name {
+    margin-left: 20px;
+}
 #d_ajax_search_results .row {
     margin: 0px;
     width: 100%;
@@ -194,4 +197,7 @@
 }
 #d_ajax_search_results .row .col .old-price {
     text-decoration:line-through;
+}
+.price{
+    margin-top: -10px!important;
 }

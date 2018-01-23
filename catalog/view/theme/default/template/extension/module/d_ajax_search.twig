@@ -17,8 +17,8 @@
          <div id="search_mobile" class="input-group">
             <span class="pull-left" data-dismiss="modal"><i class="fa fa-arrow-left"></i></span>
          <input id="wtf" type="text" name="search" value="" placeholder="Search" class="pull-left form-control input-lg">
-         <span data-dismiss="modal"><i class="fa fa-close"></i></span>
-          <span data-dismiss="modal"><i class="fa fa-search"></i></span>
+         <span data-dismiss="modal"><i data-dismiss="modal" class="fa fa-close"></i></span>
+          <span onclick="test"><i class="fa fa-search"></i></span>
         </div>
   </div>
   <div class="modal-body">
@@ -71,12 +71,12 @@ function doquick_search( ev, keywords ) {
                 for (i=0;i<result.length;i++) {
                     html += '<a class="row" href="' + result[i].href + '">';
                     if (result[i].image){
-                        html += '<div class="col col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
+                        html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
                     } else {
                         html += '<div class="col col-sm-2 va-center text-center"></div>';
                     }
-                    html += '<div class="col col-sm-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
-                    html +='<br>(<span class="model" style="color:grey;"> find in ' + result[i].where_find+ '</span>)';
+                    html += '<div class="col  {%if mobile %} pull-left name {%endif%} col-sm-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
+                    html +='<br><span class="model name" style="color:grey;">('+result[i].where_find+')</span>';
                 // if (result[i]) html += ' (<span class="model">' + result[i].model + '</span>)';
                 html += '</div>';
 
@@ -85,7 +85,7 @@ function doquick_search( ev, keywords ) {
                     html += '<span class="special">' + result[i].special + '</span></div>';
                 } else {
                     if (result[i].price > 0){
-                        html += '<div class="col col-sm-3 va-center pull-right text-center"><span class="price">' + result[i].price + '</span></div>';
+                        html += '<div class="col price col-sm-3 va-center {%if mobile %} pull-right {%endif%} text-center"><br><span class="">' + result[i].price + '</span></div>';
                     } else {
                         html += '<div class="col col-sm-3 va-center text-center"></div>';
                     }
@@ -116,39 +116,6 @@ function doquick_search( ev, keywords ) {
     return true;
 }
 
-// function upDownEvent( ev ) {
-
-//     var elem = document.getElementById('d_ajax_search_results_body');
-//     var fkey = $('#search').find("{{ setting['class'] }}").first();
-
-//     if( elem ) {
-
-//         var length = elem.childNodes.length - 1;
-
-//         if( updown != -1 && typeof(elem.childNodes[updown]) != 'undefined' ) {
-//             $(elem.childNodes[updown]).removeClass('selected');
-//         }
-
-//         if( ev.keyCode == 38 ) {
-//             updown = ( updown > 0 ) ? --updown : updown;
-//         }
-//         else if( ev.keyCode == 40 ) {
-//             updown = ( updown < length ) ? ++updown : updown;
-//         }
-
-//         if( updown >= 0 && updown <= length ) {
-
-//             $(elem.childNodes[updown]).addClass('selected');
-
-//             var text = $(elem.childNodes[updown]).find('.name').html();
-
-//             $('#search').find("{{ setting['class'] }}").first().val(text);
-//         }
-//     }
-
-//     return false;
-// }
-
 var updown = -1;
 
 var delay = (function(){
@@ -159,6 +126,11 @@ var delay = (function(){
 };
 })();
 
+
+function test(){
+    console.log('allo');
+    alert('alarm');
+}
 
 
 $(document).ready(function(){
