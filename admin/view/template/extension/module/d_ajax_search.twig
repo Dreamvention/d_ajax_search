@@ -162,20 +162,21 @@
                     <input type="checkbox" name="{{ id }}_setting[price]" {{ setting['price'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
                 </div>
             </div>
-
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-image-height"><span data-toggle="tooltip" title="{{ help_max_results }}">Result image height</span></label>
-                <div class="col-sm-10">
-                    <input name="{{ id }}_setting[image_height]" value="{{ setting['image_height'] }}" class="form-control">
+                <label class="col-sm-2 control-label" for="input_text">Result image</label>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Width</span>
+                        <input name="{{ id }}_setting[image_width]" value="{{ setting['image_width'] }}" class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Height</span>
+                        <input name="{{ id }}_setting[image_height]" value="{{ setting['image_height'] }}" class="form-control">
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-               <label class="col-sm-2 control-label" for="input-image-width"><span data-toggle="tooltip" title="{{ help_max_results }}">Result image width</span></label>
-               <div class="col-sm-10">
-                <input name="{{ id }}_setting[image_width]" value="{{ setting['image_width'] }}" class="form-control">
-            </div>
-        </div>
     </div>
     <div class="tab-pane" id="tab_instruction">
         <div class="tab-body">{{ text_instructions_full }}</div>
@@ -267,11 +268,11 @@ function check(data){
     var classList = $('.'+data+'_settings').attr('class').split(/\s+/);
     $.each(classList, function(index, item) {
         if (item === 'hidden_settings' || item === 'hidden') {
-            $('.'+data+'_settings').slideToggle('slow').removeClass('hidden_settings');
+            $('.'+data+'_settings').slideDown('slow').removeClass('hidden_settings');
             $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").removeClass('fa-caret-down');
             $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").addClass('fa-caret-up');
         }else{
-            $('.'+data+'_settings').hide(500).addClass('hidden_settings');
+            $('.'+data+'_settings').slideUp(500).addClass('hidden_settings');
             $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").removeClass('fa-caret-up');
             $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").addClass('fa-caret-down');
         }

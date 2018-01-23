@@ -55,17 +55,17 @@ $_['d_ajax_search_product_simple'] = array(
         'Name' => array(
             'key' => 'pd.name',
             'rule' => 'LIKE',
-            'tooltip' => 'Search by Name or no'),
+            'tooltip' => 'Search by Name'),
 
         'Description' => array(
             'key' => 'pd.description',
             'rule' => 'LIKE',
-            'tooltip' => 'Search by Description or no'),
+            'tooltip' => 'Search by Description'),
 
         'Model' => array(
             'key' => 'p.model',
             'rule' => 'LIKE',
-            'tooltip' => 'Search by Model or no'),
+            'tooltip' => 'Search by Model'),
 
         ),
 
