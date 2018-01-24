@@ -2,7 +2,6 @@
     width: 85%!important;
     margin:0px;
     margin-left: 20px;
-    margin-top: 30px!important;
     position: absolute;
     list-style-type: none;
     z-index:1005;
@@ -94,6 +93,7 @@
   width: 100%;
   font-weight: 300;
   overflow: auto;
+  height: 92%;
 }
 
 .modal-footer {

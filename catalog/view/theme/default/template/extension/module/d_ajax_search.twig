@@ -17,7 +17,7 @@
          <div id="search_mobile" class="input-group">
             <span class="pull-left" data-dismiss="modal"><i class="fa fa-arrow-left"></i></span>
          <input id="wtf" type="text" name="search" value="" placeholder="Search" class="pull-left form-control input-lg">
-         <span data-dismiss="modal"><i class="fa fa-close"></i></span>
+         <span onclick="clearInput()"><i class="fa fa-close"></i></span>
           <span><i class="fa fa-search"></i></span>
         </div>
   </div>
@@ -100,13 +100,14 @@ function doquick_search( ev, keywords ) {
                 $('#d_ajax_search_results').remove();
             }
             if({{mobile}}){
-                $('#search_mobile').after(html);
+                $('.modal-body').append(html);
+                $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
             }else{
                 $('#search').after(html);
                 $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
             }
 
-            $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+
         }
     },
     error: function(xhr, ajaxOptions, thrownError) {
@@ -126,12 +127,10 @@ var delay = (function(){
 };
 })();
 
-
-function test(){
-    console.log('allo');
-    alert('alarm');
+function clearInput (){
+    $('#d_ajax_search_results').remove();
+    $('#wtf').val('');
 }
-
 
 $(document).ready(function(){
 
@@ -149,6 +148,21 @@ $(document).ready(function(){
             doquick_search(a, b);
         }, 500);
     });
+
+    $("{{ setting['class'] }}").blur(function(){
+        setTimeout(function() {
+            $('#d_ajax_search_results').remove();
+            updown = 0;
+        }, 500)
+    });
+
+     $("{{ setting['class'] }}").focus(function(ev){
+        var a= ev;
+        var b =this.value;
+        delay(function() {
+            doquick_search(a, b);
+        }, 500);
+     });
 
     $(document).bind('keydown', function(ev) {
         try {

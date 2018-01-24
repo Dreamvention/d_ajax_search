@@ -5,13 +5,13 @@
         <div class="container-fluid">
 
             <div class="form-inline pull-right">
-               <button id="save_and_stay" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
-               <button type="submit" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
-               <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
-           </div>
+             <button id="save_and_stay" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
+             <button type="submit" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+             <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+         </div>
 
-           <h1>{{ heading_title }} {{ version }}</h1>
-           <ul class="breadcrumb">
+         <h1>{{ heading_title }} {{ version }}</h1>
+         <ul class="breadcrumb">
             {% for breadcrumb in breadcrumbs %}
             <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
             {% endfor %}
@@ -40,7 +40,7 @@
         <form id="form" action="{{ action }}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
 
             <ul class="nav nav-tabs">
-               <li class="active"><a href="#tab_main" data-toggle="tab">
+             <li class="active"><a href="#tab_main" data-toggle="tab">
                 <span class="fa fa-wrench"></span>
                 {{ main_settings }}Custom Settings
             </a></li>
@@ -59,10 +59,8 @@
         </ul>
 
         <div class="tab-content">
-
             <div class="tab-pane" id="tab_setting">
                 <div class="tab-body">
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-status">
                             <span data-toggle="tooltip" title="{{ entry_status }}">
@@ -74,28 +72,24 @@
                             <input type="checkbox" value="1" name="{{ id }}_status" {{ d_ajax_search_status ? 'checked="checked"' : '' }} id="input-status" />
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-class"><span data-toggle="tooltip" title="{{ help_class }}">{{ entry_class }}</span></label>
                         <div class="col-sm-10">
                             <input type="text" name="{{ id }}_setting[class]" value="{{ setting['class'] }}"  class="form-control"/>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-width"><span data-toggle="tooltip" title="{{ help_width }}">{{ entry_width }}</span></label>
                         <div class="col-sm-10">
                             <input name="{{ id }}_setting[width]" value="{{ setting['width'] }}" class="form-control">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="{{ help_max_symbols }}">{{ entry_max_symbols }}</span></label>
                         <div class="col-sm-10">
                             <input name="{{ id }}_setting[max_symbols]" value="{{ setting['max_symbols'] }}" class="form-control">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-max-results"><span data-toggle="tooltip" title="{{ help_max_results }}">{{ entry_max_results }}</span></label>
                         <div class="col-sm-10">
@@ -120,7 +114,7 @@
                                     <tr class="control-element">
                                         <td class="field">
                                             <div class="col-sm-12">
-                                             <div id="extensions">
+                                               <div id="extensions">
                                                 {% for extension in extensions %}
                                                 <div class="sort-item {{ extension['id'] }}" data-sort-order="{{ extension['sort_order'] }}">
                                                     <span>
@@ -177,11 +171,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="tab-pane" id="tab_instruction">
+            <div class="tab-body">{{ text_instructions_full }}</div>
+        </div>
     </div>
-    <div class="tab-pane" id="tab_instruction">
-        <div class="tab-body">{{ text_instructions_full }}</div>
-    </div>
-</div>
 </form>
 </div>
 </div>
