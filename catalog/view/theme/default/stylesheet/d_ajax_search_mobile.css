@@ -23,7 +23,7 @@ input:focus {
 #d_ajax_search_results {
     width: 100%!important;
     margin:0px;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     margin-top: 3px;
     position: absolute;
     list-style-type: none;
@@ -98,7 +98,7 @@ input:focus {
 }
 
 .modal-header {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   left: 0;
@@ -122,18 +122,9 @@ input:focus {
   width: 100%;
   font-weight: 300;
   overflow: auto;
-  height: 92%;
+  height: 91%;
 }
 
-.modal-footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 60px;
-  padding: 10px;
-  background: #f1f3f5;
-}
 .btn {
   height: 40px;
   border-radius: 0;
@@ -145,6 +136,9 @@ input:focus {
     box-shadow: none;
     outline: none;
   }
+}
+.modal-open{
+    position: fixed;
 }
 
 .btn-modal {
@@ -215,6 +209,7 @@ input:focus {
     height: 50px;
     display: table;
     color: black;
+    margin-right: 20px!important;
 }
 #d_ajax_search_results .row .col {
     display: table-cell;
