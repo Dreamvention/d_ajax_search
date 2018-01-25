@@ -28,6 +28,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
         $this->d_twig_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_twig_manager.json'));
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
+        $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->id.'.json'), true);
     }
 
     public function index()
@@ -99,7 +100,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['setting'] = $setting['d_ajax_search_setting'];
 
         $this->load->language($this->route);
-        $data['version'] = '1.0';
+        $data['version'] = $this->extension['version'];
         $data['id']=$this->codename;
         $data['entry_status']=$this->language->get('entry_status');
         $data['status_on']=$this->language->get('status_on');
