@@ -19,7 +19,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
 
         $data=array();
 
-
+        $data['search_phase']='Enter search phase above...';
         $setting1 = $this->model_setting_setting->getSetting($this->id);
         if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
             $mobile = $data['mobile'] = 1;

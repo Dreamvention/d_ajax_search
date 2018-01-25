@@ -16,12 +16,13 @@
       <div class="modal-header">
          <div id="search_mobile" class="input-group">
             <span class="pull-left" data-dismiss="modal"><i class="fa fa-arrow-left"></i></span>
-         <input id="wtf" type="text" name="search" value="" autofocus placeholder="Search" class="pull-left form-control input-lg">
+         <input id="search_input" type="text" name="search" value="" autofocus placeholder="Search" class="pull-left form-control input-lg">
          <span onclick="clearInput()"><i class="fa fa-close"></i></span>
           <span><i class="fa fa-search"></i></span>
         </div>
   </div>
   <div class="modal-body">
+    <div id="help"> {{search_phase}}</div>
     </div>
 </div>
 </div>
@@ -61,6 +62,7 @@ function doquick_search( ev, keywords ) {
         },
         success: function(results) {
             $('#d_ajax_search_results').remove();
+            $('#help').hide();
             var result = $.map(results, function(value, index) {
                 return [value];
             });
@@ -101,7 +103,7 @@ function doquick_search( ev, keywords ) {
             }
             if({{mobile}}){
                 $('.modal-body').append(html);
-                $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+                // $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
             }else{
                 $('#search').after(html);
                 $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
@@ -129,11 +131,11 @@ var delay = (function(){
 
 function clearInput (){
     $('#d_ajax_search_results').remove();
-    $('#wtf').val('');
+    $('#search_input').val('');
+    $('#help').show();
 }
 
 $(document).ready(function(){
-
     if({{mobile}}){
         $('#search').click(function(){
             $('.modal_search').click();
@@ -152,6 +154,7 @@ $(document).ready(function(){
     $("{{ setting['class'] }}").blur(function(){
         setTimeout(function() {
             $('#d_ajax_search_results').remove();
+            $('#help').show();
             updown = 0;
         }, 500)
     });
