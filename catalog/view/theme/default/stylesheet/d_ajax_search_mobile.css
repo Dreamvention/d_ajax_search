@@ -2,7 +2,7 @@
   select:focus,
   textarea:focus,
   input:focus {
-    font-size: 16px;
+    font-size: 16px!important;
     background: #eee;
   }
 }
@@ -11,9 +11,14 @@
   select,
   textarea,
   input {
-    font-size: 16px;
+    font-size: 16px!important;
   }
 }
+
+input:focus {
+    font-size: 16px!important;
+    background: #eee;
+  }
 
 #d_ajax_search_results {
     width: 100%!important;
