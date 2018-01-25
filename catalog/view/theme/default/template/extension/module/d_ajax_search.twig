@@ -154,11 +154,11 @@ $(document).ready(function(){
     });
 
     $("{{ setting['class'] }}").blur(function(){
-        // setTimeout(function() {
-        //     $('#d_ajax_search_results').remove();
-        //     $('#help').show();
-        //     updown = 0;
-        // }, 500)
+        setTimeout(function() {
+            $('#d_ajax_search_results').remove();
+            $('#help').show();
+            updown = 0;
+        }, 500)
     });
 
      $("{{ setting['class'] }}").focus(function(ev){
@@ -168,6 +168,15 @@ $(document).ready(function(){
             doquick_search(a, b);
         }, 500);
      });
+
+     $('.fa-search').bind('click', function() {
+        url = 'index.php?route=product/search';
+        var search = $('#search_input').prop('value');
+        if (search) {
+            url += '&search=' + encodeURIComponent(search);
+        }
+        location = url;
+    });
 
     $(document).bind('keydown', function(ev) {
         try {
