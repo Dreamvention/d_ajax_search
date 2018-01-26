@@ -6,5 +6,6 @@ $_['d_ajax_search_setting'] = array(
             'max_results' => 7,
             'price' => 1,
             'image_height' => 60,
-            'image_width' => 60
+            'image_width' => 60,
+            'where_search' => 1
         );

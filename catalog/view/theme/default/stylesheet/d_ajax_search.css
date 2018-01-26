@@ -15,7 +15,7 @@
     color: #fff;
     position: relative;
 }
-#d_ajax_search_results_body > .row:hover{
+#d_ajax_search_results_body > .row:hover,.selected{
   background-color: rgb(238, 238, 238);
 }
 .fa-spinner{
