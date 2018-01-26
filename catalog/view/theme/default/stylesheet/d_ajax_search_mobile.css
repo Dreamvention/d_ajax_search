@@ -220,7 +220,6 @@ input:focus {
 }
 #d_ajax_search_results .row {
     font-size: 13px;
-    font-family: "OpenSans";
     color: rgb(0, 0, 0);
     line-height: 1.538;
     margin: 0px;
@@ -243,5 +242,5 @@ input:focus {
 .price{
     margin-top: -10px!important;
     font-weight: 700;
-    margin-right: 20px;
+    margin-right: 9px;
 }

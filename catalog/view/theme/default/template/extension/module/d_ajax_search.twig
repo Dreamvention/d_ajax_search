@@ -81,12 +81,12 @@ function doquick_search( ev, keywords ) {
                     }
 
                     if(result[i].name.length > 30){
-                        name=result[i].name.slice(0, 30)+'...';
+                        name=result[i].name.slice(0, 40)+'...';
                     }else{
                         name=result[i].name;
                     }
-                    html += '<div class="col  {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span class="name">' + name + '</span>';
-                    html +='<br><span class="model name" style="color:grey;">'+result[i].where_find+' by '+result[i].find_by+'</span>';
+                    html += '<div class="col name {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span>' + name + '</span>';
+                    html +='<br><span class="model" style="color:grey;">'+result[i].where_find+' by '+result[i].find_by+'</span>';
                     html += '</div>';
 
                 if (result[i].special){
@@ -172,11 +172,11 @@ $(document).ready(function(){
     });
 
     $("{{ setting['class'] }}").blur(function(){
-        setTimeout(function() {
-            $('#d_ajax_search_results').remove();
-            $('#help').show();
-            updown = 0;
-        }, 500)
+        // setTimeout(function() {
+        //     $('#d_ajax_search_results').remove();
+        //     $('#help').show();
+        //     updown = 0;
+        // }, 500)
     });
 
      $("{{ setting['class'] }}").focus(function(ev){
