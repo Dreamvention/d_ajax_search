@@ -70,7 +70,7 @@ function doquick_search( ev, keywords ) {
             });
 
             if ( typeof result != 'undefined' && result.length>0) {
-                var html, i;
+                var html, i,name;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
                 for (i=0;i<result.length;i++) {
                     html += '<a class="row col-sm-12" href="' + result[i].href + '">';
@@ -79,7 +79,13 @@ function doquick_search( ev, keywords ) {
                     } else {
                         html += '<div class="col col-sm-2 col-xs-2 va-center text-center"></div>';
                     }
-                    html += '<div class="col  {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
+
+                    if(result[i].name.length > 30){
+                        name=result[i].name.slice(0, 30)+'...';
+                    }else{
+                        name=result[i].name;
+                    }
+                    html += '<div class="col  {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span class="name">' + name + '</span>';
                     html +='<br><span class="model name" style="color:grey;">'+result[i].where_find+' by '+result[i].find_by+'</span>';
                     html += '</div>';
 
@@ -115,7 +121,8 @@ function doquick_search( ev, keywords ) {
              $('#d_ajax_search_results').remove();
              var html;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
-                html += '<span class="no-results"><i class="fa fa-exclamation-circle"></i> no results</span>';
+                html += '<a class="row col-sm-12" href="#">';
+                html += '<span class="no-results"><i class="fa fa-exclamation-circle"></i> no results</span></a></div></div>';
                 if({{mobile}}){
                     $('.modal-body').append(html);
                     // $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
@@ -165,11 +172,11 @@ $(document).ready(function(){
     });
 
     $("{{ setting['class'] }}").blur(function(){
-        // setTimeout(function() {
-        //     // $('#d_ajax_search_results').remove();
-        //     $('#help').show();
-        //     updown = 0;
-        // }, 500)
+        setTimeout(function() {
+            $('#d_ajax_search_results').remove();
+            $('#help').show();
+            updown = 0;
+        }, 500)
     });
 
      $("{{ setting['class'] }}").focus(function(ev){
