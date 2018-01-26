@@ -108,13 +108,13 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             }else{
                 $result[$search][$key]['price'] = isset($row['price']) ? number_format($row['price'], 2, '.', '') : '';
             }
-                if($search='product'){
+                if($search=='product'){
                     $info=$this->model_catalog_product->getProduct($row[$search.'_id']);
-                }elseif($search='category'){
+                }elseif($search=='category'){
                     $info=$this->model_catalog_category->getCategory($row[$search.'_id']);
-                }elseif($search='manufacturer'){
+                }elseif($search=='manufacturer'){
                     $info=$this->model_catalog_manufacturer->getManufacturer($row[$search.'_id']);
-                }elseif($search='information'){
+                }elseif($search=='information'){
                     $info=$this->model_catalog_information->getInformation($row[$search.'_id']);
                 }
                 if(isset($info)){
