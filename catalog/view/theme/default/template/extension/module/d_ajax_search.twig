@@ -80,7 +80,7 @@ function doquick_search( ev, keywords ) {
                         html += '<div class="col col-sm-2 va-center text-center"></div>';
                     }
                     html += '<div class="col  {%if mobile %} pull-left name {%endif%} col-sm-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
-                    html +='<br><span class="model name" style="color:grey;">('+result[i].where_find+')</span>';
+                    html +='<br><span class="model name" style="color:grey;">('+result[i].where_find+' by '+result[i].find_by+')</span>';
                 // if (result[i]) html += ' (<span class="model">' + result[i].model + '</span>)';
                 html += '</div>';
 
@@ -112,6 +112,18 @@ function doquick_search( ev, keywords ) {
             }
 
 
+        }else{
+             $('#d_ajax_search_results').remove();
+             var html;
+                html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
+                html += '<span class="no-results"><i class="fa fa-exclamation-circle"></i> no results</span>';
+                if({{mobile}}){
+                    $('.modal-body').append(html);
+                    // $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+                }else{
+                    $('#search').after(html);
+                    $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+            }
         }
     },
     error: function(xhr, ajaxOptions, thrownError) {
@@ -154,11 +166,11 @@ $(document).ready(function(){
     });
 
     $("{{ setting['class'] }}").blur(function(){
-        setTimeout(function() {
-            $('#d_ajax_search_results').remove();
-            $('#help').show();
-            updown = 0;
-        }, 500)
+        // setTimeout(function() {
+        //     // $('#d_ajax_search_results').remove();
+        //     $('#help').show();
+        //     updown = 0;
+        // }, 500)
     });
 
      $("{{ setting['class'] }}").focus(function(ev){

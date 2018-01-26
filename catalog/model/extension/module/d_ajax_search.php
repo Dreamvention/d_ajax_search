@@ -2,6 +2,10 @@
 class ModelExtensionModuleDAjaxSearch extends Model {
     private $id = 'd_ajax_search';
     public function search($text, $searches = array()){
+        $this->load->model('catalog/product');
+        $this->load->model('catalog/category');
+        $this->load->model('catalog/manufacturer');
+        $this->load->model('catalog/information');
         $this->load->model('tool/image');
         $search_filter = array();
         $setting1 = $this->model_setting_setting->getSetting($this->id);
@@ -104,7 +108,27 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             }else{
                 $result[$search][$key]['price'] = isset($row['price']) ? number_format($row['price'], 2, '.', '') : '';
             }
+                if($search='product'){
+                    $info=$this->model_catalog_product->getProduct($row[$search.'_id']);
+                }elseif($search='category'){
+                    $info=$this->model_catalog_category->getCategory($row[$search.'_id']);
+                }elseif($search='manufacturer'){
+                    $info=$this->model_catalog_manufacturer->getManufacturer($row[$search.'_id']);
+                }elseif($search='information'){
+                    $info=$this->model_catalog_information->getInformation($row[$search.'_id']);
+                }
+                if(isset($info)){
+                    foreach ($info as $gde => $string) {
+                        $check=stripos($string, $text);
+                        if ($check === false) {
+                        }else{
+                            $result[$search][$key]['find_by']=$gde;
+                            break;
+                        }
+                    }
+                }
         }
+
     }
 }
 $resultOut = array();

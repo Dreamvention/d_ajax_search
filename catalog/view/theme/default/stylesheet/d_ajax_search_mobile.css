@@ -64,11 +64,25 @@ input:focus {
 #search_mobile{
     width: 100%;
 }
+.no-results{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    text-align: center;
+    /* margin-top: -20px; */
+    margin-left: -30px;
+    font-size: 20px;
+    font-weight: 600;
+    color: grey;
+}
 .fa{
     color: white;
     margin-right: 10px;
     margin-top: 8px;
     margin-left: 10px;
+}
+.fa-exclamation-circle{
+    color: grey;
 }
 .modal {
   position: fixed;
