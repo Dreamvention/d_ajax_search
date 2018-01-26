@@ -1,8 +1,8 @@
 #d_ajax_search_results {
     margin:0px;
-    position: absolute;
-    list-style-type: none;
-    z-index:1005;
+    /* position: absolute; */
+/*     list-style-type: none; */
+  /*   z-index:1005;
     background-color: #ffffff;
     border-top: none;
     color: #555;
@@ -15,15 +15,24 @@
     -moz-border-radius-bottomright: 5px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+ */
+    color: #fff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(224, 224, 224);
+    background-color: rgb(255, 255, 255);
+    box-shadow: -2.237px 3.316px 43px 0px rgba(0, 0, 0, 0.16);
+    position: absolute;
+    z-index: 1005;
+
+
 }
 #d_ajax_search_results #d_ajax_search_results_body {
+    color: #fff;
     position: relative;
-    padding: 5px;
 }
-#d_ajax_search_results_body > a:hover{
-    background-color: #ffff99;
-    border: 2px solid #ccff99;
-    border-radius: 17px;
+#d_ajax_search_results_body > .row:hover{
+  background-color: rgb(238, 238, 238);
 }
 .fa-spinner{
     align-self: center;
@@ -32,6 +41,17 @@
     margin-left: 20px;
 }
 #d_ajax_search_results .row {
+
+    /* border-style: solid;
+    border-width: 1px;
+    border-color: rgb(224, 224, 224);
+    background-color: rgb(255, 255, 255);
+    box-shadow: -2.237px 3.316px 43px 0px rgba(0, 0, 0, 0.16); */
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 7px;
+    padding-top: 7px;
+    text-align: center;
     margin: 0px;
     width: 100%;
     height: 50px;
@@ -43,7 +63,7 @@
     padding: 0px 0px;
 }
 #d_ajax_search_results .row .col.va-center {
-    vertical-align: middle;
+    /* vertical-align: middle; */
 }
 #d_ajax_search_results .row .col .old-price {
     text-decoration:line-through;

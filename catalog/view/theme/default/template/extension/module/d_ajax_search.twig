@@ -73,23 +73,22 @@ function doquick_search( ev, keywords ) {
                 var html, i;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
                 for (i=0;i<result.length;i++) {
-                    html += '<a class="row" href="' + result[i].href + '">';
+                    html += '<a class="row col-sm-12" href="' + result[i].href + '">';
                     if (result[i].image){
                         html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
                     } else {
-                        html += '<div class="col col-sm-2 va-center text-center"></div>';
+                        html += '<div class="col col-sm-2 col-xs-2 va-center text-center"></div>';
                     }
-                    html += '<div class="col  {%if mobile %} pull-left name {%endif%} col-sm-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
-                    html +='<br><span class="model name" style="color:grey;">('+result[i].where_find+' by '+result[i].find_by+')</span>';
-                // if (result[i]) html += ' (<span class="model">' + result[i].model + '</span>)';
-                html += '</div>';
+                    html += '<div class="col  {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span class="name">' + result[i].name + '</span>';
+                    html +='<br><span class="model name" style="color:grey;">'+result[i].where_find+' by '+result[i].find_by+'</span>';
+                    html += '</div>';
 
                 if (result[i].special){
-                    html += '<div class="col col-sm-3 va-center text-center"><span class="old-price">' + result[i].price + '</span><br>';
+                    html += '<div class="col col-sm-3 col-xs-3 va-center text-center"><span class="old-price">' + result[i].price + '</span><br>';
                     html += '<span class="special">' + result[i].special + '</span></div>';
                 } else {
                     if (result[i].price > 0){
-                        html += '<div class="col price col-sm-3 va-center {%if mobile %} pull-right {%endif%} text-center"><br><span class="">' + result[i].price + '</span></div>';
+                        html += '<div class="col price col-sm-3 va-center {%if mobile %} pull-right {%endif%} text-center">{%if mobile %} <br> {%endif%}<span class="">' + result[i].price + '</span></div>';
                     } else {
                         html += '<div class="col col-sm-3 va-center text-center"></div>';
                     }
