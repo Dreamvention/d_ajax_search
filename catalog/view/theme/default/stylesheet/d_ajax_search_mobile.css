@@ -219,11 +219,14 @@ input:focus {
     margin-left: 20px;
 }
 #d_ajax_search_results .row {
+    font-size: 13px;
+    font-family: "OpenSans";
+    color: rgb(0, 0, 0);
+    line-height: 1.538;
     margin: 0px;
     width: 100%;
     height: 50px;
     display: table;
-    color: black;
     margin-right: 20px!important;
 }
 #d_ajax_search_results .row .col {
