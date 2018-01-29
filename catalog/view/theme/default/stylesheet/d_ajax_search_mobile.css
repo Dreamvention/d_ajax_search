@@ -81,8 +81,8 @@ input:focus {
     margin-top: 8px;
     margin-left: 10px;
 }
-.fa-exclamation-circle{
-    color: grey;
+.fa-exclamation-circle, .lul{
+    color: grey!important;
 }
 .modal {
   position: fixed;

@@ -86,7 +86,7 @@ function doquick_search( ev, keywords ) {
                         name=result[i].name;
                     }
                     html += '<div class="col name {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span class="forkeydon">' + name + '</span>';
-                    html +='{%if setting['where_search'] %} <br><span class="model" style="color:grey;"><i class="fa fa-search"></i> in '+result[i].where_find+' '+result[i].find_by+'</span>{%endif%}';
+                    html +='{%if setting['where_search'] %} <br><span class="model" style="color:grey;"><i class="fa fa-search lul"></i> in '+result[i].where_find+' '+result[i].find_by+'</span>{%endif%}';
                     html += '</div>';
 
                     if (result[i].special){
