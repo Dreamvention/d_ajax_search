@@ -52,6 +52,10 @@
                 <span class="fa fa-picture-o"></span>
                 Design
             </a></li>
+            <li><a href="#tab_anal" data-toggle="tab">
+                <span class="fa fa-line-chart"></span>
+                Analytics
+            </a></li>
             <li><a href="#tab_instruction" data-toggle="tab">
                 <span class="fa fa-graduation-cap"></span>
                 {{ text_instructions }}
@@ -179,6 +183,9 @@
                 </div>
             </div>
         </div>
+        <div class="tab-pane" id="tab_anal">
+            <canvas id="myChart" width="400" height="100"></canvas>
+        </div>
         <div class="tab-pane" id="tab_instruction">
             <div class="tab-body">{{ text_instructions_full }}</div>
         </div>
@@ -260,6 +267,23 @@ Sortable.create(extensions, {
         $('#extensions').find('.sort-item').each(function (i, row) {
             $(row).find('.sort-value').val(i)
         })
+    }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {{statistic|json_encode()}},
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
     }
 });
 </script>

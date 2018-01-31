@@ -30,7 +30,6 @@
 </div>
 </div>
 {% endif %}
-
 <script>
 function doquick_search( ev, keywords ) {
     if( ev.keyCode == 38 || ev.keyCode == 40 ) {
@@ -73,7 +72,7 @@ function doquick_search( ev, keywords ) {
                 var html, i,name;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
                 for (i=0;i<result.length;i++) {
-                    html += '<a class="row col-sm-12" href="' + result[i].href + '">';
+                    html += '<a class="result-link sort-item row col-sm-12" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
                     if (result[i].image){
                         html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
                     } else {
@@ -116,6 +115,23 @@ function doquick_search( ev, keywords ) {
                 $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
             }
 
+            $(".result-link").click(function(ev){
+                var json = {};
+                var link=ev.currentTarget.href;
+                    json.type = link.split('&')[1].split('=')[0].split('_')[0];
+                    json.type_id = link.split('&')[1].split('=')[1];
+
+                json.select = $(ev.currentTarget).find('.forkeydon').html();
+                if({{mobile}}){
+                    json.search = $('#search_input').val();
+                }else{
+                    json.search = $('#search').find("{{ setting['class'] }}").first().val();
+                }
+
+                write_to_database(json);
+            });
+
+            $('#d_ajax_search_results_body > .sort-item').tsort({attr:'data-sort-order'},{defaults:{order:'desc'}});
 
         }else{
            $('#d_ajax_search_results').remove();
@@ -147,6 +163,24 @@ var delay = (function(){
 };
 })();
 
+function write_to_database(val){
+        $.ajax( {
+        type: 'post',
+        url: $('base').attr('href') + 'index.php?route=extension/module/d_ajax_search/write_to_base&json=' + val,
+        data: val,
+        dataType: 'json',
+        beforeSend: function() {
+        },
+        complete: function() {
+        },
+        success: function(json) {
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+}
+
 function clearInput (){
     $('#d_ajax_search_results').remove();
     $('#search_input').val('');
@@ -155,10 +189,12 @@ function clearInput (){
 
 $(document).ready(function(){
     if({{mobile}}){
-        $('#search').click(function(){
+        $("#search").click(function(){
             $('.modal_search').click();
         });
     }
+
+
 
     $("{{ setting['class'] }}").keyup(function(ev){
         var a= ev;
@@ -173,7 +209,7 @@ $(document).ready(function(){
 
     $("{{ setting['class'] }}").blur(function(){
         setTimeout(function() {
-            $('#d_ajax_search_results').remove();
+            // $('#d_ajax_search_results').remove();
             $('#help').show();
             updown = 0;
         }, 500)
@@ -186,6 +222,8 @@ $(document).ready(function(){
             doquick_search(a, b);
         }, 500);
     });
+
+
 
     function upDownEvent( ev ) {
 
@@ -212,7 +250,6 @@ $(document).ready(function(){
                 $(elem.childNodes[updown]).addClass('selected');
 
                 var text = $(elem.childNodes[updown]).find('.forkeydon').html();
-                console.log(text);
 
                 $('#search').find('{{ setting['class'] }}').first().val(text);
             }

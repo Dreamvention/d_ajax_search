@@ -94,6 +94,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 $result[$search][$key]['name'] = $row['name'];
                 $result[$search][$key]['description'] =  isset($row['description']) ? $row['description'] : '';
                 $result[$search][$key]['where_find']=$search;
+                $result[$search][$key]['weight']=rand(1,11);
                 if($search=='category'){
                     $result[$search][$key]['href']=$this->url->link('product/'.$search, 'path=' . $row[$search.'_id']);
                 }else if($search=='manufacturer'){
@@ -128,7 +129,6 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     }
                 }
         }
-
     }
 }
 $resultOut = array();
@@ -137,7 +137,77 @@ foreach($result as $val){
       $resultOut = array_merge($resultOut,$val);
   }
 }
+
+$sql = "SELECT * FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.id = qr.query_id) WHERE q.text = '" . $text . "' ORDER BY qr.count DESC";
+$ololo=$this->db->query($sql);
+foreach ($ololo->rows as $key => $value) {
+    $results_data[]=$value;
+}
+FB::log($results_data);
+
 array_splice($resultOut,$settings['max_results']);
 return $resultOut;
 }
+    public function save_statistic($value){
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS `". DB_PREFIX . "as_query` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `text` char(128) NOT NULL,
+            `redirect` char(128) NOT NULL,
+            `count` int NOT NULL,
+            `date_modify` datetime NOT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `no_duplicate` (`text`)
+        )
+        COLLATE='utf8_general_ci'
+        ENGINE=MyISAM;");
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS `". DB_PREFIX . "as_query_results` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `query_id` int(11) NOT NULL,
+            `type` char(128) NOT NULL,
+            `type_id` char(128) NOT NULL,
+            `count` int NOT NULL,
+            `status` int NOT NULL,
+            `date_modify` datetime NOT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `no_duplicate` (`type`,`type_id`)
+        )
+        COLLATE='utf8_general_ci'
+        ENGINE=MyISAM;");
+
+
+
+        $sql = "INSERT INTO `". DB_PREFIX . "as_query`
+            (`text`, `redirect`, `count`, `date_modify`)
+            VALUES(
+                '" . $this->db->escape($value['search']) . "',
+                '" . '' . "',
+                '" . 1 . "',
+                NOW())
+            ON DUPLICATE KEY UPDATE
+                `count` = `count`+1,
+                `date_modify` = 'NOW()'";
+
+        $this->db->query($sql);
+        $test=$this->db->getLastId();
+
+        $sql = "INSERT INTO `". DB_PREFIX . "as_query_results`
+            (`query_id`, `type`, `type_id`, `count`, `status`, `date_modify`)
+            VALUES(
+                '" . $this->db->escape($test) . "',
+                '" . $this->db->escape($value['type']) . "',
+                '" . $this->db->escape($value['type_id']) . "',
+                '" . 1 . "',
+                '" . 1 . "',
+                 NOW())
+            ON DUPLICATE KEY UPDATE
+                `count` = `count`+1,
+                `date_modify` = 'NOW()'";
+
+        $this->db->query($sql);
+
+        $stat="INSERT INTO `" . DB_PREFIX . "as_statistic`(`search`, `select`) VALUES ('" . $value['search'] . "','" . $value['select'] ."')";
+        $this->db->query($stat);
+    }
 }

@@ -21,6 +21,11 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
 
         $data['search_phase']='Enter search phase above...';
         $setting1 = $this->model_setting_setting->getSetting($this->id);
+        $this->document->addScript('catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js');
+        $this->document->addScript('catalog/view/javascript/d_rubaxa_sortable/sortable.js');
+        $this->document->addStyle('catalog/view/javascript/d_rubaxa_sortable/sortable.css');
+        $this->document->addScript('catalog/view/javascript/d_rubaxa_sortable/sortable.js');
+        $this->document->addStyle('catalog/view/javascript/d_rubaxa_sortable/sortable.css');
         if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
             $mobile = $data['mobile'] = 1;
              $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '_mobile.css');
@@ -36,6 +41,14 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
                 return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
             }
         }
+    }
+
+    public function write_to_base(){
+        if(isset($this->request->post)){
+            $this->model_extension_module_d_ajax_search->save_statistic($this->request->post);
+            $this->response->setOutput(json_encode('ok'));
+        }
+        $this->response->setOutput(json_encode('error'));
     }
 
     public function searchresults(){
