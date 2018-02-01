@@ -130,4 +130,12 @@ class ModelExtensionModuleDAjaxSearch extends Model
         ENGINE=MyISAM;");
 
     }
+
+    public function dropDatabase(){
+
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "as_query`");
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "as_query_results`");
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "as_customer_query`");
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "as_statistic`");
+    }
 }
