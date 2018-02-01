@@ -16,19 +16,20 @@ class ModelExtensionModuleDAjaxSearch extends Model
     }
 
     public function getStatistic(){
-        $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic`";
+        $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic` ORDER BY count DESC LIMIT 15";
         $query=$this->db->query($sql);
+        // echo "<pre>"; print_r($query->rows); echo "</pre>";
         $products=array();
         foreach ($query->rows as $key => $row) {
-            $products[] = $row['select'];
+            $products[] = $row;
         }
-
-        $products=(array_count_values($products));
+        // echo "<pre>"; print_r($products); echo "</pre>";
+        // $products=(array_count_values($products));
 
         foreach ($products as $products_key => $value) {
 
-            $data['labels'][] = $products_key;
-            $data['datasets']['0']['data'][] = (int)$value;
+            $data['labels'][] = $value['select'];
+            $data['datasets']['0']['data'][] = (int)$value['count'];
             if(!empty($data['labels']) && count($data['labels']) == 10){
                 break;
             }
@@ -119,10 +120,14 @@ class ModelExtensionModuleDAjaxSearch extends Model
 
         $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_statistic` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
-        `search` int(11) NOT NULL,
+        `search` char(128) NOT NULL,
         `select` char(128) NOT NULL,
-          PRIMARY KEY (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;");
+        `count` int(11) NOT NULL,
+         PRIMARY KEY (`id`),
+        UNIQUE KEY `no_duplicate` (`select`)
+        )
+        COLLATE='utf8_general_ci'
+        ENGINE=MyISAM;");
 
     }
 }

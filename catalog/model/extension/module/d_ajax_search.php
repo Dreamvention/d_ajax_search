@@ -192,7 +192,14 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             $this->db->query($sql);
         }
 
-        $stat = "INSERT INTO `" . DB_PREFIX . "as_statistic`(`search`, `select`) VALUES ('" . $value['search'] . "','" . $value['select'] . "')";
-        $this->db->query($stat);
+        $sql = "INSERT INTO `" . DB_PREFIX . "as_statistic`
+        (`search`, `select`, `count`)
+        VALUES(
+            '" . $this->db->escape($value['search']) . "',
+            '" . $this->db->escape($value['select']) . "',
+            '" . 1 . "')
+            ON DUPLICATE KEY UPDATE
+            `count` = `count`+1";
+        $this->db->query($sql);
     }
 }
