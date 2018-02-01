@@ -31,6 +31,7 @@
 </div>
 {% endif %}
 <script>
+
 function doquick_search( ev, keywords ) {
     if( ev.keyCode == 38 || ev.keyCode == 40 ) {
         return false;
@@ -194,7 +195,7 @@ $(document).ready(function(){
         });
     }
 
-
+$("{{ setting['class'] }}").attr('maxlength','64');
 
     $("{{ setting['class'] }}").keyup(function(ev){
         var a= ev;
