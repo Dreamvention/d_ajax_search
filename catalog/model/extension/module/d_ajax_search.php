@@ -146,50 +146,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
     }
     public function save_statistic($value) {
 
-        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_query` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
-        `text` char(128) NOT NULL,
-        `redirect` char(128) NOT NULL,
-        `count` int NOT NULL,
-        `date_modify` datetime NOT NULL,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `no_duplicate` (`text`)
-    )
-    COLLATE='utf8_general_ci'
-    ENGINE=MyISAM;");
-
-        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_query_results` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
-        `query_id` int(11) NOT NULL,
-        `type` char(128) NOT NULL,
-        `type_id` char(128) NOT NULL,
-        `count` int NOT NULL,
-        `status` int NOT NULL,
-        `date_modify` datetime NOT NULL,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `no_duplicate` (`type`,`type_id`)
-    )
-    COLLATE='utf8_general_ci'
-    ENGINE=MyISAM;");
-
-        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_customer_query` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
-        `customer_id` int(11) NOT NULL,
-        `text` char(128) NOT NULL,
-        `choose` char(128) NOT NULL,
-        `type` char(128) NOT NULL,
-        `type_id` char(128) NOT NULL,
-        `count` int NOT NULL,
-        `date_modify` datetime NOT NULL,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `no_duplicate` (`customer_id`, `text`, `choose`)
-    )
-    COLLATE='utf8_general_ci'
-    ENGINE=MyISAM;");
-
-
-
-        $sql = "INSERT INTO `" . DB_PREFIX . "as_query`
+       $sql = "INSERT INTO `" . DB_PREFIX . "as_query`
     (`text`, `redirect`, `count`, `date_modify`)
     VALUES(
         '" . $this->db->escape($value['search']) . "',
@@ -235,7 +192,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             $this->db->query($sql);
         }
 
-        //$stat = "INSERT INTO `" . DB_PREFIX . "as_statistic`(`search`, `select`) VALUES ('" . $value['search'] . "','" . $value['select'] . "')";
-        //$this->db->query($stat);
+        $stat = "INSERT INTO `" . DB_PREFIX . "as_statistic`(`search`, `select`) VALUES ('" . $value['search'] . "','" . $value['select'] . "')";
+        $this->db->query($stat);
     }
 }

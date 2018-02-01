@@ -236,7 +236,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->load->model('extension/d_opencart_patch/modification');
         $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
         $this->model_extension_d_opencart_patch_modification->refreshCache();
-        //$this->model_extension_module_d_ajax_search->createDatabase();
+        $this->model_extension_module_d_ajax_search->createDatabase();
     }
 
     public function uninstall()

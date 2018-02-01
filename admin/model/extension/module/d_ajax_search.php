@@ -72,4 +72,57 @@ class ModelExtensionModuleDAjaxSearch extends Model
     public function setRules(){
 
     }
+
+    public function createDatabase(){
+
+
+         $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_query` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `text` char(128) NOT NULL,
+        `redirect` char(128) NOT NULL,
+        `count` int NOT NULL,
+        `date_modify` datetime NOT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `no_duplicate` (`text`)
+        )
+        COLLATE='utf8_general_ci'
+        ENGINE=MyISAM;");
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_query_results` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `query_id` int(11) NOT NULL,
+        `type` char(128) NOT NULL,
+        `type_id` char(128) NOT NULL,
+        `count` int NOT NULL,
+        `status` int NOT NULL,
+        `date_modify` datetime NOT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `no_duplicate` (`type`,`type_id`)
+        )
+        COLLATE='utf8_general_ci'
+        ENGINE=MyISAM;");
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_customer_query` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `customer_id` int(11) NOT NULL,
+        `text` char(128) NOT NULL,
+        `choose` char(128) NOT NULL,
+        `type` char(128) NOT NULL,
+        `type_id` char(128) NOT NULL,
+        `count` int NOT NULL,
+        `date_modify` datetime NOT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `no_duplicate` (`customer_id`, `text`, `choose`)
+        )
+        COLLATE='utf8_general_ci'
+        ENGINE=MyISAM;");
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_statistic` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `search` int(11) NOT NULL,
+        `select` char(128) NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;");
+
+    }
 }
