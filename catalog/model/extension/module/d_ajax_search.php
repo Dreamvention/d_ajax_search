@@ -37,8 +37,6 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             if(!empty($new_text)){
                 $text=$new_text;
             }
-            // FB::log('new text '.$new_text);
-            // FB::log('search text '.$text);
         }
 
 
