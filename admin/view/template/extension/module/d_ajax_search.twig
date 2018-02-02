@@ -195,7 +195,9 @@
             </div>
         </div>
         <div class="tab-pane" id="tab_anal">
-            <canvas id="myChart" width="400" height="100"></canvas>
+            <canvas id="myChart" width="400" height="100"></canvas><br>
+            <canvas id="myChart2" width="400" height="100"></canvas>
+
         </div>
         <div class="tab-pane" id="tab_history">
             <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
@@ -329,6 +331,22 @@ var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {{statistic|json_encode()}},
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById("myChart2").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {{top_searches|json_encode()}},
     options: {
         scales: {
             yAxes: [{

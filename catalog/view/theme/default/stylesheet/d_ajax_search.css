@@ -25,9 +25,10 @@
     padding-left: 20px!important;
 }
 .block-text{
-        padding-right: 20px;
+    padding-right: 20px;
     background-color: lightgray;
     width: 100%;
+    margin-top: 0px;
 }
 #d_ajax_search_results .row {
 

@@ -186,6 +186,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->load->model('extension/module/d_ajax_search');
         $extensions = $this->model_extension_module_d_ajax_search->getExtensions();
         $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic();
+        $data['top_searches'] = $this->model_extension_module_d_ajax_search->getTopsearches();
         $data['histories']    = $this->model_extension_module_d_ajax_search->getHistory();
         $setting = $this->model_setting_setting->getSetting($this->codename);
         $setting = (isset($setting[$this->codename.'_setting'])) ? $setting[$this->codename.'_setting'] : array();

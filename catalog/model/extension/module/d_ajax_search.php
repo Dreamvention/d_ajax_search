@@ -20,6 +20,23 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         $sql_array = array();
         $sql       = '';
 
+        $sql_smart="SELECT * FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 15";
+        $query=$this->db->query($sql_smart);
+        $gml=0;
+        $new_text='';
+        foreach ($query->rows as $key => $row) {
+
+            if(similar_text( $text , $row['text']) > $gml && similar_text( $text , $row['text']) > 3){
+                $new_text=$row['text'];
+            }
+            $gml=similar_text ( $text , $row['text'] );
+        }
+
+        if(!empty($new_text)){
+            $text=$new_text;
+        }
+        FB::log($text);
+
         foreach ($search_filter as $search => $filter) {
 
             $sql = 'SELECT ' . $filter['table']['name'] . '.' . $filter['table']['key'];

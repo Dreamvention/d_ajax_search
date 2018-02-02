@@ -81,6 +81,12 @@ input:focus {
     margin-top: 8px;
     margin-left: 10px;
 }
+.block-text {
+    padding-right: 20px;
+    background-color: lightgray;
+    width: 106%;
+    margin-top: 0px;
+}
 .fa-exclamation-circle, .lul{
     color: grey!important;
 }
