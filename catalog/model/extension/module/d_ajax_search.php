@@ -114,6 +114,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
                     $product_ides[$search][]                = $row[$search . '_id'];
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];
+                    $result[$search][$key]['keyword'] = $text;
                     $result[$search][$key]['image']         = isset($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : '';
                     $result[$search][$key]['name']          = $row['name'];
                     $result[$search][$key]['description']   = isset($row['description']) ? $row['description'] : '';
@@ -155,12 +156,14 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 }
             }
         }
+
         if($research==0){
             if(empty($result)){
                 $result=$this->search($text, $searches, $research=1);
                 return $result;
             }
         }
+
         // echo "<pre>"; print_r($result); echo "</pre>";
         $resultOut = array();
         foreach ($result as $val) {

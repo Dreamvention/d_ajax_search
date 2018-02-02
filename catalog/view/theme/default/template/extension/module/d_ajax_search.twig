@@ -65,11 +65,15 @@ function doquick_search( ev, keywords ) {
         success: function(results) {
             $('#d_ajax_search_results').remove();
             $('#help').hide();
+            console.log(results);
             var result = $.map(results, function(value, index) {
                 return [value];
             });
 
             if ( typeof result != 'undefined' && result.length>0) {
+                if(result[0].keyword !== $('#search').find("{{ setting['class'] }}").first().val()){
+                    $('#search').find("{{ setting['class'] }}").first().val(result[0].keyword);
+                }
                 var html, i,name;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
                 for (i=0;i<result.length;i++) {
