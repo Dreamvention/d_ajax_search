@@ -27,17 +27,17 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         foreach ($query->rows as $key => $row) {
             similar_text( $text , $row['text'], $percent);
 
-            if($percent > $gml && $percent > 60){
+            if($percent > $gml && $percent > 65){
                 $new_text=$row['text'];
+                $gml=$percent;
             }
-            $gml=$percent;
         }
 
         if(!empty($new_text)){
             $text=$new_text;
         }
-        FB::log('new text '.$new_text);
-        FB::log('search text '.$text);
+        // FB::log('new text '.$new_text);
+        // FB::log('search text '.$text);
 
         foreach ($search_filter as $search => $filter) {
 
