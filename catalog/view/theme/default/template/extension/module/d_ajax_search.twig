@@ -73,6 +73,15 @@ function doquick_search( ev, keywords ) {
                 var html, i,name;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
                 for (i=0;i<result.length;i++) {
+
+                    if({{setting['block_result']}}){
+                         if(i == 0 ){
+                            html += '<div class="result_block"><h4 class="pull-right block-text text-right">'+result[i].where_find+'</h4>';
+                        }else if(i !==0 && result[i].where_find !== result[i-1].where_find){
+                            html += '<div class="result_block"><h4 class="pull-right block-text text-right">'+result[i].where_find+'</h4>';
+                        }
+                    }
+
                     html += '<a class="result-link sort-item row col-sm-12" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
                     if (result[i].image){
                         html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
@@ -101,6 +110,14 @@ function doquick_search( ev, keywords ) {
                     }
 
                     html += '</a>';
+
+                    if({{ setting['block_result'] }}){
+                        if( i < result.length-1 && result[i].where_find == result[i+1].where_find){
+                        }else{
+                            html += '</div>';
+                        }
+                    }
+
                 }
 
                 html += '</div></div>';
@@ -131,8 +148,12 @@ function doquick_search( ev, keywords ) {
 
                 write_to_database(json);
             });
+            if({{ setting['block_result'] }}){
+                $('#d_ajax_search_results_body > .result_block >.sort-item').tsort({attr:'data-sort-order'},{defaults:{order:'desc'}});
+            }else{
+                $('#d_ajax_search_results_body >.sort-item').tsort({attr:'data-sort-order'},{defaults:{order:'desc'}});
+            }
 
-            $('#d_ajax_search_results_body > .sort-item').tsort({attr:'data-sort-order'},{defaults:{order:'desc'}});
 
         }else{
            $('#d_ajax_search_results').remove();

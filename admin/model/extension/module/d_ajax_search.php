@@ -18,13 +18,10 @@ class ModelExtensionModuleDAjaxSearch extends Model
     public function getStatistic(){
         $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic` ORDER BY count DESC LIMIT 15";
         $query=$this->db->query($sql);
-        // echo "<pre>"; print_r($query->rows); echo "</pre>";
         $products=array();
         foreach ($query->rows as $key => $row) {
             $products[] = $row;
         }
-        // echo "<pre>"; print_r($products); echo "</pre>";
-        // $products=(array_count_values($products));
 
         foreach ($products as $products_key => $value) {
 
@@ -66,7 +63,10 @@ class ModelExtensionModuleDAjaxSearch extends Model
         return $data;
     }
 
-    public function getRules(){
+    public function getHistory(){
+        $sql= "SELECT * FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.query_id = qr.query_id) ORDER BY qr.count DESC";
+        $ai_result = $this->db->query($sql);
+        return $ai_result->rows;
 
     }
 
@@ -78,27 +78,27 @@ class ModelExtensionModuleDAjaxSearch extends Model
 
 
          $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_query` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `query_id` int(11) NOT NULL AUTO_INCREMENT,
         `text` char(128) NOT NULL,
         `redirect` char(128) NOT NULL,
         `count` int NOT NULL,
         `date_modify` datetime NOT NULL,
-        PRIMARY KEY (`id`),
+        PRIMARY KEY (`query_id`),
         UNIQUE KEY `no_duplicate` (`text`)
         )
         COLLATE='utf8_general_ci'
         ENGINE=MyISAM;");
 
         $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_query_results` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `query_results_id` int(11) NOT NULL AUTO_INCREMENT,
         `query_id` int(11) NOT NULL,
         `type` char(128) NOT NULL,
         `type_id` char(128) NOT NULL,
         `count` int NOT NULL,
         `status` int NOT NULL,
         `date_modify` datetime NOT NULL,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `no_duplicate` (`type`,`type_id`)
+        PRIMARY KEY (`query_results_id`),
+        UNIQUE KEY `no_duplicate` (`query_id`,`type`,`type_id`)
         )
         COLLATE='utf8_general_ci'
         ENGINE=MyISAM;");
@@ -119,11 +119,11 @@ class ModelExtensionModuleDAjaxSearch extends Model
         ENGINE=MyISAM;");
 
         $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "as_statistic` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `statistic_id` int(11) NOT NULL AUTO_INCREMENT,
         `search` char(128) NOT NULL,
         `select` char(128) NOT NULL,
         `count` int(11) NOT NULL,
-         PRIMARY KEY (`id`),
+         PRIMARY KEY (`statistic_id`),
         UNIQUE KEY `no_duplicate` (`select`)
         )
         COLLATE='utf8_general_ci'

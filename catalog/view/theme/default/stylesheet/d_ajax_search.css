@@ -24,7 +24,11 @@
 .name {
     padding-left: 20px!important;
 }
-
+.block-text{
+        padding-right: 20px;
+    background-color: lightgray;
+    width: 100%;
+}
 #d_ajax_search_results .row {
 
     /* border-style: solid;

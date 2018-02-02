@@ -89,7 +89,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 if (isset($product_ides[$search]) && in_array($row[$search . '_id'], $product_ides[$search])) {
                 } else {
 
-                    $sql       = "SELECT qr.count FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.id = qr.query_id) WHERE q.text = '" . $text . "' AND qr.type = '" . $search . "' AND qr.type_id = " . $row[$search . '_id'] . " AND qr.status = " . 1 . "  ORDER BY qr.count DESC";
+                    $sql       = "SELECT qr.count FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.query_id = qr.query_id) WHERE q.text = '" . $text . "' AND qr.type = '" . $search . "' AND qr.type_id = " . $row[$search . '_id'] . " AND qr.status = " . 1 . "  ORDER BY qr.count DESC";
                     $ai_result = $this->db->query($sql);
 
                     $product_ides[$search][]                = $row[$search . '_id'];
