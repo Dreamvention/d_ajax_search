@@ -37,8 +37,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             if(!empty($new_text)){
                 $text=$new_text;
             }
-            FB::log('new text '.$new_text);
-            FB::log('search text '.$text);
+            // FB::log('new text '.$new_text);
+            // FB::log('search text '.$text);
         }
 
 
@@ -217,7 +217,6 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 ON DUPLICATE KEY UPDATE
                 `count` = `count`+1,
                 `date_modify` = 'NOW()'";
-                FB::log($sql);
             $this->db->query($sql);
         }
 
