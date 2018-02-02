@@ -1,7 +1,7 @@
 <?php
 class ModelExtensionModuleDAjaxSearch extends Model {
     private $id = 'd_ajax_search';
-    public function search($text, $searches = array()) {
+    public function search($text, $searches = array(), $research=0) {
         $this->load->model('catalog/product');
         $this->load->model('catalog/category');
         $this->load->model('catalog/manufacturer');
@@ -20,24 +20,27 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         $sql_array = array();
         $sql       = '';
 
-        $sql_smart="SELECT * FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 15";
-        $query=$this->db->query($sql_smart);
-        $gml=0;
-        $new_text='';
-        foreach ($query->rows as $key => $row) {
-            similar_text( $text , $row['text'], $percent);
+        if($research){
+            $sql_smart="SELECT * FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 15";
+            $query=$this->db->query($sql_smart);
+            $gml=0;
+            $new_text='';
+            foreach ($query->rows as $key => $row) {
+                similar_text( $text , $row['text'], $percent);
 
-            if($percent > $gml && $percent > 65){
-                $new_text=$row['text'];
-                $gml=$percent;
+                if($percent > $gml && $percent > 65){
+                    $new_text=$row['text'];
+                    $gml=$percent;
+                }
             }
+
+            if(!empty($new_text)){
+                $text=$new_text;
+            }
+            FB::log('new text '.$new_text);
+            FB::log('search text '.$text);
         }
 
-        if(!empty($new_text)){
-            $text=$new_text;
-        }
-        // FB::log('new text '.$new_text);
-        // FB::log('search text '.$text);
 
         foreach ($search_filter as $search => $filter) {
 
@@ -154,6 +157,13 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 }
             }
         }
+        if($research==0){
+            if(empty($result)){
+                $result=$this->search($text, $searches, $research=1);
+                return $result;
+            }
+        }
+        // echo "<pre>"; print_r($result); echo "</pre>";
         $resultOut = array();
         foreach ($result as $val) {
             if (is_array($val)) {
