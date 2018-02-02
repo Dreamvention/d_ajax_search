@@ -35,7 +35,6 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         if(!empty($new_text)){
             $text=$new_text;
         }
-        FB::log($text);
 
         foreach ($search_filter as $search => $filter) {
 
