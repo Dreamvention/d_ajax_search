@@ -50,7 +50,7 @@ input:focus {
 .fa-arrow-left{
     margin-left: 0px!important;
 }
-#mobile-autocomplite {
+#search-autocomplite {
     width: 100%;
     height: 50px;
     position: absolute;

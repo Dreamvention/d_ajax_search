@@ -11,6 +11,18 @@
 
 
 }
+#search-autocomplite {
+        width: 100%;
+    height: 50px;
+    position: absolute;
+    padding: 10px;
+    padding-left: 10.5px;
+    margin-top: 0.5px;
+}
+
+input[name="search"]{
+    background-color: transparent;
+}
 #d_ajax_search_results #d_ajax_search_results_body {
     color: #fff;
     position: relative;

@@ -14,7 +14,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <div id="mobile-autocomplite"></div>
+        <div id="search-autocomplite"></div>
        <div id="search_mobile" class="input-group">
         <span class="pull-left" data-dismiss="modal"><i class="fa fa-arrow-left"></i></span>
         <input id="search_input" type="text" name="search" value="" autofocus placeholder="Search" class="pull-left form-control input-lg">
@@ -50,7 +50,6 @@ function doquick_search( ev, keywords ) {
         url: $('base').attr('href') + 'index.php?route=extension/module/d_ajax_search/searchresults&keyword=' + keywords,
         dataType: 'json',
         beforeSend: function() {
-
             var html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
             html += '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>';
             if({{mobile}}){
@@ -64,7 +63,7 @@ function doquick_search( ev, keywords ) {
 
         },
         success: function(results) {
-            $('#mobile-autocomplite').text('');
+            $('#search-autocomplite').text('');
             $('#d_ajax_search_results').remove();
             $('#help').hide();
             var result = $.map(results, function(value, index) {
@@ -72,7 +71,7 @@ function doquick_search( ev, keywords ) {
             });
 
             if ( typeof result != 'undefined' && result.length>0) {
-                $('#mobile-autocomplite').text(result[0].autocomplite);
+                $('#search-autocomplite').text(result[0].autocomplite);
                 if(result[0].keyword !== $('#search').find("{{ setting['class'] }}").first().val()){
                     $('#search').find("{{ setting['class'] }}").first().val(result[0].keyword);
                 }
@@ -163,8 +162,10 @@ function doquick_search( ev, keywords ) {
                 $("{{ setting['class'] }}").keydown(function(event) {
                     if( event.keyCode == 39 ) {
                         console.log(event.keyCode);
-                        $('#search_input').val(result[0].autocomplite);
-                        $('#mobile-autocomplite').text('');
+                        $("{{ setting['class'] }}").val(result[0].autocomplite);
+                        $('#search-autocomplite').text('');
+                    }else if(event.keyCode == 08){
+                        $('#search-autocomplite').text('');
                     }
                 });
 
@@ -172,6 +173,7 @@ function doquick_search( ev, keywords ) {
 
         }else{
            $('#d_ajax_search_results').remove();
+           $('#search-autocomplite').text('');
            var html;
            html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
            html += '<a class="row col-sm-12" href="#">';
@@ -229,6 +231,8 @@ $(document).ready(function(){
         $("#search").click(function(){
             $('.modal_search').click();
         });
+    }else{
+        $("{{ setting['class'] }}").before('<div id="search-autocomplite"></div>');
     }
 
 $("{{ setting['class'] }}").attr('maxlength','64');
