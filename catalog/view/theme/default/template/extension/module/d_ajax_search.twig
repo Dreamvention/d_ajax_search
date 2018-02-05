@@ -14,6 +14,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <div id="mobile-autocomplite"></div>
        <div id="search_mobile" class="input-group">
         <span class="pull-left" data-dismiss="modal"><i class="fa fa-arrow-left"></i></span>
         <input id="search_input" type="text" name="search" value="" autofocus placeholder="Search" class="pull-left form-control input-lg">
@@ -63,14 +64,15 @@ function doquick_search( ev, keywords ) {
 
         },
         success: function(results) {
+            $('#mobile-autocomplite').text('');
             $('#d_ajax_search_results').remove();
             $('#help').hide();
-            console.log(results);
             var result = $.map(results, function(value, index) {
                 return [value];
             });
 
             if ( typeof result != 'undefined' && result.length>0) {
+                $('#mobile-autocomplite').text(result[0].autocomplite);
                 if(result[0].keyword !== $('#search').find("{{ setting['class'] }}").first().val()){
                     $('#search').find("{{ setting['class'] }}").first().val(result[0].keyword);
                 }
@@ -157,6 +159,15 @@ function doquick_search( ev, keywords ) {
             }else{
                 $('#d_ajax_search_results_body >.sort-item').tsort({attr:'data-sort-order'},{defaults:{order:'desc'}});
             }
+
+                $("{{ setting['class'] }}").keydown(function(event) {
+                    if( event.keyCode == 39 ) {
+                        console.log(event.keyCode);
+                        $('#search_input').val(result[0].autocomplite);
+                        $('#mobile-autocomplite').text('');
+                    }
+                });
+
 
 
         }else{
