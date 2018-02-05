@@ -38,33 +38,33 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
 
 
-        // if($research){
-        //     $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
-        //     $query=$this->db->query($sql_smart);
-        //     $gml=0;
-        //     $lev=20;
-        //     $new_text='';
-        //     foreach ($query->rows as $key => $row) {
+        if($research){
+            $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
+            $query=$this->db->query($sql_smart);
+            $gml=0;
+            $lev=20;
+            $new_text='';
+            foreach ($query->rows as $key => $row) {
 
-        //         // LEVENSTEIN
-        //         // if(levenshtein($text, $row['text']) < $lev){
-        //         //     $new_text=$row['text'];
-        //         //     $lev=levenshtein($text, $row['text']);
+                // LEVENSTEIN
+                // if(levenshtein($text, $row['text']) < $lev){
+                //     $new_text=$row['text'];
+                //     $lev=levenshtein($text, $row['text']);
 
-        //         // }
-        //         // Oliver's algoritm
+                // }
+                // Oliver's algoritm
 
-        //         similar_text( $text , $row['text'], $percent);
-        //         if($percent > $gml && $percent > 65){
-        //             $new_text=$row['text'];
-        //             $gml=$percent;
-        //         }
-        //     }
+                similar_text( $text , $row['text'], $percent);
+                if($percent > $gml && $percent > 65){
+                    $new_text=$row['text'];
+                    $gml=$percent;
+                }
+            }
 
-        //     if(!empty($new_text)){
-        //         $text=$new_text;
-        //     }
-        // }
+            if(!empty($new_text)){
+                $text=$new_text;
+            }
+        }
 
 
         foreach ($search_filter as $search => $filter) {
@@ -142,7 +142,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $product_ides[$search][]                = $row[$search . '_id'];
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];
                     $result[$search][$key]['keyword'] = $text;
-                    $result[$search][$key]['autocomplite'] = $autocomplite;
+                    $result[$search][$key]['autocomplite'] = isset($autocomplite) ? $autocomplite : '';
                     $result[$search][$key]['image']         = isset($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : '';
                     $result[$search][$key]['name']          = $row['name'];
                     $result[$search][$key]['description']   = isset($row['description']) ? $row['description'] : '';
@@ -185,14 +185,13 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             }
         }
 
-        // if($research==0){
-        //     if(empty($result)){
-        //         $result=$this->search($text, $searches, $research=1);
-        //         return $result;
-        //     }
-        // }
+        if($research==0){
+            if(empty($result)){
+                $result=$this->search($text, $searches, $research=1);
+                return $result;
+            }
+        }
 
-        // echo "<pre>"; print_r($result); echo "</pre>";
         $resultOut = array();
         foreach ($result as $val) {
             if (is_array($val)) {
