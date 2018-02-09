@@ -20,7 +20,17 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         $sql_array = array();
         $sql       = '';
 
-        if($research != 1){
+
+        $redirect=0;
+        $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
+            $query=$this->db->query($sql_redirect);
+            if(!empty($query->rows[0]['redirect'])){
+                $text=$query->rows[0]['redirect'];
+                $redirect_text=$query->rows[0]['redirect'];
+                $redirect=1;
+            }
+
+        if($research != 1 && $redirect!=1){
             $autocomplite_flag=0;
             $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
             $query=$this->db->query($sql_autocomplite);
@@ -37,7 +47,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         }
 
 
-
+        $suggestion='';
         if($research){
             $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
             $query=$this->db->query($sql_smart);
@@ -57,6 +67,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 similar_text( $text , $row['text'], $percent);
                 if($percent > $gml && $percent > 65){
                     $new_text=$row['text'];
+                    $saggestion= $row['text'];
                     $gml=$percent;
                 }
             }
@@ -142,11 +153,13 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $product_ides[$search][]                = $row[$search . '_id'];
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];
                     $result[$search][$key]['keyword'] = $text;
+                    $result[$search][$key]['redirect'] = isset($redirect_text) ? $redirect_text : '';
                     $result[$search][$key]['autocomplite'] = isset($autocomplite) ? $autocomplite : '';
-                    $result[$search][$key]['image']         = isset($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : '';
+                    $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_width']);
                     $result[$search][$key]['name']          = $row['name'];
                     $result[$search][$key]['description']   = isset($row['description']) ? $row['description'] : '';
                     $result[$search][$key]['where_find']    = $search;
+                    $result[$search][$key]['saggestion']    = isset($saggestion) ? $saggestion : '';
                     $result[$search][$key]['weight']        = isset($ai_result->rows[0]['count']) ? $ai_result->rows[0]['count'] : '';
                     if ($search == 'category') {
                         $result[$search][$key]['href'] = $this->url->link('product/' . $search, 'path=' . $row[$search . '_id']);

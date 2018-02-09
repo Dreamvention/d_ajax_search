@@ -36,6 +36,9 @@ input:focus {
     position: relative;
     padding: 5px;
 }
+#d_ajax_search_results_body > .result_block > .result-link > div > img, #d_ajax_search_results_body > .result-link > div > img {
+    border: 1px solid rgb(238, 238, 238);
+}
 #search_input::-webkit-input-placeholder {color:#fff;}
 #search_input{
     background-color: transparent;
@@ -91,11 +94,42 @@ input:focus {
     margin-top: 8px;
     margin-left: 10px;
 }
-.block-text {
+/* .block-text {
     padding-right: 20px;
     background-color: lightgray;
     width: 106%;
     margin-top: 0px;
+} */
+.block-text{
+    width: 100%;
+    margin-top: 10px;
+    padding-left: 10px;
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+}
+.block-text:first-letter {
+    text-transform: uppercase;
+}
+.where-find{
+    background-color: #f5f5f5;
+    color: #929292;
+}
+.saggestion{
+      margin-top: -23px;
+      font-size: 15px;
+      padding-left: 25px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+      color: rgb(131, 131, 131);
+      line-height: 1.333;
+      background-color: #f5f5f5;
+      margin-left: -20px;
+      border-bottom: 1px solid #e0e0e0;
+}
+.saggestion-result{
+    color: #000;
+    font-weight: 600;
 }
 .fa-exclamation-circle, .lul{
     color: grey!important;
@@ -233,6 +267,7 @@ input:focus {
 }
 .name {
     margin-left: 20px;
+    width: 55.333333%!important;
 }
 #d_ajax_search_results .row {
     font-size: 13px;
@@ -243,6 +278,7 @@ input:focus {
     height: 50px;
     display: table;
     margin-right: 20px!important;
+    padding-bottom: 12px;
 }
 #d_ajax_search_results .row .col {
     display: table-cell;

@@ -73,21 +73,30 @@ function doquick_search( ev, keywords ) {
             if ( typeof result != 'undefined' && result.length>0) {
                 $('#search-autocomplite').text(result[0].autocomplite);
                 if(result[0].keyword !== $('#search').find("{{ setting['class'] }}").first().val()){
-                    $('#search').find("{{ setting['class'] }}").first().val(result[0].keyword);
+                    // $('#search').find("{{ setting['class'] }}").first().val(result[0].keyword);
                 }
                 var html, i,name;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
+
+                if(result[0].redirect){
+                    html += '<div class="redirect hidden">'+result[0].redirect+'</div>';
+                }
+
+                if(result[0].saggestion){
+                    html += '<div class="saggestion">Showing results for <span class="saggestion-result">'+result[0].saggestion+'</span></div>';
+                }
                 for (i=0;i<result.length;i++) {
 
                     if({{setting['block_result']}}){
                          if(i == 0 ){
-                            html += '<div class="result_block"><h4 class="pull-right block-text text-right">'+result[i].where_find+'</h4>';
+                            html += '<div class="result_block"><p class="pull-right block-text text-left">'+result[i].where_find+'</p>';
                         }else if(i !==0 && result[i].where_find !== result[i-1].where_find){
-                            html += '<div class="result_block"><h4 class="pull-right block-text text-right">'+result[i].where_find+'</h4>';
+                            html += '<div class="result_block"><p class="block-text text-left">'+result[i].where_find+'</p>';
                         }
                     }
 
                     html += '<a class="result-link sort-item row col-sm-12" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
+                    console.log(result[0].redirect);
                     if (result[i].image){
                         html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
                     } else {
@@ -100,7 +109,7 @@ function doquick_search( ev, keywords ) {
                         name=result[i].name;
                     }
                     html += '<div class="col name {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span class="forkeydon">' + name + '</span>';
-                    html +='{%if setting['where_search'] %} <br><span class="model" style="color:grey;"><i class="fa fa-search lul"></i> in '+result[i].where_find+' '+result[i].find_by+'</span>{%endif%}';
+                    html +='{%if setting['where_search'] %} <br><span class="where-find">in '+result[i].where_find+' '+result[i].find_by+'</span>{%endif%}';
                     html += '</div>';
 
                     if (result[i].special){
@@ -146,9 +155,21 @@ function doquick_search( ev, keywords ) {
 
                 json.select = $(ev.currentTarget).find('.forkeydon').html();
                 if({{mobile}}){
-                    json.search = $('#search_input').val();
+                    if($('.saggestion-result').text() != ''){
+                        json.search = $('.saggestion-result').text();
+                    }else if($('.redirect').text() != ''){
+                        json.search = $('.redirect').text();
+                    }else{
+                        json.search = $('#search_input').val();
+                    }
                 }else{
-                    json.search = $('#search').find("{{ setting['class'] }}").first().val();
+                    if($('.saggestion-result').text() != ''){
+                        json.search = $('.saggestion-result').text();
+                    }else if($('.redirect').text() != ''){
+                        json.search = $('.redirect').text();
+                    }else{
+                        json.search = $('#search').find("{{ setting['class'] }}").first().val();
+                    }
                 }
 
                 write_to_database(json);

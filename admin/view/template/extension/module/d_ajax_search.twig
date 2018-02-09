@@ -195,50 +195,68 @@
             </div>
         </div>
         <div class="tab-pane" id="tab_anal">
-            <canvas id="myChart" width="400" height="100"></canvas><br>
-            <canvas id="myChart2" width="400" height="100"></canvas>
-
+            <div class="col-sm-6">
+                <canvas id="myChart" width="200" height="100"></canvas>
+            </div>
+            <div class="col-sm-6">
+                <canvas id="myChart2" width="200" height="100"></canvas>
+            </div>
         </div>
         <div class="tab-pane" id="tab_history">
             <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
                 <div class="table-responsive">
+                        <div class="panel-body">
+                            <div class="well">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="form-group">
+                                    <label class="control-label" for="input-name">Filter keyword</label>
+                                    <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
+                                    <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-filter"></i>Filter</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <!-- <td>query_results_id</td> -->
-                                <td>Search</td>
-                                <!-- <td>Redirect</td> -->
-                                <td>Hits</td>
-                                <td>Type</td>
-                                <td>Type id</td>
+                                <td>Keyword</td>
+                                <td>Redirect</td>
+                                <td>Choose</td>
+                                <td>Count</td>
                             </tr>
                         </thead>
                             <tbody>
                                 {% for history in histories %}
                                 <tr>
                                     <td class="text-center hidden">
-                                        <input type="text" name="settings[history][query_results_id]" value="{{history['query_results_id']}}" class="form-control">
+                                        <input type="text" name="settings[history][query_results_id]" value="{{history['query_id']}}" class="form-control">
                                     </td>
                                     <td class="text-center">
-                                        <input type="text" name="settings[history][text]" value="{{history['text']}}" class="form-control">
+                                        <div type="text" name="settings[history][text]" value="{{history['keyword']}}">{{history['keyword']}}</div>
                                     </td>
-                                    <!-- <td class="text-center">
-                                        <input type="text" name="settings[history][text]" value="{{history['redirect']}}" class="form-control">
-                                    </td> -->
-                                    <td class="text-center">
-                                        <input type="text" name="settings[history][hits]" value="{{history['count']}}" class="form-control">
+                                    <td class="redirect-cell text-left">
+                                        <div id="redirect_{{history['query_id']}}"  class="redirect-field" redirect_query_id="{{history['query_id']}}">
+                                            <span class="text-field">{{history['redirect']}}</span>
+                                            <input type="text" value="{{history['redirect']}}" class="input-field form-control hide" />
+                                        </div>
+                                    </td>
+                                    <td class="text-left">
+                                        <a href="{{history['href']}}"><img src="{{history['image']}}" alt="">{{history['name']}}</a>
                                     </td>
                                     <td class="text-center">
-                                        <input type="text" name="settings[history][type]" value="{{history['type']}}" class="form-control">
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="text" name="settings[history][type_id]" value="{{history['type_id']}}" class="form-control">
+                                        <div type="text" name="settings[history][hits]" value="{{history['count']}}" >{{history['count']}}</div>
                                     </td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
                         </div>
+                        <div class="row m-t-lg m-b-lg">
+                        <div class="col-sm-6 text-left">{{ pagination }}</div>
+                        <div class="col-sm-6 text-right">{{ results }}</div>
+                    </div>
                     </form>
         </div>
         <div class="tab-pane" id="tab_instruction">
@@ -250,6 +268,20 @@
 </div>
 </div>
 </div>
+
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+    var url = 'index.php?route=extension/module/d_ajax_search&{{url_token}}';
+
+    var filter_name = $('input[name=\'filter_name\']').val();
+
+    if (filter_name) {
+        url += '&filter_name=' + encodeURIComponent(filter_name);
+    }
+
+    location = url;
+});
+//--></script>
 
 <script type="text/javascript">
 
@@ -284,6 +316,86 @@ $("[type='checkbox']").bootstrapSwitch({
     'onColor': 'success',
     'onText': '{{ status_on }}',
     'offText': '{{ status_off }}',
+});
+</script>
+
+<script>
+    $('body').on('click', '.redirect-cell', function() {
+    var redirect = $(this).children('.redirect-field');
+
+    if ($(redirect).children('.input-field').hasClass('hide') && ($(redirect).children('.input-field').attr('type') != 'hidden')) {
+        $('.popover').popover('hide', function() {
+            $('.popover').remove();
+        });
+
+        $('.text-field').removeClass('hide');
+        $('.input-field').addClass('hide');
+
+        $(redirect).popover({
+            html: true,
+            placement: 'right',
+            trigger: 'manual',
+            content: function() {
+                return '<button type="button" id="button_save" class="btn btn-primary" redirect_field_id="' + redirect.attr('id') + '"><i class="fa fa-save"></i></button> <button type="button" id="button_cancel" class="btn btn-danger" redirect_field_id="' + redirect.attr('id') + '"><i class="fa fa-remove"></i></button>';
+            }
+        });
+
+        $(redirect).popover('show');
+
+        $(redirect).children('.text-field').addClass('hide');
+        $(redirect).children('.input-field').removeClass('hide');
+    }
+});
+
+
+$('body').on('click', '#button_save', function() {
+    var redirect = $('#' + $(this).attr('redirect_field_id'));
+    var query_redirect_id = $(redirect).attr('redirect_query_id');
+    var value = $(redirect).children('.input-field').val();
+    $.ajax({
+        url: '{{redirect}}',
+        // url: 'index.php?route=extension/module/d_quickcheckout/getZone&user_token={{ token }}&country_id=' + this.value,
+        type: 'post',
+        data: 'query_id=' + query_redirect_id + '&value=' + (value),
+        dataType: 'json',
+        success: function(json) {
+            showAlert(json);
+
+            $(redirect).popover('hide', function() {
+                $('.popover').remove();
+            });
+            console.log(json);
+            setTimeout(function() {
+                if (json['error'] != 'error') {
+                    $(redirect).children('.input-field').val(json['value']);
+                    $(redirect).children('.text-field').text(json['value']);
+                } else {
+                    $(redirect).children('.input-field').val($(redirect).children('.text-field').text());
+                }
+
+                $(redirect).children('.text-field').removeClass('hide');
+                $(redirect).children('.input-field').addClass('hide');
+            }, 200);
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+
+$('body').on('click', '#button_cancel', function() {
+    var redirect = $('#' + $(this).attr('redirect_field_id'));
+
+    $(redirect).popover('hide', function() {
+        $('.popover').remove();
+    });
+
+    setTimeout(function() {
+        $(redirect).children('.input-field').val($(redirect).children('.text-field').text());
+        $(redirect).children('.text-field').removeClass('hide');
+        $(redirect).children('.input-field').addClass('hide');
+    }, 200);
 });
 </script>
 

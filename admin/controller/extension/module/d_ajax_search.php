@@ -49,7 +49,6 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             }
         }
 
-
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
             if (VERSION >= '3.0.0.0') {
@@ -98,6 +97,24 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->document->addStyle('view/javascript/d_rubaxa_sortable/sortable.css');
 
         $data['setting'] = $setting['d_ajax_search_setting'];
+
+        $url_token = '';
+
+        if (isset($this->session->data['token'])) {
+            $url_token .= 'token=' . $this->session->data['token'];
+        }
+
+        if (isset($this->session->data['user_token'])) {
+            $url_token .= 'user_token=' . $this->session->data['user_token'];
+        }
+
+        if (isset($this->request->get['page'])) {
+            $page = $this->request->get['page'];
+        } else {
+            $page = 1;
+        }
+
+        $data['url_token']=$url_token;
 
         $this->load->language($this->route);
         $data['version'] = $this->extension['version'];
@@ -182,12 +199,38 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             'text' => $this->language->get('heading_title_main'),
             'href' => $this->model_extension_d_opencart_patch_url->link($this->route)
         );
-
+        $data['redirect'] = HTTP_SERVER . 'index.php?route=' . $this->route . '/editRedirect&'.$this->model_extension_d_opencart_patch_user->getUrlToken();
         $this->load->model('extension/module/d_ajax_search');
         $extensions = $this->model_extension_module_d_ajax_search->getExtensions();
         $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic();
         $data['top_searches'] = $this->model_extension_module_d_ajax_search->getTopsearches();
-        $data['histories']    = $this->model_extension_module_d_ajax_search->getHistory();
+
+        // $url='';
+
+        if (isset($this->request->get['filter_name'])) {
+            $filter_name = $this->request->get['filter_name'];
+        }
+
+        $filter_data = array(
+            'keyword' => isset($filter_name) ? $filter_name : '',
+            'start' => ($page - 1) * 10,
+            'limit' => 10
+        );
+
+        $allHistory = $this->model_extension_module_d_ajax_search->allHistory();
+        $data['histories']    = $this->model_extension_module_d_ajax_search->getHistory($filter_data);
+
+        $pagination = new Pagination();
+        $pagination->total = count($allHistory);
+        $pagination->page = $page;
+        $pagination->limit = 10;
+        $pagination->url = $this->url->link($this->route, $url_token . '&page={page}', true);
+
+        $data['pagination'] = $pagination->render();
+
+       $data['results'] = sprintf($this->language->get('text_pagination'), (count($allHistory)) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > (count($allHistory) - 10)) ? count($allHistory) : ((($page - 1) * 10) + 10), count($allHistory), ceil(count($allHistory) / 10));
+
+
         $setting = $this->model_setting_setting->getSetting($this->codename);
         $setting = (isset($setting[$this->codename.'_setting'])) ? $setting[$this->codename.'_setting'] : array();
 
@@ -221,6 +264,17 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/module/d_ajax_search', $data));
+    }
+
+    public function editRedirect(){
+        if(isset($this->request->post['query_id'])){
+            $this->model_extension_module_d_ajax_search->updateRedirect($this->request->post['query_id'],$this->request->post['value']);
+            $json['value']=$this->request->post['value'];
+            $this->response->setOutput(json_encode($json));
+        }else{
+            $this->response->setOutput(json_encode('error'));
+        }
+
     }
 
     public function install()
