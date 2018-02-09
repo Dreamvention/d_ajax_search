@@ -89,14 +89,14 @@ function doquick_search( ev, keywords ) {
 
                     if({{setting['block_result']}}){
                          if(i == 0 ){
-                            html += '<div class="result_block"><p class="pull-right block-text text-left">'+result[i].where_find+'</p>';
+                            html += '<div id="sosiska" class="result_block"><p class="pull-right block-text text-left">'+result[i].where_find+'</p>';
                         }else if(i !==0 && result[i].where_find !== result[i-1].where_find){
-                            html += '<div class="result_block"><p class="block-text text-left">'+result[i].where_find+'</p>';
+                            html += '<div id="sosiska" class="result_block"><p class="block-text text-left">'+result[i].where_find+'</p>';
                         }
                     }
 
                     html += '<a class="result-link sort-item row col-sm-12" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
-                    console.log(result[0].redirect);
+
                     if (result[i].image){
                         html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
                     } else {
@@ -273,7 +273,13 @@ $("{{ setting['class'] }}").attr('maxlength','64');
         setTimeout(function() {
             // $('#d_ajax_search_results').remove();
             $('#help').show();
-            updown = 0;
+
+            if({{setting['block_result']}}){
+                updown = 1;
+            }else{
+                updown = 0;
+            }
+            console.log(updown)
         }, 500)
     });
 
@@ -285,11 +291,24 @@ $("{{ setting['class'] }}").attr('maxlength','64');
         }, 500);
     });
 
-
+    if({{setting['block_result']}}){
+            
+            var updown = 0;
+        }else{
+            
+            var updown = -1;
+        }
 
     function upDownEvent( ev ) {
 
-        var elem = document.getElementById('d_ajax_search_results_body');
+        if({{setting['block_result']}}){
+            var elem = document.getElementById('sosiska');
+            var min_el = 1;
+        }else{
+            var elem = document.getElementById('d_ajax_search_results_body');
+            var min_el = 0;
+        }
+        
         var fkey = $('#search').find('{{ setting['class'] }}').first();
 
         if( elem ) {
@@ -307,7 +326,7 @@ $("{{ setting['class'] }}").attr('maxlength','64');
                 updown = ( updown < length ) ? ++updown : updown;
             }
 
-            if( updown >= 0 && updown <= length ) {
+            if( updown >= min_el && updown <= length ) {
 
                 $(elem.childNodes[updown]).addClass('selected');
 
