@@ -191,7 +191,6 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                             $check = stripos($string, $text);
                             if ($check === false) {
                             } else {
-                                FB::log($gde);
                                 $result[$search][$key]['find_by'] = $this->language->get($gde);
                                 break;
                             }
