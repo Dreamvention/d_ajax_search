@@ -1,7 +1,9 @@
 <?php
 class ModelExtensionModuleDAjaxSearch extends Model {
     private $id = 'd_ajax_search';
+    private $route = 'extension/module/d_ajax_search';
     public function search($text, $searches = array(), $research=0) {
+        $this->load->language($this->route);
         $this->load->model('catalog/product');
         $this->load->model('catalog/category');
         $this->load->model('catalog/manufacturer');
@@ -158,7 +160,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_width']);
                     $result[$search][$key]['name']          = $row['name'];
                     $result[$search][$key]['description']   = isset($row['description']) ? $row['description'] : '';
-                    $result[$search][$key]['where_find']    = $search;
+                    $result[$search][$key]['where_find']    = $this->language->get($search);
                     $result[$search][$key]['saggestion']    = isset($saggestion) ? $saggestion : '';
                     $result[$search][$key]['weight']        = isset($ai_result->rows[0]['count']) ? $ai_result->rows[0]['count'] : '';
                     if ($search == 'category') {
@@ -189,7 +191,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                             $check = stripos($string, $text);
                             if ($check === false) {
                             } else {
-                                $result[$search][$key]['find_by'] = $gde;
+                                FB::log($gde);
+                                $result[$search][$key]['find_by'] = $this->language->get($gde);
                                 break;
                             }
                         }

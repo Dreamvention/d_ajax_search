@@ -60,6 +60,7 @@
         "catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js",
         "image/catalog/d_ajax_search/no_image_search.png",
         "catalog/controller/extension/module/d_ajax_search.php",
+        "catalog/language/en-gb/extension/module/d_ajax_search.php",
         "catalog/model/extension/module/d_ajax_search.php",
         "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
         "catalog/view/theme/default/stylesheet/d_ajax_search.css",

@@ -18,7 +18,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
     public function index(){
 
         $data=array();
-
+        $this->load->language($this->route);
+        $data['results_for'] = $this->language->get('results_for');
         $data['search_phase']='Enter search phase above...';
         $setting1 = $this->model_setting_setting->getSetting($this->id);
         $this->document->addScript('catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js');

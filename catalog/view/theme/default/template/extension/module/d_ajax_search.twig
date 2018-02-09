@@ -83,7 +83,7 @@ function doquick_search( ev, keywords ) {
                 }
 
                 if(result[0].saggestion){
-                    html += '<div class="saggestion">Showing results for <span class="saggestion-result">'+result[0].saggestion+'</span></div>';
+                    html += '<div class="saggestion">{{results_for}} <span class="saggestion-result">'+result[0].saggestion+'</span></div>';
                 }
                 for (i=0;i<result.length;i++) {
 
