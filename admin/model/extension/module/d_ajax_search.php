@@ -144,6 +144,16 @@ class ModelExtensionModuleDAjaxSearch extends Model
             $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
 
+        $url_token = '';
+
+        if (isset($this->session->data['token'])) {
+            $url_token .=  'token=' . $this->session->data['token'];
+        }
+
+        if (isset($this->session->data['user_token'])) {
+            $url_token .= 'user_token=' . $this->session->data['user_token'];
+        }
+
 
         $ai_results = $this->db->query($sql);
         $results=array();
@@ -151,19 +161,19 @@ class ModelExtensionModuleDAjaxSearch extends Model
         foreach ($ai_results->rows as $key => $value) {
             if ($value['type'] == 'product') {
                 $info = $this->model_catalog_product->getProduct($value['type_id']);
-                $results[$key]['href']=$this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $value['type_id'], true);
+                $results[$key]['href']=$this->url->link('catalog/product/edit',  $url_token . '&product_id=' . $value['type_id'], true);
 
             } elseif ($value['type'] == 'category') {
                 $info = $this->model_catalog_category->getCategory($value['type_id']);
-                $results[$key]['href']=$this->url->link('catalog/category/edit', 'token=' . $this->session->data['token'] . '&category_id=' . $value['type_id'], true);
+                $results[$key]['href']=$this->url->link('catalog/category/edit',  $url_token . '&category_id=' . $value['type_id'], true);
 
             } elseif ($value['type'] == 'manufacturer') {
                 $info = $this->model_catalog_manufacturer->getManufacturer($value['type_id']);
-                $results[$key]['href']=$this->url->link('catalog/manufacturer/edit', 'token=' . $this->session->data['token'] . '&manufacturer_id=' . $value['type_id'], true);
+                $results[$key]['href']=$this->url->link('catalog/manufacturer/edit',  $url_token . '&manufacturer_id=' . $value['type_id'], true);
 
             } elseif ($value['type'] == 'information') {
                 $info = $this->model_catalog_information->getInformation($value['type_id']);
-                $results[$key]['href']=$this->url->link('catalog/information/edit', 'token=' . $this->session->data['token'] . '&information_id=' . $value['type_id'], true);
+                $results[$key]['href']=$this->url->link('catalog/information/edit',  $url_token . '&information_id=' . $value['type_id'], true);
             }
         if(isset($info)){
             $results[$key]['query_id']=$value['query_id'];
