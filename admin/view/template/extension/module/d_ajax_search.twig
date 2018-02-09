@@ -203,30 +203,33 @@
             </div>
         </div>
         <div class="tab-pane" id="tab_history">
-            <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
-                <div class="table-responsive">
-                        <div class="panel-body">
-                            <div class="well">
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <div class="form-group">
-                                    <label class="control-label" for="input-name">Filter keyword</label>
-                                    <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
-                                    <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-filter"></i>Filter</button>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+            <div class="panel-body">
+
+
+                <div class="well">
+                    <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label" for="input-name">Filter keyword</label>
+                                <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
+                                <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-filter"></i>Filter</button>
+                            </div>
+                        </div>
                     </div>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <td>Keyword</td>
-                                <td>Redirect</td>
-                                <td>Choose</td>
-                                <td>Count</td>
-                            </tr>
-                        </thead>
+                    </form>
+                </div>
+                <div id="table_history">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td>Keyword</td>
+                                    <td>Redirect</td>
+                                    <td>Choose</td>
+                                    <td>Count</td>
+                                </tr>
+                            </thead>
                             <tbody>
                                 {% for history in histories %}
                                 <tr>
@@ -250,14 +253,17 @@
                                     </td>
                                 </tr>
                                 {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row m-t-lg m-b-lg">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row m-t-lg m-b-lg">
                         <div class="col-sm-6 text-left">{{ pagination }}</div>
                         <div class="col-sm-6 text-right">{{ results }}</div>
                     </div>
-                    </form>
+                </div>
+
+            </div>
         </div>
         <div class="tab-pane" id="tab_instruction">
             <div class="tab-body">{{ text_instructions_full }}</div>
@@ -282,6 +288,15 @@ $('#button-filter').on('click', function() {
     location = url;
 });
 //--></script>
+
+<script>
+    $(document).on('click', '.pagination li a', function(ev) {
+        console.log(ev.currentTarget.href);
+        $('#table_history').load(ev.currentTarget.href+' #table_history > div')
+        // $(ev.currentTarget.href).
+        return false;
+    });
+</script>
 
 <script type="text/javascript">
 
@@ -346,6 +361,7 @@ $("[type='checkbox']").bootstrapSwitch({
         $(redirect).children('.input-field').removeClass('hide');
     }
 });
+
 
 
 $('body').on('click', '#button_save', function() {
