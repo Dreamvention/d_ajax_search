@@ -55,7 +55,10 @@ function text_complite( ev, keywords ){
 
             if ( typeof result != 'undefined' && result.length>0) {
                 $('#search').find("{{ setting['class'] }}").first().val($('#search').find("{{ setting['class'] }}").first().val().toLowerCase());
-                $('#search_input').val($('#search_input').val().toLowerCase());
+                if({{mobile}}){
+                    ('#search_input').val($('#search_input').val().toLowerCase());
+                }
+                $
                 if( result[0].autocomplite.length > 0){
                     $('#search-autocomplite').text(result[0].autocomplite.toLowerCase());
                 }
