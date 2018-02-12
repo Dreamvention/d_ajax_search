@@ -9,4 +9,6 @@ $_['d_ajax_search_setting'] = array(
             'image_width' => 60,
             'where_search' => 1,
             'block_result' => 1,
+            'smart'=>0,
+            'suggestion' => 0
         );

@@ -52,6 +52,7 @@
                 <span class="fa fa-picture-o"></span>
                 Design
             </a></li>
+            {% if extension_plus %}
             <li><a href="#tab_anal" data-toggle="tab">
                 <span class="fa fa-line-chart"></span>
                 Analytics
@@ -60,6 +61,7 @@
                 <span class="fa fa-history"></span>
                 History
             </a></li>
+            {% endif %}
             <li><a href="#tab_instruction" data-toggle="tab">
                 <span class="fa fa-graduation-cap"></span>
                 {{ text_instructions }}
@@ -104,6 +106,22 @@
                             <input name="{{ id }}_setting[max_results]" value="{{ setting['max_results'] }}" class="form-control">
                         </div>
                     </div>
+                    {% if extension_plus %}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-smart-search"><span data-toggle="tooltip" title="Smart search">Smart search</span></label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="{{ id }}_setting[smart]" value="0" />
+                            <input type="checkbox" name="{{ id }}_setting[smart]" {{ setting['smart'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-max-sugg-and-auto"><span data-toggle="tooltip" title="Suggestion and Autocomplite">Suggestion and Autocomplite</span></label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="{{ id }}_setting[suggestion]" value="0" />
+                            <input type="checkbox" name="{{ id }}_setting[suggestion]" {{ setting['suggestion'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="tab-pane active" id="tab_main">

@@ -22,62 +22,64 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         $sql_array = array();
         $sql       = '';
 
-
-        $redirect=0;
-        $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
-            $query=$this->db->query($sql_redirect);
-            if(!empty($query->rows[0]['redirect'])){
-                $text=$query->rows[0]['redirect'];
-                $redirect_text=$query->rows[0]['redirect'];
-                $redirect=1;
-            }
-
-        if($research != 1 && $redirect!=1){
-            $autocomplite_flag=0;
-            $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
-            $query=$this->db->query($sql_autocomplite);
-            $autocomplite=array();
-            foreach ($query->rows as $key => $row) {
-
-                similar_text( $text , $row['text'], $percent);
-
-                if($percent > $autocomplite_flag && $percent > 65){
-                        $autocomplite=$row['text'];
-                        $autocomplite_flag=$percent;
-                    }
-            }
-        }
-
-
+        // echo "<pre>"; print_r($settings); echo "</pre>";
         $suggestion='';
-        if($research){
-            $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
-            $query=$this->db->query($sql_smart);
-            $gml=0;
-            $lev=20;
-            $new_text='';
-            foreach ($query->rows as $key => $row) {
+        $redirect=0;
+        if(isset($settings['suggestion']) && $settings['suggestion']){
 
-                // LEVENSTEIN
-                // if(levenshtein($text, $row['text']) < $lev){
-                //     $new_text=$row['text'];
-                //     $lev=levenshtein($text, $row['text']);
+            $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
+                $query=$this->db->query($sql_redirect);
+                if(!empty($query->rows[0]['redirect'])){
+                    $text=$query->rows[0]['redirect'];
+                    $redirect_text=$query->rows[0]['redirect'];
+                    $redirect=1;
+                }
 
-                // }
-                // Oliver's algoritm
+            if($research != 1 && $redirect!=1){
+                $autocomplite_flag=0;
+                $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
+                $query=$this->db->query($sql_autocomplite);
+                $autocomplite=array();
+                foreach ($query->rows as $key => $row) {
 
-                similar_text( $text , $row['text'], $percent);
-                if($percent > $gml && $percent > 65){
-                    $new_text=$row['text'];
-                    $saggestion= $row['text'];
-                    $gml=$percent;
+                    similar_text( $text , $row['text'], $percent);
+
+                    if($percent > $autocomplite_flag && $percent > 65){
+                            $autocomplite=$row['text'];
+                            $autocomplite_flag=$percent;
+                    }
                 }
             }
 
-            if(!empty($new_text)){
-                $text=$new_text;
-            }
-        }
+            if($research){
+                $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
+                $query=$this->db->query($sql_smart);
+                $gml=0;
+                $lev=20;
+                $new_text='';
+                foreach ($query->rows as $key => $row) {
+
+                    // LEVENSTEIN
+                    // if(levenshtein($text, $row['text']) < $lev){
+                    //     $new_text=$row['text'];
+                    //     $lev=levenshtein($text, $row['text']);
+
+                    // }
+                    // Oliver's algoritm
+
+                    similar_text( $text , $row['text'], $percent);
+                    if($percent > $gml && $percent > 65){
+                        $new_text=$row['text'];
+                        $saggestion= $row['text'];
+                        $gml=$percent;
+                    }
+                }
+
+                if(!empty($new_text)){
+                    $text=$new_text;
+                }
+             }
+         }
 
 
         foreach ($search_filter as $search => $filter) {
@@ -149,8 +151,11 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 if (isset($product_ides[$search]) && in_array($row[$search . '_id'], $product_ides[$search])) {
                 } else {
 
-                    $sql       = "SELECT qr.count FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.query_id = qr.query_id) WHERE q.text = '" . $text . "' AND qr.type = '" . $search . "' AND qr.type_id = " . $row[$search . '_id'] . " AND qr.status = " . 1 . "  ORDER BY qr.count DESC";
-                    $ai_result = $this->db->query($sql);
+                    if(isset($settings['smart']) && $settings['smart']){
+
+                        $sql       = "SELECT qr.count FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.query_id = qr.query_id) WHERE q.text = '" . $text . "' AND qr.type = '" . $search . "' AND qr.type_id = " . $row[$search . '_id'] . " AND qr.status = " . 1 . "  ORDER BY qr.count DESC";
+                        $ai_result = $this->db->query($sql);
+                    }
 
                     $product_ides[$search][]                = $row[$search . '_id'];
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];

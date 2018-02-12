@@ -27,6 +27,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->d_shopunity = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_shopunity.json'));
         $this->d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
         $this->d_twig_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_twig_manager.json'));
+        $this->extension_plus =(file_exists(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->id.'_pro.json'));
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->id.'.json'), true);
     }
@@ -233,7 +234,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         $setting = $this->model_setting_setting->getSetting($this->codename);
         $setting = (isset($setting[$this->codename.'_setting'])) ? $setting[$this->codename.'_setting'] : array();
-
+        if($this->extension_plus){$data['extension_plus']=1;}
         if ($extensions) {
             $this->load->model('user/user_group');
             foreach ($extensions as $extension) {
@@ -258,7 +259,6 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
                 }
             }
         }
-
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
