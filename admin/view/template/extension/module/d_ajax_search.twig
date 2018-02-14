@@ -251,11 +251,15 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-6">
-                <canvas id="myChart" width="200" height="100"></canvas>
-            </div>
-            <div class="col-sm-6">
-                <canvas id="myChart2" width="200" height="100"></canvas>
+            <div id="table_anal">
+                <div>
+                    <div class="col-sm-6">
+                        <canvas id="myChart" width="200" height="100"></canvas>
+                    </div>
+                    <div class="col-sm-6">
+                        <canvas id="myChart2" width="200" height="100"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tab-pane" id="tab_history">
@@ -354,7 +358,9 @@ $('#button-filter').on('click', function() {
 <script>
     $(document).on('click', '.chose-hour', function(ev) {
         console.log(ev.currentTarget.href);
-        // return false;
+        $('#table_anal').load(ev.currentTarget.href+' #table_anal');
+        render_chart();
+        return false;
     });
 </script>
 
@@ -524,36 +530,39 @@ Sortable.create(extensions, {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {{statistic|json_encode()}},
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
+
+function render_chart() {
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {{statistic|json_encode()}},
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
         }
-    }
-});
-</script>
-<script>
-var ctx = document.getElementById("myChart2").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {{top_searches|json_encode()}},
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
+    });
+
+    var ctx = document.getElementById("myChart2").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {{top_searches|json_encode()}},
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
         }
-    }
-});
+    });
+};
 </script>
 
 <script>
