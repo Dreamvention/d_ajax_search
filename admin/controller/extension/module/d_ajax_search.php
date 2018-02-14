@@ -155,6 +155,10 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['entry_model'] = $this->language->get('entry_model');
         $data['entry_class'] = $this->language->get('entry_class');
         $data['entry_extended'] = $this->language->get('entry_extended');
+        $data['tooltip_suggestion'] = $this->language->get('tooltip_suggestion');
+        $data['tooltip_smart_search'] = $this->language->get('tooltip_smart_search');
+        $data['tooltip_autocomplete'] = $this->language->get('tooltip_autocomplete');
+
 
         // Text
         $data['text_edit'] = $this->language->get('text_edit');

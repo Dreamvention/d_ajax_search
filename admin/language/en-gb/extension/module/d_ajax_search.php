@@ -54,7 +54,11 @@ $_['text_instructions_full']        = '
 </div>
 ';
 // Entry
+
 $_['entry_get_update']              = 'You have version %s';
+$_['tooltip_smart_search']              = 'Ajax Search will learn your visitors queries and selected results and optimize the search results to increase click through rate.';
+$_['tooltip_suggestion']              = 'In history and suggestions you can set for any query a suggestion. The search will use this to search for both the keyword and the suggestion. For example if there is a keyword with an error “ifone” you can add a suggestion “iPhone”.';
+$_['tooltip_autocomplete']              = 'Allow the search field to help you visitors autocomplete their queries while they type. This will help them avoid mistakes and return better results.';
 $_['entry_status']                  = 'Status';
 $_['entry_on_off']                  = 'Enable';
 $_['entry_width']                   = 'Width of dropdown';

@@ -40,13 +40,13 @@
         <form id="form" action="{{ action }}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
 
             <ul class="nav nav-tabs">
-             <li class="active"><a href="#tab_main" data-toggle="tab">
+            <li  class="active"><a href="#tab_setting" data-toggle="tab">
+            <span class="fa fa-cog"></span>
+            {{ text_settings }}
+            </a></li>
+             <li><a href="#tab_main" data-toggle="tab">
                 <span class="fa fa-wrench"></span>
                 {{ main_settings }}Custom Settings
-            </a></li>
-            <li><a href="#tab_setting" data-toggle="tab">
-                <span class="fa fa-cog"></span>
-                {{ text_settings }}
             </a></li>
             <li><a href="#tab_design" data-toggle="tab">
                 <span class="fa fa-picture-o"></span>
@@ -59,7 +59,7 @@
             </a></li>
             <li><a href="#tab_history" data-toggle="tab">
                 <span class="fa fa-history"></span>
-                History
+                History & Redirects
             </a></li>
             {% endif %}
             <li><a href="#tab_instruction" data-toggle="tab">
@@ -69,7 +69,7 @@
         </ul>
 
         <div class="tab-content">
-            <div class="tab-pane" id="tab_setting">
+            <div class="tab-pane active" id="tab_setting">
                 <div class="tab-body">
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-status">
@@ -108,23 +108,30 @@
                     </div>
                     {% if extension_plus %}
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-smart-search"><span data-toggle="tooltip" title="Smart search">Smart search</span></label>
+                        <label class="col-sm-2 control-label" for="input-smart-search"><span data-toggle="tooltip" title="{{ tooltip_smart_search }}">Smart search</span></label>
                         <div class="col-sm-10">
                             <input type="hidden" name="{{ id }}_setting[smart]" value="0" />
                             <input type="checkbox" name="{{ id }}_setting[smart]" {{ setting['smart'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-max-sugg-and-auto"><span data-toggle="tooltip" title="Suggestion and Autocomplite">Suggestion and Autocomplite</span></label>
+                        <label class="col-sm-2 control-label" for="input-max-sugg-and-auto"><span data-toggle="tooltip" title="{{ tooltip_suggestion }}">Suggestion</span></label>
                         <div class="col-sm-10">
                             <input type="hidden" name="{{ id }}_setting[suggestion]" value="0" />
                             <input type="checkbox" name="{{ id }}_setting[suggestion]" {{ setting['suggestion'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-max-sugg-and-auto"><span data-toggle="tooltip" title="{{ tooltip_autocomplete }}">Autocomplete</span></label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="{{ id }}_setting[suggestion]" value="0" />
+                            <input type="checkbox" name="{{ id }}_setting[suggestion]" {{ setting['autocomplete'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
             </div>
-            <div class="tab-pane active" id="tab_main">
+            <div class="tab-pane" id="tab_main">
                 <div class="tab-body">
                     <div class="form-group">
                         <div class="table-responsive col-sm-12">
@@ -190,14 +197,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-block_result">Block results</label>
+                <label class="col-sm-2 control-label" for="input-block_result">Display results in block</label>
                 <div class="col-sm-10">
                     <input type="hidden" name="{{ id }}_setting[block_result]" value="0" />
                     <input type="checkbox" name="{{ id }}_setting[block_result]" {{ setting['block_result'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input_text">Result image</label>
+                <label class="col-sm-2 control-label" for="input_text">Result image size</label>
                 <div class="col-sm-5">
                     <div class="input-group">
                         <span class="input-group-addon">Width</span>
@@ -212,17 +219,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input_text">All results</label>
-                <div class="col-sm-5">
-                    <div class="input-group">
-                        <span class="input-group-addon">Number of results displayed</span>
-                        <input name="{{ id }}_setting[all_result_count]" value="{{ setting['all_result_count'] }}" class="form-control">
-                    </div>
-                </div>
-                <div class="col-sm-5">
+                <label class="col-sm-2 control-label" for="input_text">Show more results link</label>
+                <div class="col-sm-2" style="width:6.66667%;">
                     <div class="input-group">
                          <input type="hidden" name="{{ id }}_setting[all_result_status]" value="0" />
                         <input type="checkbox" name="{{ id }}_setting[all_result_status]" {{ setting['all_result_status'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">number of displayed results</span>
+                        <input name="{{ id }}_setting[all_result_count]" value="{{ setting['all_result_count'] }}" class="form-control">
                     </div>
                 </div>
             </div>
@@ -242,13 +249,15 @@
                 <div class="well">
                     <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="control-label" for="input-name">Filter keyword</label>
-                                <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
-                                <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-filter"></i>Filter</button>
-                            </div>
+                        <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-max-results">Filter keyword</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
                         </div>
+                        <div class="col-sm-2">
+                            <button type="button" id="button-filter" class="btn btn-primary "><i class="fa fa-filter"></i>Filter</button>
+                        </div>
+                    </div>
                     </div>
                     </form>
                 </div>
@@ -258,34 +267,38 @@
                             <thead>
                                 <tr>
                                     <td>Keyword</td>
-                                    <td>Redirect</td>
-                                    <td>Choose</td>
-                                    <td>Count</td>
+                                    <td>Suggestions</td>
+                                    <td>Selection</td>
+                                    <td>Views</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for history in histories %}
-                                <tr>
-                                    <td class="text-center hidden">
-                                        <input type="text" name="settings[history][query_results_id]" value="{{history['query_id']}}" class="form-control">
-                                    </td>
-                                    <td class="text-center">
-                                        <div type="text" name="settings[history][text]" value="{{history['keyword']}}">{{history['keyword']}}</div>
-                                    </td>
-                                    <td class="redirect-cell text-left">
-                                        <div id="redirect_{{history['query_id']}}"  class="redirect-field" redirect_query_id="{{history['query_id']}}">
-                                            <span class="text-field">{{history['redirect']}}</span>
-                                            <input type="text" value="{{history['redirect']}}" class="input-field form-control hide" />
-                                        </div>
-                                    </td>
-                                    <td class="text-left">
-                                        <a href="{{history['href']}}"><img src="{{history['image']}}" alt="">{{history['name']}}</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <div type="text" name="settings[history][hits]" value="{{history['count']}}" >{{history['count']}}</div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
+                                {% if histories %}
+                                    {% for history in histories %}
+                                    <tr>
+                                        <td class="text-center hidden">
+                                            <input type="text" name="settings[history][query_results_id]" value="{{history['query_id']}}" class="form-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <div type="text" name="settings[history][text]" value="{{history['keyword']}}">{{history['keyword']}}</div>
+                                        </td>
+                                        <td class="redirect-cell text-left">
+                                            <div id="redirect_{{history['query_id']}}"  class="redirect-field" redirect_query_id="{{history['query_id']}}">
+                                                <span class="text-field">{{history['redirect']}}</span>
+                                                <input type="text" value="{{history['redirect']}}" class="input-field form-control hide" />
+                                            </div>
+                                        </td>
+                                        <td class="text-left">
+                                            <a href="{{history['href']}}"><img src="{{history['image']}}" alt="">{{history['name']}}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <div type="text" name="settings[history][hits]" value="{{history['count']}}" >{{history['count']}}</div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                <tr><td class="text-center" colspan="8">No results!</td></tr>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>

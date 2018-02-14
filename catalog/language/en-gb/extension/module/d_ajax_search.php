@@ -17,6 +17,7 @@ $_['title'] = 'title';
 $_['meta_title'] = 'meta title';
 $_['meta_description'] = 'meta description';
 $_['meta_keyword'] = 'meta keyword';
+$_['more_results'] = 'More results';
 $_['ean'] = 'ean';
 $_['upc'] = 'upc';
 $_['isbn'] = 'isbn';

@@ -269,13 +269,15 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         }
 
         $sql = "INSERT INTO `" . DB_PREFIX . "as_statistic`
-        (`search`, `select`, `count`)
+        (`search`, `select`, `count`, `date_modify`)
         VALUES(
             '" . $this->db->escape($value['search']) . "',
             '" . $this->db->escape($value['select']) . "',
-            '" . 1 . "')
+            '" . 1 . "',
+            NOW())
             ON DUPLICATE KEY UPDATE
-            `count` = `count`+1";
+            `count` = `count`+1,
+            `date_modify` = 'NOW()'";
         $this->db->query($sql);
     }
 }

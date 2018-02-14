@@ -62,8 +62,8 @@ class ModelExtensionModuleDAjaxSearch extends Model
         return $data;
     }
 
-    public function getStatistic(){
-        $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic` ORDER BY count DESC LIMIT 10";
+    public function getStatistic($day=1){
+        $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic` WHERE date_modify >= now() - INTERVAL ". $day ." DAY ORDER BY count DESC LIMIT 10";
         $query=$this->db->query($sql);
         $products=array();
         foreach ($query->rows as $key => $row) {
@@ -241,6 +241,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
         `search` char(128) NOT NULL,
         `select` char(128) NOT NULL,
         `count` int(11) NOT NULL,
+        `date_modify` datetime NOT NULL,
          PRIMARY KEY (`statistic_id`),
         UNIQUE KEY `no_duplicate` (`select`)
         )
