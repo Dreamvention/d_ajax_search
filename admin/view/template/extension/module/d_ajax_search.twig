@@ -235,6 +235,22 @@
             </div>
         </div>
         <div class="tab-pane" id="tab_anal">
+            <div class="col-sm-6 pull-right">
+                <ul class="nav nav-pills">
+                    <li class="active" >
+                        <a class='chose-hour' href="{{ hour }}"><span>24 hours</span></a>
+                    </li>
+                    <li class="" >
+                        <a class='chose-hour' href="{{ week }}"><span>Week</span></a>
+                    </li>
+                    <li class="" >
+                        <a class='chose-hour' href="{{ mounth }}"><span>Month</span></a>
+                    </li>
+                    <li class="" >
+                        <a class='chose-hour' href="{{ year }}"><span>Year</span></a>
+                    </li>
+                </ul>
+            </div>
             <div class="col-sm-6">
                 <canvas id="myChart" width="200" height="100"></canvas>
             </div>
@@ -244,8 +260,6 @@
         </div>
         <div class="tab-pane" id="tab_history">
             <div class="panel-body">
-
-
                 <div class="well">
                     <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
                     <div class="row">
@@ -334,6 +348,15 @@ $('#button-filter').on('click', function() {
     location = url;
 });
 //--></script>
+
+
+
+<script>
+    $(document).on('click', '.chose-hour', function(ev) {
+        console.log(ev.currentTarget.href);
+        // return false;
+    });
+</script>
 
 <script>
     $(document).on('click', '.pagination li a', function(ev) {

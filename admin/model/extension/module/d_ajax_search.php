@@ -63,6 +63,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
     }
 
     public function getStatistic($day=1){
+        echo "<pre>"; print_r($day); echo "</pre>";
         $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic` WHERE date_modify >= now() - INTERVAL ". $day ." DAY ORDER BY count DESC LIMIT 10";
         $query=$this->db->query($sql);
         $products=array();
