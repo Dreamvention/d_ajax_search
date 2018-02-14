@@ -8,8 +8,6 @@
     box-shadow: -2.237px 3.316px 43px 0px rgba(0, 0, 0, 0.16);
     position: absolute;
     z-index: 1005;
-
-
 }
 #search-autocomplite {
         width: 100%;
@@ -37,6 +35,13 @@ input[name="search"]{
 }
 h4{
     margin-bottom: 0px;
+}
+.all_results:hover{
+    cursor: pointer;
+}
+.all_results{
+    padding-left: 20px;
+    font-size: 13px;
 }
 #d_ajax_search_results_body > .result_block > .result-link > div > img, #d_ajax_search_results_body > .result-link > div > img {
     border: 1px solid rgb(238, 238, 238);

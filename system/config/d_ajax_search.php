@@ -10,5 +10,7 @@ $_['d_ajax_search_setting'] = array(
             'where_search' => 1,
             'block_result' => 1,
             'smart'=>0,
-            'suggestion' => 0
+            'suggestion' => 0,
+            'all_result_count' => 5,
+            'all_result_status' => 1
         );

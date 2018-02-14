@@ -211,6 +211,21 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input_text">All results</label>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Number of results displayed</span>
+                        <input name="{{ id }}_setting[all_result_count]" value="{{ setting['all_result_count'] }}" class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                         <input type="hidden" name="{{ id }}_setting[all_result_status]" value="0" />
+                        <input type="checkbox" name="{{ id }}_setting[all_result_status]" {{ setting['all_result_status'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane" id="tab_anal">
             <div class="col-sm-6">

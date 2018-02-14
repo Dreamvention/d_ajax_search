@@ -54,14 +54,11 @@ function text_complite( ev, keywords ){
             });
 
             if ( typeof result != 'undefined' && result.length>0) {
-                $('#search').find("{{ setting['class'] }}").first().val($('#search').find("{{ setting['class'] }}").first().val().toLowerCase());
-                if({{mobile}}){
-                    ('#search_input').val($('#search_input').val().toLowerCase());
-                }
-                $
-                if( result[0].autocomplite.length > 0){
+                $('#search').find("{{ setting['class'] }}").first().val().toLowerCase();
+                if(result[0].autocomplite != ''){
                     $('#search-autocomplite').text(result[0].autocomplite.toLowerCase());
                 }
+
             }
         },
         error: function(xhr, ajaxOptions, thrownError) {
@@ -121,15 +118,22 @@ function doquick_search( ev, keywords ) {
                 }
                 for (i=0;i<result.length;i++) {
 
+
+                    if ( i >= {{setting['all_result_count']}} && {{setting['all_result_status']}}){
+                        var addclass = 'hidden';
+                    }else{
+                        addclass = '';
+                    }
+
                     if({{setting['block_result']}}){
                          if(i == 0 ){
-                            html += '<div id="result_block" class="result_block"><p class="pull-right block-text text-left">'+result[i].where_find+'</p>';
+                            html += '<div id="result_block" class="result_block '+addclass+'"><p class="pull-right block-text text-left">'+result[i].where_find+'</p>';
                         }else if(i !==0 && result[i].where_find !== result[i-1].where_find){
-                            html += '<div id="result_block" class="result_block"><p class="block-text text-left">'+result[i].where_find+'</p>';
+                            html += '<div id="result_block" class="result_block '+addclass+'"><p class="block-text text-left">'+result[i].where_find+'</p>';
                         }
                     }
 
-                    html += '<a class="result-link sort-item row col-sm-12" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
+                    html += '<a class="result-link '+ addclass +' sort-item row col-sm-12" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
 
                     if (result[i].image){
                         html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
@@ -168,7 +172,7 @@ function doquick_search( ev, keywords ) {
 
                 }
 
-                html += '</div></div>';
+                html += '{%if not mobile and setting['all_result_status'] %}<a class="all_results">All results <i class="fa fa-caret-down"></i></a>{%endif%}</div></div>';
 
                 if ($('#d_ajax_search_results').length > 0) {
                     $('#d_ajax_search_results').remove();
@@ -224,7 +228,11 @@ function doquick_search( ev, keywords ) {
                     }
                 });
 
-
+                $('.all_results').click(function(){
+                $('.result-link').removeClass('hidden');
+                $('.result_block').removeClass('hidden');
+                $('.all_results').addClass('hidden')
+            });
 
         }else{
            $('#d_ajax_search_results').remove();
@@ -395,7 +403,6 @@ $("{{ setting['class'] }}").attr('maxlength','64');
 
         return false;
     }
-
 
     $('.fa-search').bind('click', function() {
         url = 'index.php?route=product/search';
