@@ -15,8 +15,8 @@ class ModelExtensionModuleDAjaxSearch extends Model
         return $extensions;
     }
 
-     public function getTopsearches(){
-        $sql="SELECT * FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 10";
+     public function getTopsearches($day=1){
+        $sql="SELECT * FROM `" . DB_PREFIX . "as_query` WHERE date_modify >= now() - INTERVAL ". $day ." DAY ORDER BY count DESC LIMIT 10";
         $query=$this->db->query($sql);
         $products=array();
         foreach ($query->rows as $key => $row) {
@@ -24,6 +24,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
         }
         foreach ($products as $products_key => $value) {
             $data['labels'][] = $value['text'];
+            $data['hits'][]=(int)$value['count'];
             $data['datasets']['0']['data'][] = (int)$value['count'];
             if(!empty($data['labels']) && count($data['labels']) == 10){
                 break;
@@ -63,7 +64,6 @@ class ModelExtensionModuleDAjaxSearch extends Model
     }
 
     public function getStatistic($day=1){
-        echo "<pre>"; print_r($day); echo "</pre>";
         $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic` WHERE date_modify >= now() - INTERVAL ". $day ." DAY ORDER BY count DESC LIMIT 10";
         $query=$this->db->query($sql);
         $products=array();
@@ -71,7 +71,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
             $products[] = $row;
         }
         foreach ($products as $products_key => $value) {
-
+            $data['hits'][]=(int)$value['count'];
             $data['labels'][] = $value['select'];
             $data['datasets']['0']['data'][] = (int)$value['count'];
             if(!empty($data['labels']) && count($data['labels']) == 10){

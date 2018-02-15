@@ -232,7 +232,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         NOW())
         ON DUPLICATE KEY UPDATE
         `count` = `count`+1,
-        `date_modify` = 'NOW()'";
+        `date_modify` = NOW()";
 
         $this->db->query($sql);
         $last_id = $this->db->getLastId();
@@ -248,7 +248,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             NOW())
             ON DUPLICATE KEY UPDATE
             `count` = `count`+1,
-            `date_modify` = 'NOW()'";
+            `date_modify` = NOW()";
         $this->db->query($sql);
 
         if ($this->customer->getId()) {
@@ -264,7 +264,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 NOW())
                 ON DUPLICATE KEY UPDATE
                 `count` = `count`+1,
-                `date_modify` = 'NOW()'";
+                `date_modify` = NOW()";
             $this->db->query($sql);
         }
 
@@ -277,7 +277,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             NOW())
             ON DUPLICATE KEY UPDATE
             `count` = `count`+1,
-            `date_modify` = 'NOW()'";
+            `date_modify` = NOW()";
         $this->db->query($sql);
     }
 }

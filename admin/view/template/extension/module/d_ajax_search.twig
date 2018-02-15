@@ -252,13 +252,11 @@
                 </ul>
             </div>
             <div id="table_anal">
-                <div>
-                    <div class="col-sm-6">
-                        <canvas id="myChart" width="200" height="100"></canvas>
-                    </div>
-                    <div class="col-sm-6">
-                        <canvas id="myChart2" width="200" height="100"></canvas>
-                    </div>
+                <div id="chartContainer" class="first_chart col-sm-6">
+                    <canvas id="myChart" width="200" height="100"></canvas>
+                </div>
+                <div id="chartContainer2" class="second_chart col-sm-6">
+                    <canvas id="myChart2" width="200" height="100"></canvas>
                 </div>
             </div>
         </div>
@@ -357,9 +355,61 @@ $('#button-filter').on('click', function() {
 
 <script>
     $(document).on('click', '.chose-hour', function(ev) {
-        console.log(ev.currentTarget.href);
-        $('#table_anal').load(ev.currentTarget.href+' #table_anal');
-        render_chart();
+        $('#tab_anal li').removeClass('active')
+        $(ev.currentTarget).parent().addClass('active')
+        var url=$(ev.currentTarget).attr('href');
+        document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
+        document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
+         $.ajax( {
+        type: 'post',
+        url: url,
+        data: $('#form').serialize(),
+        dataType: 'json',
+        beforeSend: function() {
+            $('#content').fadeTo('slow', 0.5);
+        },
+        complete: function() {
+            $('#content').fadeTo('slow', 1);
+
+        },
+        success: function(json) {
+
+            var ctx1 = document.getElementById("myChart").getContext('2d');
+            var myChart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: json.statistic,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx2 = document.getElementById("myChart2").getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: json.top_searches,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+
         return false;
     });
 </script>
@@ -530,11 +580,8 @@ Sortable.create(extensions, {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script>
-
-function render_chart() {
-
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
+    var ctx1 = document.getElementById("myChart").getContext('2d');
+    var myChart1 = new Chart(ctx1, {
         type: 'bar',
         data: {{statistic|json_encode()}},
         options: {
@@ -548,8 +595,8 @@ function render_chart() {
         }
     });
 
-    var ctx = document.getElementById("myChart2").getContext('2d');
-    var myChart = new Chart(ctx, {
+    var ctx2 = document.getElementById("myChart2").getContext('2d');
+    var myChart2 = new Chart(ctx2, {
         type: 'bar',
         data: {{top_searches|json_encode()}},
         options: {
@@ -562,7 +609,7 @@ function render_chart() {
             }
         }
     });
-};
+
 </script>
 
 <script>

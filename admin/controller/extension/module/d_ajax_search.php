@@ -207,20 +207,15 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['redirect'] = HTTP_SERVER . 'index.php?route=' . $this->route . '/editRedirect&'.$this->model_extension_d_opencart_patch_user->getUrlToken();
         $this->load->model('extension/module/d_ajax_search');
         $extensions = $this->model_extension_module_d_ajax_search->getExtensions();
-        // $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic();
+
+
+        $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic();
         $data['top_searches'] = $this->model_extension_module_d_ajax_search->getTopsearches();
 
-        if (isset($this->request->get['time'])) {
-            $time = $this->request->get['time'];
-        } else {
-            $time = 1;
-        }
-        $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic($time);
-
-        $data['hour'] = $this->url->link($this->route, $url_token . '&time=1', true);
-        $data['week'] = $this->url->link($this->route, $url_token . '&time=7', true);
-        $data['mounth'] = $this->url->link($this->route, $url_token . '&time=30', true);
-        $data['year'] = $this->url->link($this->route, $url_token . '&time=365', true);
+        $data['hour'] = $this->url->link($this->route.'/updateCharts', $url_token . '&time=1', true);
+        $data['week'] = $this->url->link($this->route.'/updateCharts', $url_token . '&time=7', true);
+        $data['mounth'] = $this->url->link($this->route.'/updateCharts', $url_token . '&time=30', true);
+        $data['year'] = $this->url->link($this->route.'/updateCharts', $url_token . '&time=365', true);
 
         // $url='';
 
@@ -280,6 +275,20 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
         $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/module/d_ajax_search', $data));
+    }
+
+    public function updateCharts()
+    {
+        if (isset($this->request->get['time'])) {
+            $time = $this->request->get['time'];
+        } else {
+            $time = 1;
+        }
+        $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic($time);
+        $data['top_searches'] = $this->model_extension_module_d_ajax_search->getTopsearches($time);
+        // FB::log($time);
+        $json=$data;
+        $this->response->setOutput(json_encode($json));
     }
 
     public function editRedirect(){

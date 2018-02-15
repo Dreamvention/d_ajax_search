@@ -23,7 +23,9 @@
     top:45%;
     left: 45%;
 }
-
+.first_chart{
+    padding-top: 58px;
+}
 .extension {
     margin-left: 12px;
 }
