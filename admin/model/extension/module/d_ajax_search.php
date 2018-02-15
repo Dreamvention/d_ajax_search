@@ -22,6 +22,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
         foreach ($query->rows as $key => $row) {
             $products[] = $row;
         }
+        $data['table_searches']=$products;
         foreach ($products as $products_key => $value) {
             $data['labels'][] = $value['text'];
             $data['hits'][]=(int)$value['count'];
@@ -70,6 +71,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
         foreach ($query->rows as $key => $row) {
             $products[] = $row;
         }
+        $data['table_statistic']=$products;
         foreach ($products as $products_key => $value) {
             $data['hits'][]=(int)$value['count'];
             $data['labels'][] = $value['select'];

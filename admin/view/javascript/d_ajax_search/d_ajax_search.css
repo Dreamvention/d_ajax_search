@@ -39,7 +39,12 @@ h4 {
     margin-bottom: 5px;
     /* margin-left: 50px; */
 }
-
+.left-table{
+    padding-top: 20px;
+}
+.right-table{
+    padding-top: 20px;
+}
 .more-details{
     margin-left: 130px!important;
 }

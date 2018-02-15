@@ -235,6 +235,7 @@
             </div>
         </div>
         <div class="tab-pane" id="tab_anal">
+            <div class="tab-body">
             <div class="col-sm-6 pull-right">
                 <ul class="nav nav-pills">
                     <li class="active" >
@@ -252,13 +253,57 @@
                 </ul>
             </div>
             <div id="table_anal">
+
                 <div id="chartContainer" class="first_chart col-sm-6">
                     <canvas id="myChart" width="200" height="100"></canvas>
                 </div>
                 <div id="chartContainer2" class="second_chart col-sm-6">
                     <canvas id="myChart2" width="200" height="100"></canvas>
                 </div>
+                <div class="row">
+ <!--                    <div class="col-sm-6 right-table">
+                        <div id="table_viewed">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td>results</td>
+                                            <td>Views</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                           <td>kek</td>
+                                           <td>cheburek</td>
+                                       </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 left_table">
+                        <div id="table_viewed">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td>keyword</td>
+                                            <td>searches</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                           <td>kek</td>
+                                           <td>cheburek</td>
+                                       </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
             </div>
+        </div>
         </div>
         <div class="tab-pane" id="tab_history">
             <div class="panel-body">
@@ -359,20 +404,70 @@ $('#button-filter').on('click', function() {
         $(ev.currentTarget).parent().addClass('active')
         var url=$(ev.currentTarget).attr('href');
         document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
-        document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
+        document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
+        $('.right-table').remove();
+        $('.left-table').remove();
+
          $.ajax( {
         type: 'post',
         url: url,
         data: $('#form').serialize(),
         dataType: 'json',
         beforeSend: function() {
-            $('#content').fadeTo('slow', 0.5);
+            // $('#content').fadeTo('slow', 0.5);
         },
         complete: function() {
-            $('#content').fadeTo('slow', 1);
-
+            // $('#content').fadeTo('slow', 1);
         },
         success: function(json) {
+
+            var i,k;
+                    html='<div class="col-sm-6 right-table">'
+                        html +='<div id="table_viewed">'
+                            html +='<div class="table-responsive">'
+                                html +='<table class="table table-bordered table-hover">'
+                                    html +='<thead>'
+                                        html +='<tr>'
+                                            html +='<td>results</td>'
+                                            html +='<td>Views</td>'
+                                        html +='</tr>'
+                                    html +='</thead>'
+                                    html +='<tbody>'
+                                       for(i=0; i < json.statistic.table_statistic.length; i++){
+                                           html +='<tr>'
+                                           html +='<td>'+ json.statistic.table_statistic[i].select +'</td>'
+                                           html +='<td>'+ json.statistic.table_statistic[i].count +'</td>'
+                                           html +='</tr>'
+                                       }
+                                    html +='</tbody>'
+                                html +='</table>'
+                            html +='</div>'
+                        html +='</div>'
+                    html +='</div>'
+                    html +='<div class="col-sm-6 left-table">'
+                        html +='<div id="table_viewed">'
+                            html +='<div class="table-responsive">'
+                                html +='<table class="table table-bordered table-hover">'
+                                    html +='<thead>'
+                                        html +='<tr>'
+                                            html +='<td>keyword</td>'
+                                            html +='<td>searches</td>'
+                                        html +='</tr>'
+                                    html +='</thead>'
+                                    html +='<tbody>'
+                                       for(k=0; k < json.top_searches.table_searches.length; k++){
+                                           html +='<tr>'
+                                           html +='<td>'+ json.top_searches.table_searches[k].text +'</td>'
+                                           html +='<td>'+ json.top_searches.table_searches[k].count +'</td>'
+                                           html +='</tr>'
+                                       }
+                                    html +='</tbody>'
+                                html +='</table>'
+                            html +='</div>'
+                        html +='</div>'
+                    html +='</div>'
+
+        $('#table_anal > div.row').after(html);
 
             var ctx1 = document.getElementById("myChart").getContext('2d');
             var myChart1 = new Chart(ctx1, {

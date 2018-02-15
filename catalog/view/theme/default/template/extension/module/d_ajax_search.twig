@@ -315,7 +315,12 @@ $("{{ setting['class'] }}").attr('maxlength','64');
 
     $("{{ setting['class'] }}").blur(function(){
         setTimeout(function() {
-            // $('#d_ajax_search_results').remove();
+            $('body').click(function (event) {
+                if($(event.target).attr('class') != 'all_results hidden'){
+                    $('#d_ajax_search_results').remove();
+                }
+            })
+
             $('#help').show();
 
             if({{setting['block_result']}}){
