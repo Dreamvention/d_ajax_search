@@ -403,10 +403,7 @@ $('#button-filter').on('click', function() {
         $('#tab_anal li').removeClass('active')
         $(ev.currentTarget).parent().addClass('active')
         var url=$(ev.currentTarget).attr('href');
-        document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
-        document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
-        $('.right-table').remove();
-        $('.left-table').remove();
+
 
          $.ajax( {
         type: 'post',
@@ -420,6 +417,11 @@ $('#button-filter').on('click', function() {
             // $('#content').fadeTo('slow', 1);
         },
         success: function(json) {
+
+            document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
+        document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
+        $('.right-table').remove();
+        $('.left-table').remove();
 
             var i,k;
                     html='<div class="col-sm-6 right-table">'
