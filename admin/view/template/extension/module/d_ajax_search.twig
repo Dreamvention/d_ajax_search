@@ -378,7 +378,7 @@ $.each($('.info-window-item'), function(key, value) {
     var url = $(this).attr('data-href');
         
     if (url) {
-        $.getJSON(url + '?format=json', function(data) {
+        $.getJSON(url + '?format=json&callback=?', function(data) {
             info_window.item[url] = data['description'];
         });
     }
@@ -557,7 +557,7 @@ function drawAnalTab(json){
         document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
         $('.right-table').remove();
         $('.left-table').remove();
-        console.log(json.statistic)
+
         if(json.statistic){
             var i,k;
                     html='<div class="col-sm-6 right-table">'
