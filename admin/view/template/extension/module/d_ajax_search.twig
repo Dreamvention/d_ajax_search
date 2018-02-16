@@ -158,9 +158,9 @@
                                                         <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" value="0" />
                                                         <input type="checkbox" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" {{ extension['enabled'] ? 'checked="checked"' : '' }} value="1" id="{{ id }}_module_item_{{ extension['id'] }}_enabled" />
                                                         <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">Edit {{ extension['id']|capitalize|replace ({'_':' '}) }} <i class="fa fa-caret-down"></i></label>
-                                                        <div class="pull-right">
+                                                        <div class="pull-right form-inline">
                                                         <label class="control-label lable_max_count" for="{{ id }}_setting[max_symbols]"><span data-toggle="tooltip" title="Count of {{ extension['id']|capitalize|replace ({'_':' '}) }} in results">Count in results</span></label>
-                                                        <input name="{{ id }}_setting[extension][{{ extension['id'] }}][max_count]" value="{{ extension['max_count'] }}" class="max_count">
+                                                        <input name="{{ id }}_setting[extension][{{ extension['id'] }}][max_count]" value="{{ extension['max_count'] }}" class="form-control">
                                                         </div>
                                                     </span>
                                                     <div class="more-details form-group {{ extension['id'] }}_settings hidden_settings">
@@ -240,7 +240,7 @@
         </div>
         <div class="tab-pane" id="tab_anal">
             <div class="tab-body">
-            <div class="col-sm-6 pull-right">
+            <div class="col-sm-6 first_chart">
                 <ul class="nav nav-pills">
                     <li class="active" >
                         <a id="first_load" class='chose-hour' href="{{ hour }}"><span>24 hours</span></a>
@@ -258,7 +258,7 @@
             </div>
             <div id="table_anal">
 
-                <div id="chartContainer" class="first_chart col-sm-6">
+                <div id="chartContainer" class="col-sm-6">
                     <canvas id="myChart" width="200" height="100"></canvas>
                 </div>
                 <div id="chartContainer2" class="second_chart col-sm-6">
@@ -511,7 +511,8 @@ function drawAnalTab(json){
         document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
         $('.right-table').remove();
         $('.left-table').remove();
-
+        console.log(json.statistic)
+        if(json.statistic){
             var i,k;
                     html='<div class="col-sm-6 right-table">'
                         html +='<div id="table_viewed">'
@@ -557,14 +558,17 @@ function drawAnalTab(json){
                             html +='</div>'
                         html +='</div>'
                     html +='</div>'
-
         $('#table_anal > div.row').after(html);
+        }
 
             var ctx1 = document.getElementById("myChart").getContext('2d');
             var myChart1 = new Chart(ctx1, {
             type: 'bar',
             data: json.statistic,
             options: {
+                title: {
+                    display: false
+                },
                 scales: {
                     yAxes: [{
                         ticks: {

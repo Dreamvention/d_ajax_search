@@ -26,7 +26,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         $suggestion='';
         $redirect=0;
 
-        // if(isset($settings['suggestion']) && $settings['suggestion']){
+        $settings['autocomplete'] = isset($settings['autocomplete']) ? $settings['autocomplete'] : 0;
 
             $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
                 $query=$this->db->query($sql_redirect);
