@@ -44,16 +44,12 @@ $_['text_instructions_full']        = '
 <img src="view/image/d_ajax_search/d_ajax_search_result_dropdown.png" class="img-responsive"/>
 <p>Once the customer enters the search field, the system will autocomplete his entry and offer a number of products with their name, image and price. Also, you could set this additional options: Search only first symbols in the title, Priority search, Display product price or special or both of them with/without tax. Search can return the products, categories, manufactures</p>
 </div>
-<div class="col-sm-6">
-<h3>Set selector (class, name or id) of search input field</h3>
-<p>If you are using a custom theme, and the Live Ajax search is not working, most likely you have another class selected for the search input field. just look into the code and set the correct class like - .oc_search, or #search_field etc.</p>
-<img src="view/image/d_ajax_search/d_ajax_search_code_source.png" class="img-responsive"/>
-<h2>How to get additional information about the module?</h2>
-<p>You can write a letter of support in case of problems with the product.</p>
-<span>Create a support ticket for more help:</span> <a href="http://www.dreamvention.com/support/" target="_blank" class="button">Create ticket</a>
+<div class="col-sm-6 .instruction">
+
 </div>
 ';
 // Entry
+$_['help_d_ajax_search_pack']						= '<div class="alert alert-info text-center" style="cursor: pointer" onclick="window.open(\'https://dreamvention.ee/live-ajax-search\', \'_blank\')">Unluck all of the features with <strong>Live Ajax Search Pro</strong></div>';
 
 $_['entry_get_update']              = 'You have version %s';
 $_['tooltip_smart_search']              = 'Ajax Search will learn your visitors queries and selected results and optimize the search results to increase click through rate.';

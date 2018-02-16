@@ -30,7 +30,7 @@
       <button type="button" class="close" data-dismiss="alert">&times;</button>
   </div>
   {% endif %}
-
+{{info}}
   <div class="panel panel-default panel-resizable">
     <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
@@ -139,7 +139,7 @@
                                 <thead>
                                     <tr class="fields">
                                         <td class="field">
-                                            <h4 class="m-b-none"><span class="fa fa-sort-amount-asc"></span> Priority search  <span class="info-window-item" data-href="https://dreamvention.ee/instructions-quick-search"><i class="fa fa-question info-load"></i></span></h4>
+                                            <h4 class="m-b-none"><span class="fa fa-sort-amount-asc"></span> Priority search  <span class="info-window-item" data-href="https://dreamvention.ee/setup-live-ajax-search-blocks"><i class="fa fa-question info-load"></i></span></h4>
                                         </td>
                                     </tr>
                                 </thead>
@@ -159,7 +159,7 @@
                                                         <input type="checkbox" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" {{ extension['enabled'] ? 'checked="checked"' : '' }} value="1" id="{{ id }}_module_item_{{ extension['id'] }}_enabled" />
                                                         <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">Edit {{ extension['id']|capitalize|replace ({'_':' '}) }} <i class="fa fa-caret-down"></i></label>
                                                         <div class="pull-right form-inline">
-                                                        <label class="control-label lable_max_count" for="{{ id }}_setting[max_symbols]"><span data-toggle="tooltip" title="Count of {{ extension['id']|capitalize|replace ({'_':' '}) }} in results">Count in results</span></label>
+                                                        <label class="control-label lable_max_count" for="{{ id }}_setting[max_symbols]"><span data-toggle="tooltip" title="Number of items in result of {{ extension['id']|capitalize|replace ({'_':' '}) }}">Count in results</span></label>
                                                         <input name="{{ id }}_setting[extension][{{ extension['id'] }}][max_count]" value="{{ extension['max_count'] }}" class="form-control">
                                                         </div>
                                                     </span>
@@ -224,20 +224,19 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="input_text">Show more results link </label>
-                <div class="col-sm-2" style="width:6.66667%;">
+                <div class="col-sm-5"">
                     <div class="input-group">
                          <input type="hidden" name="{{ id }}_setting[all_result_status]" value="0" />
                         <input type="checkbox" name="{{ id }}_setting[all_result_status]" {{ setting['all_result_status'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
                     </div>
                 </div>
-                <div class="col-sm-2">
-                    <div class="input-group">
-                        <span class="input-group-addon">number of displayed results</span>
-                        <input name="{{ id }}_setting[all_result_count]" value="{{ setting['all_result_count'] }}" class="form-control">
-                        <span class=" info-window-item" data-href="https://dreamvention.ee/live-ajax-search-history-smart-search"><i class="more-results fa fa-question info-load"></i></span>
-                    </div>
-                </div>
             </div>
+            <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="{{ help_max_symbols }}">number of displayed results</span></label>
+                        <div class="col-sm-2">
+                            <input name="{{ id }}_setting[all_result_count]" value="{{ setting['all_result_count'] }}" class="form-control">
+                        </div>
+                    </div>
         </div>
         <div class="tab-pane" id="tab_anal">
             <div class="tab-body">
@@ -404,6 +403,13 @@ $('.info-window .info-window-close').on('click', function() {
     $('.info-window').removeClass('resized');
     $('.panel-resizable').removeClass('resized');
 });
+
+var url_inst = 'https://dreamvention.ee/instructions-quick-search';
+
+$.getJSON(url_inst + '?format=json&callback=?', function(data) {
+    $('.instruction').html(data['description']);
+});
+
 </script>
 
 
@@ -556,7 +562,6 @@ function drawAnalTab(json){
         document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
         $('.right-table').remove();
         $('.left-table').remove();
-        console.log(json.statistic)
         if(json.statistic){
             var i,k;
                     html='<div class="col-sm-6 right-table">'

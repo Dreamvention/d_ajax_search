@@ -76,6 +76,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $data[$this->id.'_status'] = $this->config->get($this->id.'_status');
         }
 
+
         $this->config->load('d_ajax_search');
         $this->config->get('d_ajax_search_setting');
 
@@ -128,6 +129,9 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['token'] = $this->model_extension_d_opencart_patch_user->getUrlToken();
 
          $this->document->setTitle($this->language->get('heading_title_main'));
+        if ($this->extension) {
+            $data['info'] = $this->language->get('help_d_ajax_search_pack');
+        }
         $data['heading_title'] = $this->language->get('heading_title_main');
         // Tab
         $data['text_settings'] = $this->language->get('text_settings');
