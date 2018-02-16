@@ -27,6 +27,9 @@
     width: 100%;
     left: 37%;
 }
+.more-results{
+    margin-top: 6px!important;
+}
 .extension {
     margin-left: 12px;
 }
