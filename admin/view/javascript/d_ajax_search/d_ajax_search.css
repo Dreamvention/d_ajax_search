@@ -29,6 +29,12 @@
 .extension {
     margin-left: 12px;
 }
+.max_count{
+    height: 40px;
+    font-size: 15px;
+    border: 2px solid #dbdfef;
+    box-shadow: none;
+}
 h4 {
     margin-bottom: 0px!important;
 }
@@ -38,6 +44,9 @@ h4 {
 .marbot{
     margin-bottom: 5px;
     /* margin-left: 50px; */
+}
+.lable_max_count{
+    padding-right: 20px;
 }
 .left-table{
     padding-top: 20px;

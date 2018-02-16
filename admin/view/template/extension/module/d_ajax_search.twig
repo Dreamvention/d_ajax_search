@@ -124,8 +124,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-max-sugg-and-auto"><span data-toggle="tooltip" title="{{ tooltip_autocomplete }}">Autocomplete</span></label>
                         <div class="col-sm-10">
-                            <input type="hidden" name="{{ id }}_setting[suggestion]" value="0" />
-                            <input type="checkbox" name="{{ id }}_setting[suggestion]" {{ setting['autocomplete'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                            <input type="hidden" name="{{ id }}_setting[autocomplete]" value="0" />
+                            <input type="checkbox" name="{{ id }}_setting[autocomplete]" {{ setting['autocomplete'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
                         </div>
                     </div>
                     {% endif %}
@@ -157,7 +157,11 @@
                                                     <span class="extension">
                                                         <input type="hidden" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" value="0" />
                                                         <input type="checkbox" name="{{ id }}_setting[extension][{{ extension['id'] }}][enabled]" {{ extension['enabled'] ? 'checked="checked"' : '' }} value="1" id="{{ id }}_module_item_{{ extension['id'] }}_enabled" />
-                                                        <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">{{ extension['id']|capitalize|replace ({'_':' '}) }} <i class="fa fa-caret-down"></i></label>
+                                                        <label onclick="check('{{ extension['id'] }}')" for="{{ id }}extension_{{ extension['id'] }}_enabled">Edit {{ extension['id']|capitalize|replace ({'_':' '}) }} <i class="fa fa-caret-down"></i></label>
+                                                        <div class="pull-right">
+                                                        <label class="control-label lable_max_count" for="{{ id }}_setting[max_symbols]"><span data-toggle="tooltip" title="Count of {{ extension['id']|capitalize|replace ({'_':' '}) }} in results">Count in results</span></label>
+                                                        <input name="{{ id }}_setting[extension][{{ extension['id'] }}][max_count]" value="{{ extension['max_count'] }}" class="max_count">
+                                                        </div>
                                                     </span>
                                                     <div class="more-details form-group {{ extension['id'] }}_settings hidden_settings">
                                                         {% for key, extension_ in extension['query'] %}
@@ -239,7 +243,7 @@
             <div class="col-sm-6 pull-right">
                 <ul class="nav nav-pills">
                     <li class="active" >
-                        <a class='chose-hour' href="{{ hour }}"><span>24 hours</span></a>
+                        <a id="first_load" class='chose-hour' href="{{ hour }}"><span>24 hours</span></a>
                     </li>
                     <li class="" >
                         <a class='chose-hour' href="{{ week }}"><span>Week</span></a>
@@ -261,46 +265,6 @@
                     <canvas id="myChart2" width="200" height="100"></canvas>
                 </div>
                 <div class="row">
- <!--                    <div class="col-sm-6 right-table">
-                        <div id="table_viewed">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <td>results</td>
-                                            <td>Views</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                           <td>kek</td>
-                                           <td>cheburek</td>
-                                       </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 left_table">
-                        <div id="table_viewed">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <td>keyword</td>
-                                            <td>searches</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                           <td>kek</td>
-                                           <td>cheburek</td>
-                                       </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -418,88 +382,7 @@ $('#button-filter').on('click', function() {
         },
         success: function(json) {
 
-            document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
-        document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
-        $('.right-table').remove();
-        $('.left-table').remove();
-
-            var i,k;
-                    html='<div class="col-sm-6 right-table">'
-                        html +='<div id="table_viewed">'
-                            html +='<div class="table-responsive">'
-                                html +='<table class="table table-bordered table-hover">'
-                                    html +='<thead>'
-                                        html +='<tr>'
-                                            html +='<td>results</td>'
-                                            html +='<td>Views</td>'
-                                        html +='</tr>'
-                                    html +='</thead>'
-                                    html +='<tbody>'
-                                       for(i=0; i < json.statistic.table_statistic.length; i++){
-                                           html +='<tr>'
-                                           html +='<td>'+ json.statistic.table_statistic[i].select +'</td>'
-                                           html +='<td>'+ json.statistic.table_statistic[i].count +'</td>'
-                                           html +='</tr>'
-                                       }
-                                    html +='</tbody>'
-                                html +='</table>'
-                            html +='</div>'
-                        html +='</div>'
-                    html +='</div>'
-                    html +='<div class="col-sm-6 left-table">'
-                        html +='<div id="table_viewed">'
-                            html +='<div class="table-responsive">'
-                                html +='<table class="table table-bordered table-hover">'
-                                    html +='<thead>'
-                                        html +='<tr>'
-                                            html +='<td>keyword</td>'
-                                            html +='<td>searches</td>'
-                                        html +='</tr>'
-                                    html +='</thead>'
-                                    html +='<tbody>'
-                                       for(k=0; k < json.top_searches.table_searches.length; k++){
-                                           html +='<tr>'
-                                           html +='<td>'+ json.top_searches.table_searches[k].text +'</td>'
-                                           html +='<td>'+ json.top_searches.table_searches[k].count +'</td>'
-                                           html +='</tr>'
-                                       }
-                                    html +='</tbody>'
-                                html +='</table>'
-                            html +='</div>'
-                        html +='</div>'
-                    html +='</div>'
-
-        $('#table_anal > div.row').after(html);
-
-            var ctx1 = document.getElementById("myChart").getContext('2d');
-            var myChart1 = new Chart(ctx1, {
-            type: 'bar',
-            data: json.statistic,
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                            }
-                        }]
-                    }
-                }
-            });
-
-            var ctx2 = document.getElementById("myChart2").getContext('2d');
-            var myChart2 = new Chart(ctx2, {
-            type: 'bar',
-            data: json.top_searches,
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
+       drawAnalTab(json);
 
         },
         error: function(xhr, ajaxOptions, thrownError) {
@@ -621,6 +504,93 @@ $('body').on('click', '#button_save', function() {
     });
 });
 
+$('#first_load').click();
+
+function drawAnalTab(json){
+     document.getElementById("chartContainer").innerHTML='<canvas id="myChart" width="200" height="100"></canvas>';
+        document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
+        $('.right-table').remove();
+        $('.left-table').remove();
+
+            var i,k;
+                    html='<div class="col-sm-6 right-table">'
+                        html +='<div id="table_viewed">'
+                            html +='<div class="table-responsive">'
+                                html +='<table class="table table-bordered table-hover">'
+                                    html +='<thead>'
+                                        html +='<tr>'
+                                            html +='<td>results</td>'
+                                            html +='<td>Views</td>'
+                                        html +='</tr>'
+                                    html +='</thead>'
+                                    html +='<tbody>'
+                                       for(i=0; i < json.statistic.table_statistic.length; i++){
+                                           html +='<tr>'
+                                           html +='<td>'+ json.statistic.table_statistic[i].select +'</td>'
+                                           html +='<td>'+ json.statistic.table_statistic[i].count +'</td>'
+                                           html +='</tr>'
+                                       }
+                                    html +='</tbody>'
+                                html +='</table>'
+                            html +='</div>'
+                        html +='</div>'
+                    html +='</div>'
+                    html +='<div class="col-sm-6 left-table">'
+                        html +='<div id="table_viewed">'
+                            html +='<div class="table-responsive">'
+                                html +='<table class="table table-bordered table-hover">'
+                                    html +='<thead>'
+                                        html +='<tr>'
+                                            html +='<td>keyword</td>'
+                                            html +='<td>searches</td>'
+                                        html +='</tr>'
+                                    html +='</thead>'
+                                    html +='<tbody>'
+                                       for(k=0; k < json.top_searches.table_searches.length; k++){
+                                           html +='<tr>'
+                                           html +='<td>'+ json.top_searches.table_searches[k].text +'</td>'
+                                           html +='<td>'+ json.top_searches.table_searches[k].count +'</td>'
+                                           html +='</tr>'
+                                       }
+                                    html +='</tbody>'
+                                html +='</table>'
+                            html +='</div>'
+                        html +='</div>'
+                    html +='</div>'
+
+        $('#table_anal > div.row').after(html);
+
+            var ctx1 = document.getElementById("myChart").getContext('2d');
+            var myChart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: json.statistic,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx2 = document.getElementById("myChart2").getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: json.top_searches,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+}
+
 
 $('body').on('click', '#button_cancel', function() {
     var redirect = $('#' + $(this).attr('redirect_field_id'));
@@ -676,38 +646,6 @@ Sortable.create(extensions, {
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script>
-    var ctx1 = document.getElementById("myChart").getContext('2d');
-    var myChart1 = new Chart(ctx1, {
-        type: 'bar',
-        data: {{statistic|json_encode()}},
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-    });
-
-    var ctx2 = document.getElementById("myChart2").getContext('2d');
-    var myChart2 = new Chart(ctx2, {
-        type: 'bar',
-        data: {{top_searches|json_encode()}},
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-    });
-
-</script>
 
 <script>
 function check(data){

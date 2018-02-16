@@ -259,6 +259,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
                         'id' => $extension,
                         'enabled' => (isset($setting['extension'][$extension]['enabled'])) ? $setting['extension'][$extension]['enabled'] : true,
                         'sort_order' => (isset($setting['extension'][$extension]['sort_order'])) ? $setting['extension'][$extension]['sort_order'] : 10000,
+                        'max_count' => (isset($setting['extension'][$extension]['max_count'])) ? $setting['extension'][$extension]['max_count'] : 7,
                     );
 
                     foreach ($queries['query'] as $key => $query) {

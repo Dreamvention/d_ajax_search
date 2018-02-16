@@ -25,7 +25,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         // echo "<pre>"; print_r($settings); echo "</pre>";
         $suggestion='';
         $redirect=0;
-        if(isset($settings['suggestion']) && $settings['suggestion']){
+
+        // if(isset($settings['suggestion']) && $settings['suggestion']){
 
             $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
                 $query=$this->db->query($sql_redirect);
@@ -35,7 +36,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $redirect=1;
                 }
 
-            if($research != 1 && $redirect!=1){
+            if($research != 1 && $redirect!=1 && $settings['autocomplete']){
                 $autocomplite_flag=0;
                 $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
                 $query=$this->db->query($sql_autocomplite);
@@ -51,7 +52,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 }
             }
 
-            if($research){
+            if($research && $settings['suggestion']){
                 $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
                 $query=$this->db->query($sql_smart);
                 $gml=0;
@@ -79,7 +80,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $text=$new_text;
                 }
              }
-         }
+         // }
 
 
         foreach ($search_filter as $search => $filter) {
@@ -93,7 +94,6 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             }
 
             $sql .= " FROM " . DB_PREFIX . $filter['table']['full_name'] . " " . $filter['table']['name'] . " ";
-
             if (!empty($filter['tables'])) {
                 foreach ($settings['extension'][$search]['query'] as $lul => $value) {
                     if ($value == 1) {
@@ -126,8 +126,10 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 $sql .= " " . implode(" OR ", $implode[$search]) . "";
             }
 
+            $settings['extension'][$search]['max_count'] = isset($settings['extension'][$search]['max_count']) && !empty($settings['extension'][$search]['max_count']) ? $settings['extension'][$search]['max_count'] : 100;
+
             if (isset($settings['max_results']) && $settings['max_results'] != 0) {
-                $sql .= " ORDER BY " . $filter['table']['name'] . '.' . $filter['table']['key'] . " DESC LIMIT " . $settings['max_results'] . "";
+                $sql .= " ORDER BY " . $filter['table']['name'] . '.' . $filter['table']['key'] . " DESC LIMIT " . $settings['extension'][$search]['max_count'] . "";
             }
 
             if ($search == 'blog') {
