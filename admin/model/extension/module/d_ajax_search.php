@@ -23,6 +23,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
             $products[] = $row;
         }
         $data['table_searches']=$products;
+
         foreach ($products as $products_key => $value) {
             $data['labels'][] = $value['text'];
             $data['datasets']['0']['data'][] = (int)$value['count'];
@@ -63,15 +64,49 @@ class ModelExtensionModuleDAjaxSearch extends Model
     }
 
     public function getStatistic($day=1){
+
+        $url_token='';
+        if (isset($this->session->data['token'])) {
+            $url_token .= 'token=' . $this->session->data['token'];
+        }
+
+        if (isset($this->session->data['user_token'])) {
+            $url_token .= 'user_token=' . $this->session->data['user_token'];
+        }
+
+
         $sql="SELECT * FROM `" . DB_PREFIX . "as_statistic` WHERE date_modify >= now() - INTERVAL ". $day ." DAY ORDER BY count DESC LIMIT 10";
         $query=$this->db->query($sql);
         $products=array();
         foreach ($query->rows as $key => $row) {
             $products[] = $row;
         }
-        $data['table_statistic']=$products;
+        $results=array();
+        $data['table_statistic']=array();
+
+        foreach ($query->rows as $key => $value) {
+
+            if ($value['type'] == 'product') {
+                $data['table_statistic'][$key]['href']=$this->url->link('catalog/product/edit',  $url_token . '&product_id=' . $value['type_id'], true);
+
+            } elseif ($value['type'] == 'category') {
+                $data['table_statistic'][$key]['href']=$this->url->link('catalog/category/edit',  $url_token . '&category_id=' . $value['type_id'], true);
+
+            } elseif ($value['type'] == 'manufacturer') {
+                $data['table_statistic'][$key]['href']=$this->url->link('catalog/manufacturer/edit',  $url_token . '&manufacturer_id=' . $value['type_id'], true);
+
+            } elseif ($value['type'] == 'information') {
+                $data['table_statistic'][$key]['href']=$this->url->link('catalog/information/edit',  $url_token . '&information_id=' . $value['type_id'], true);
+            }
+            $data['table_statistic'][$key]['select']=$value['select'];
+            $data['table_statistic'][$key]['count']=$value['count'];
+        
+}
+
+    
+
         foreach ($products as $products_key => $value) {
-            $data['labels'][] = $value['select'];
+            $data['labels'][] = $products_key+1;
             $data['datasets']['0']['data'][] = (int)$value['count'];
             if(!empty($data['labels']) && count($data['labels']) == 10){
                 break;
@@ -240,6 +275,8 @@ class ModelExtensionModuleDAjaxSearch extends Model
         `statistic_id` int(11) NOT NULL AUTO_INCREMENT,
         `search` char(128) NOT NULL,
         `select` char(128) NOT NULL,
+        `type` char(128) NOT NULL,
+        `type_id` char(128) NOT NULL,
         `count` int(11) NOT NULL,
         `date_modify` datetime NOT NULL,
          PRIMARY KEY (`statistic_id`),

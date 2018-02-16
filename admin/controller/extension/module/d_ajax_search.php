@@ -209,8 +209,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $extensions = $this->model_extension_module_d_ajax_search->getExtensions();
 
 
-        $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic();
-        $data['top_searches'] = $this->model_extension_module_d_ajax_search->getTopsearches();
+//        $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic();
+//        $data['top_searches'] = $this->model_extension_module_d_ajax_search->getTopsearches();
 
         $data['hour'] = $this->url->link($this->route.'/updateCharts', $url_token . '&time=1', true);
         $data['week'] = $this->url->link($this->route.'/updateCharts', $url_token . '&time=7', true);
@@ -280,6 +280,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
     public function updateCharts()
     {
+        
         if (isset($this->request->get['time'])) {
             $time = $this->request->get['time'];
         } else {

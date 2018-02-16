@@ -139,7 +139,7 @@
                                 <thead>
                                     <tr class="fields">
                                         <td class="field">
-                                            <h4 class="m-b-none"><span class="fa fa-sort-amount-asc"></span> Priority search  <span class="info-window-item" data-href="https://dreamvention.ee/setup-live-ajax-search-blocks"><i class="fa fa-question info-load"></i></span></h4>
+                                            <h4 class="m-b-none"><span class="fa fa-sort-amount-asc"></span> Priority search  <span class="info-window-item" data-href="https://dreamvention.ee/instructions-quick-search"><i class="fa fa-question info-load"></i></span></h4>
                                         </td>
                                     </tr>
                                 </thead>
@@ -442,7 +442,6 @@ $('.info-window .info-window-close').on('click', function() {
 
 <script>
     $(document).on('click', '.pagination li a', function(ev) {
-        console.log(ev.currentTarget.href);
         $('#table_history').load(ev.currentTarget.href+' #table_history > div')
         // $(ev.currentTarget.href).
         return false;
@@ -531,7 +530,7 @@ $('body').on('click', '#button_save', function() {
             $(redirect).popover('hide', function() {
                 $('.popover').remove();
             });
-            console.log(json);
+
             setTimeout(function() {
                 if (json['error'] != 'error') {
                     $(redirect).children('.input-field').val(json['value']);
@@ -557,7 +556,7 @@ function drawAnalTab(json){
         document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
         $('.right-table').remove();
         $('.left-table').remove();
-
+        console.log(json.statistic)
         if(json.statistic){
             var i,k;
                     html='<div class="col-sm-6 right-table">'
@@ -566,6 +565,7 @@ function drawAnalTab(json){
                                 html +='<table class="table table-bordered table-hover">'
                                     html +='<thead>'
                                         html +='<tr>'
+                                         html +='<td>#</td>'
                                             html +='<td>results</td>'
                                             html +='<td>Views</td>'
                                         html +='</tr>'
@@ -573,7 +573,8 @@ function drawAnalTab(json){
                                     html +='<tbody>'
                                        for(i=0; i < json.statistic.table_statistic.length; i++){
                                            html +='<tr>'
-                                           html +='<td>'+ json.statistic.table_statistic[i].select +'</td>'
+                                           html +='<td>'+ (i+1) +'</td>'
+                                           html +='<td><a href="'+json.statistic.table_statistic[i].href +'">'+ json.statistic.table_statistic[i].select +'</a></td>'
                                            html +='<td>'+ json.statistic.table_statistic[i].count +'</td>'
                                            html +='</tr>'
                                        }
@@ -606,7 +607,6 @@ function drawAnalTab(json){
                     html +='</div>'
         $('#table_anal > div.row').after(html);
         }
-
             var ctx1 = document.getElementById("myChart").getContext('2d');
             var myChart1 = new Chart(ctx1, {
             type: 'bar',
