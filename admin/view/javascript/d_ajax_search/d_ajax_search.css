@@ -24,8 +24,12 @@
     left: 45%;
 }
 .first_chart{
-    width: 100%;
-    left: 37%;
+    margin: 0 auto;
+    width: 430px;
+    padding-bottom: 10px;
+}
+.filter_inst{
+    display: inline-block;
 }
 .more-results{
     margin-top: 6px!important;

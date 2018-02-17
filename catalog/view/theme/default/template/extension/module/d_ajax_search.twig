@@ -47,7 +47,7 @@ function text_complite( ev, keywords ){
         beforeSend: function() {},
         success: function(results) {
             $('#search-autocomplite').text('');
-            $('#d_ajax_search_results').remove();
+            // $('#d_ajax_search_results').remove();
             $('#help').hide();
             var result = $.map(results, function(value, index) {
                 return [value];
@@ -171,9 +171,9 @@ function doquick_search( ev, keywords ) {
                     }
 
                 }
-
-                html += '</div>{%if not mobile and setting['all_result_status'] %}<a class="all_results">All results <i class="fa fa-caret-down"></i></a>{%endif%}</div>';
-
+                if(addclass == 'hidden'){
+                    html += '</div>{%if not mobile and setting['all_result_status'] %}<a class="all_results">All results <i class="fa fa-caret-down"></i></a>{%endif%}</div>';
+                }
                 if ($('#d_ajax_search_results').length > 0) {
                     $('#d_ajax_search_results').remove();
                 }

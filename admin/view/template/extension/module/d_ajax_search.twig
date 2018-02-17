@@ -232,7 +232,7 @@
                 </div>
             </div>
             <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="{{ help_max_symbols }}">number of displayed results</span></label>
+                        <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="{{ help_max_symbols }}">Number of displayed results</span></label>
                         <div class="col-sm-2">
                             <input name="{{ id }}_setting[all_result_count]" value="{{ setting['all_result_count'] }}" class="form-control">
                         </div>
@@ -240,7 +240,7 @@
         </div>
         <div class="tab-pane" id="tab_anal">
             <div class="tab-body">
-            <div class="col-sm-6 first_chart">
+            <div class="first_chart">
                 <ul class="nav nav-pills">
                     <li class="active" >
                         <a id="first_load" class='chose-hour' href="{{ hour }}"><span>24 hours</span></a>
@@ -276,12 +276,12 @@
                     <div class="row">
                         <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-max-results">Filter keyword</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
                         </div>
                         <div class="col-sm-2">
                             <button type="button" id="button-filter" class="btn btn-primary "><i class="fa fa-filter"></i>Filter</button>
-                            <span class="info-window-item" data-href="https://dreamvention.ee/live-ajax-search-history-smart-search"><i class="fa fa-question info-load"></i></span>
+                            <div class="filter_inst info-window-item" data-href="https://dreamvention.ee/live-ajax-search-history-smart-search"><i class="fa fa-question info-load"></i></div>
                         </div>
                     </div>
                     </div>
@@ -562,7 +562,7 @@ function drawAnalTab(json){
         document.getElementById("chartContainer2").innerHTML='<canvas id="myChart2" width="200" height="100"></canvas>';
         $('.right-table').remove();
         $('.left-table').remove();
-        if(json.statistic){
+        if(json.statistic.table_statistic.length > 0){
             var i,k;
                     html='<div class="col-sm-6 right-table">'
                         html +='<div id="table_viewed">'
@@ -707,7 +707,7 @@ function check(data){
     var classList = $('.'+data+'_settings').attr('class').split(/\s+/);
     $.each(classList, function(index, item) {
         if (item === 'hidden_settings' || item === 'hidden') {
-            $('.'+data+'_settings').slideDown('slow').removeClass('hidden_settings');
+            $('.'+data+'_settings').slideDown(500).removeClass('hidden_settings');
             $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").removeClass('fa-caret-down');
             $("label[for='d_ajax_searchextension_"+data+"_enabled'] > i").addClass('fa-caret-up');
         }else{
