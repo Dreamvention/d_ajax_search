@@ -30,6 +30,7 @@
 }
 .filter_inst{
     display: inline-block;
+    padding-bottom: 5px;
 }
 .more-results{
     margin-top: 6px!important;
