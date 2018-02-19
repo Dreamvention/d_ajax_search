@@ -35,19 +35,9 @@ $_['text_warning_new_update']       = 'Wow! There is a new version available for
 $_['text_error_update']             = 'Sorry! Something went wrong. If this repeats, contact the support please.';
 $_['text_error_failed']             = 'Oops! We could not connect to the server. Please try again later.';
 $_['text_instructions_full']        = '
-<div class="col-sm-6">
-<h2>How to use Ajax Search?</h2>
-<p>Turn on module.</p>
-<p>Set the sizes of the drop down in pixels or as a percentage.</p>
-<h3>Set search results</h3>
-<p>You can mark "Max Simbols" and set the max quantity symbols in the title and mark "Max Numbers" and set the max number items that user could see in the result list ( if 0 - use default value(5) ).</p>
-<img src="view/image/d_ajax_search/d_ajax_search_result_dropdown.png" class="img-responsive"/>
-<p>Once the customer enters the search field, the system will autocomplete his entry and offer a number of products with their name, image and price. Also, you could set this additional options: Search only first symbols in the title, Priority search, Display product price or special or both of them with/without tax. Search can return the products, categories, manufactures</p>
-</div>
-<div class="col-sm-6 .instruction">
+<div class="col-sm-12 instruction">
 
-</div>
-';
+</div>';
 // Entry
 $_['help_d_ajax_search_pack']						= '<div class="alert alert-info text-center" style="cursor: pointer" onclick="window.open(\'https://dreamvention.ee/live-ajax-search\', \'_blank\')">Unluck all of the features with <strong>Live Ajax Search Pro</strong></div>';
 

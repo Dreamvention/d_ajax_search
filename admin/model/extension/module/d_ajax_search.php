@@ -98,12 +98,13 @@ class ModelExtensionModuleDAjaxSearch extends Model
             } elseif ($value['type'] == 'information') {
                 $data['table_statistic'][$key]['href']=$this->url->link('catalog/information/edit',  $url_token . '&information_id=' . $value['type_id'], true);
             }
+            $data['table_statistic'][$key]['type']=$value['type'];
             $data['table_statistic'][$key]['select']=$value['select'];
             $data['table_statistic'][$key]['count']=$value['count'];
-        
+
 }
 
-    
+
 
         foreach ($products as $products_key => $value) {
             $data['labels'][] = $products_key+1;

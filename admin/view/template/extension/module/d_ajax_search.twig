@@ -279,7 +279,7 @@
                         <div class="col-sm-6">
                             <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <button type="button" id="button-filter" class="btn btn-primary "><i class="fa fa-filter"></i>Filter</button>
                             <div class="filter_inst info-window-item" data-href="https://dreamvention.ee/live-ajax-search-history-smart-search"><i class="fa fa-question info-load"></i></div>
                         </div>
@@ -372,20 +372,20 @@ var info_window = {
     'item' : new Array(),
     'current_url' : ''
 }
-    
+
 $.each($('.info-window-item'), function(key, value) {
     var url = $(this).attr('data-href');
-        
+
     if (url) {
         $.getJSON(url + '?format=json&callback=?', function(data) {
             info_window.item[url] = data['description'];
         });
     }
 });
-    
+
 $('.info-window-item').on('click', function() {
     var url = $(this).attr('data-href');
-    
+
     if (url == info_window.current_url) {
         info_window.current_url = '';
         $('.info-window').removeClass('resized');
@@ -397,7 +397,7 @@ $('.info-window-item').on('click', function() {
         $('.info-window').addClass('resized');
     }
 });
-    
+
 $('.info-window .info-window-close').on('click', function() {
     info_window.current_url = '';
     $('.info-window').removeClass('resized');
@@ -572,6 +572,7 @@ function drawAnalTab(json){
                                         html +='<tr>'
                                          html +='<td>#</td>'
                                             html +='<td>results</td>'
+                                            html += '<td>type</td>'
                                             html +='<td>Views</td>'
                                         html +='</tr>'
                                     html +='</thead>'
@@ -580,6 +581,7 @@ function drawAnalTab(json){
                                            html +='<tr>'
                                            html +='<td>'+ (i+1) +'</td>'
                                            html +='<td><a href="'+json.statistic.table_statistic[i].href +'">'+ json.statistic.table_statistic[i].select +'</a></td>'
+                                           html +='<td>'+ json.statistic.table_statistic[i].type +'</td>'
                                            html +='<td>'+ json.statistic.table_statistic[i].count +'</td>'
                                            html +='</tr>'
                                        }
