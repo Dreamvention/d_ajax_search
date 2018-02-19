@@ -404,11 +404,14 @@ $('.info-window .info-window-close').on('click', function() {
     $('.panel-resizable').removeClass('resized');
 });
 
-var url_inst = 'https://dreamvention.ee/instructions-quick-search';
+$(function(){
+    var url_inst = 'https://dreamvention.ee/instructions-quick-search';
 
-$.getJSON(url_inst + '?format=json&callback=?', function(data) {
-    $('.instruction').html(data['description']);
-});
+    $.getJSON(url_inst + '?format=json&callback=?', function(data) {
+        $('.instruction').html(data['description']);
+    });
+})
+
 
 </script>
 
@@ -526,7 +529,6 @@ $('body').on('click', '#button_save', function() {
     var value = $(redirect).children('.input-field').val();
     $.ajax({
         url: '{{redirect}}',
-        // url: 'index.php?route=extension/module/d_quickcheckout/getZone&user_token={{ token }}&country_id=' + this.value,
         type: 'post',
         data: 'query_id=' + query_redirect_id + '&value=' + (value),
         dataType: 'json',
