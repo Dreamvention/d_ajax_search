@@ -89,7 +89,8 @@ class ModelExtensionModuleDAjaxSearch extends Model
             if ($value['type'] == 'product') {
                 $data['table_statistic'][$key]['href']=$this->url->link('catalog/product/edit',  $url_token . '&product_id=' . $value['type_id'], true);
 
-            } elseif ($value['type'] == 'category') {
+            } elseif ($value['type'] == 'path') {
+                $value['type'] == 'category';
                 $data['table_statistic'][$key]['href']=$this->url->link('catalog/category/edit',  $url_token . '&category_id=' . $value['type_id'], true);
 
             } elseif ($value['type'] == 'manufacturer') {
@@ -199,7 +200,8 @@ class ModelExtensionModuleDAjaxSearch extends Model
                 $info = $this->model_catalog_product->getProduct($value['type_id']);
                 $results[$key]['href']=$this->url->link('catalog/product/edit',  $url_token . '&product_id=' . $value['type_id'], true);
 
-            } elseif ($value['type'] == 'category') {
+            } elseif ($value['type'] == 'path') {
+                $value['type'] == 'category';
                 $info = $this->model_catalog_category->getCategory($value['type_id']);
                 $results[$key]['href']=$this->url->link('catalog/category/edit',  $url_token . '&category_id=' . $value['type_id'], true);
 
@@ -217,7 +219,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
             $results[$key]['keyword']=$value['text'];
             $results[$key]['count']=$value['count'];
             $results[$key]['redirect']=$value['redirect'];
-            $results[$key]['image']= isset($info['image']) ? $this->model_tool_image->resize($info['image'], 60, 60) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', 60, 60);
+            $results[$key]['image']= isset($info['image']) && !empty($info['image']) ? $this->model_tool_image->resize($info['image'], 60, 60) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', 60, 60);
         }
 }
         return $results;
