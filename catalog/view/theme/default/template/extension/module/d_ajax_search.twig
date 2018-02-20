@@ -375,7 +375,6 @@ $("{{ setting['class'] }}").attr('maxlength','64');
                 }
             }
 
-
             if( ev.keyCode == 38 ) {
                 updown = ( updown > -1 ) ? --updown : updown;
                 if({{setting['block_result']}}){
@@ -403,6 +402,9 @@ $("{{ setting['class'] }}").attr('maxlength','64');
             if(updown >= length && xxx != 5  && typeof(check[block+1]) != 'undefined'){
                 block++;
                 updown=0;
+            }
+            if(ev.keyCode == 13){
+                window.location.replace($('.result-link.selected').attr('href'));
             }
         }
 

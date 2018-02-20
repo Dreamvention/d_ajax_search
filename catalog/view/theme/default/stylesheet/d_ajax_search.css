@@ -48,7 +48,7 @@ h4{
     display: block;
     padding-top: 7px;
     clear: both;
-    padding-bottom: 20px;
+    padding-bottom: 7px;
 }
 #d_ajax_search_results_body > .result_block > .result-link > div > img, #d_ajax_search_results_body > .result-link > div > img {
     border: 1px solid rgb(238, 238, 238);
