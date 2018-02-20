@@ -90,7 +90,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
                 $data['table_statistic'][$key]['href']=$this->url->link('catalog/product/edit',  $url_token . '&product_id=' . $value['type_id'], true);
 
             } elseif ($value['type'] == 'path') {
-                $value['type'] == 'category';
+                $value['type'] = 'category';
                 $data['table_statistic'][$key]['href']=$this->url->link('catalog/category/edit',  $url_token . '&category_id=' . $value['type_id'], true);
 
             } elseif ($value['type'] == 'manufacturer') {

@@ -89,21 +89,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-width"><span data-toggle="tooltip" title="{{ help_width }}">{{ entry_width }}</span></label>
-                        <div class="col-sm-10">
-                            <input name="{{ id }}_setting[width]" value="{{ setting['width'] }}" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="{{ help_max_symbols }}">{{ entry_max_symbols }}</span></label>
                         <div class="col-sm-10">
                             <input name="{{ id }}_setting[max_symbols]" value="{{ setting['max_symbols'] }}" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-max-results"><span data-toggle="tooltip" title="{{ help_max_results }}">{{ entry_max_results }}</span></label>
-                        <div class="col-sm-10">
-                            <input name="{{ id }}_setting[max_results]" value="{{ setting['max_results'] }}" class="form-control">
                         </div>
                     </div>
                     {% if extension_plus %}
@@ -201,6 +189,18 @@
                 </div>
             </div>
             <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-width"><span data-toggle="tooltip" title="{{ help_width }}">{{ entry_width }}</span></label>
+                        <div class="col-sm-10">
+                            <input name="{{ id }}_setting[width]" value="{{ setting['width'] }}" class="form-control">
+                        </div>
+                    </div>
+            <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-max-results"><span data-toggle="tooltip" title="{{ help_max_results }}">{{ entry_max_results }}</span></label>
+                        <div class="col-sm-10">
+                            <input name="{{ id }}_setting[max_results]" value="{{ setting['max_results'] }}" class="form-control">
+                        </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-block_result">Display results in block</label>
                 <div class="col-sm-10">
                     <input type="hidden" name="{{ id }}_setting[block_result]" value="0" />
@@ -232,7 +232,7 @@
                 </div>
             </div>
             <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="{{ help_max_symbols }}">Number of displayed results</span></label>
+                        <label class="col-sm-2 control-label" for="input-max-symbols"><span data-toggle="tooltip" title="for more results">Number of displayed results</span></label>
                         <div class="col-sm-2">
                             <input name="{{ id }}_setting[all_result_count]" value="{{ setting['all_result_count'] }}" class="form-control">
                         </div>
