@@ -292,10 +292,11 @@ function clearInput (){
 $(document).ready(function(){
     if({{mobile}}){
         $("#search").click(function(){
+            $('.modal_search').click();
              $('#searchModal').on("shown.bs.modal", function() {
                 $('#search_input').focus();
             });
-            $('.modal_search').click();
+
 
         });
     }else{
