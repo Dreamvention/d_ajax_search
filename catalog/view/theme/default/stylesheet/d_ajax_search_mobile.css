@@ -220,6 +220,7 @@ input:focus {
     display: table;
     margin-right: 20px!important;
     padding-bottom: 12px;
+    padding-right: 33px;
 }
 #d_ajax_search_results .row .col {
     display: table-cell;
