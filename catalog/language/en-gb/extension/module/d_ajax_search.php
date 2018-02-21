@@ -6,6 +6,7 @@ $_['product'] = 'product';
 $_['category'] = 'category';
 $_['manufacturer'] = 'manufacturer';
 $_['information'] = 'information';
+$_['blog'] = 'blog';
 //find by
 $_['name'] = 'name';
 $_['description'] = 'description';
