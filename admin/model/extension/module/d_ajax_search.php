@@ -226,6 +226,11 @@ class ModelExtensionModuleDAjaxSearch extends Model
     }
 
     public function getCustomerHistory($data=array()){
+        $this->load->model('catalog/product');
+        $this->load->model('catalog/category');
+        $this->load->model('catalog/manufacturer');
+        $this->load->model('catalog/information');
+        $this->load->model('tool/image');
         $sql= "SELECT * FROM " . DB_PREFIX . "as_customer_query WHERE customer_id = '" . (int)$data['customer_id'] . "'";
 
         if (isset($data['start']) || isset($data['limit'])) {
