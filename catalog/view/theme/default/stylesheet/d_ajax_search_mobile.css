@@ -207,9 +207,9 @@ input:focus {
     align-self: center;
 }
 .name {
-    margin-left: 20px;
-    width: 55.333333%!important;
+    margin-left: 18px;
 }
+/*  */
 #d_ajax_search_results .row {
     font-size: 13px;
     color: rgb(0, 0, 0);

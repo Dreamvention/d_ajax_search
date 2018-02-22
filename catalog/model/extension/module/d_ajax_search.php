@@ -183,7 +183,12 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     if ($settings['price'] == 0) {
                         $result[$search][$key]['price'] = 0;
                     } else {
-                        $result[$search][$key]['price'] = isset($row['price']) ? number_format($row['price'], 2, '.', '') : '';
+                        if(isset($row['price'])){
+                            $result[$search][$key]['price'] = $this->currency->format($row['price'] , $this->session->data['currency']);
+                        }else{
+                            $result[$search][$key]['price']='';
+                        }
+
                     }
                     if ($search == 'product') {
                         $info = $this->model_catalog_product->getProduct($row[$search . '_id']);

@@ -146,7 +146,7 @@ function doquick_search( ev, keywords ) {
                     }else{
                         name=result[i].name;
                     }
-                    html += '<div class="col name {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-7 va-center text-left"><span class="forkeydon">' + name + '</span>';
+                    html += '<div class="col name {%if mobile %} pull-left name {%endif%} col-sm-7 col-xs-5 va-center text-left"><span class="forkeydon">' + name + '</span>';
                     html +='{%if setting['where_search'] %} <br><span class="where-find">in '+result[i].where_find+' '+result[i].find_by+'</span>{%endif%}';
                     html += '</div>';
 
@@ -154,7 +154,8 @@ function doquick_search( ev, keywords ) {
                         html += '<div class="col col-sm-3 col-xs-3 va-center text-center"><span class="old-price">' + result[i].price + '</span><br>';
                         html += '<span class="special">' + result[i].special + '</span></div>';
                     } else {
-                        if (result[i].price > 0){
+
+                        if (result[i].price){
                             html += '<div class="col price col-sm-3 va-center {%if mobile %} pull-right {%endif%} text-center">{%if mobile %} <br> {%endif%}<span class="">' + result[i].price + '</span></div>';
                         } else {
                             html += '<div class="col col-sm-3 va-center text-center"></div>';
@@ -179,7 +180,6 @@ function doquick_search( ev, keywords ) {
                 }
                 if({{mobile}}){
                     $('.modal-body').append(html);
-                // $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
             }else{
                 $('#search').after(html);
                 $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
