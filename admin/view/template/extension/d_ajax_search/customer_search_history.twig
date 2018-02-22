@@ -1,0 +1,41 @@
+<div class="tab-pane" id="tab-customer-search-history">
+            <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td>Keyword</td>
+                        <td>Selection</td>
+                        <td>Views</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if histories %}
+                        {% for history in histories %}
+                        <tr>
+                            <td class="text-center hidden">
+                                <input type="text" name="settings[history][query_results_id]" value="{{history['query_id']}}" class="form-control">
+                            </td>
+                            <td class="text-center">
+                                <div type="text" name="settings[history][text]" value="{{history['keyword']}}">{{history['keyword']}}</div>
+                            </td>
+                            <td class="text-left">
+                                <a href="{{history['href']}}"><img src="{{history['image']}}" alt="">{{history['name']}}</a>
+                            </td>
+                            <td class="text-center">
+                                <div type="text" name="settings[history][hits]" value="{{history['count']}}" >{{history['count']}}</div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr><td class="text-center" colspan="8">No results!</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row m-t-lg m-b-lg">
+            <div class="col-sm-6 text-left">{{ pagination }}</div>
+            <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+    </div>
+</div>

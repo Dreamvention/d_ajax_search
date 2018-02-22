@@ -153,7 +153,6 @@ class ModelExtensionModuleDAjaxSearch extends Model
     }
 
     public function getHistory($data=array()){
-
         $this->load->model('catalog/product');
         $this->load->model('catalog/category');
         $this->load->model('catalog/manufacturer');
@@ -219,6 +218,52 @@ class ModelExtensionModuleDAjaxSearch extends Model
             $results[$key]['keyword']=$value['text'];
             $results[$key]['count']=$value['count'];
             $results[$key]['redirect']=$value['redirect'];
+            $results[$key]['image']= isset($info['image']) && !empty($info['image']) ? $this->model_tool_image->resize($info['image'], 60, 60) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', 60, 60);
+        }
+}
+        return $results;
+
+    }
+
+    public function getCustomerHistory($data=array()){
+        $sql= "SELECT * FROM " . DB_PREFIX . "as_customer_query WHERE customer_id = '" . (int)$data['customer_id'] . "'";
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+        }
+
+        $customer_history = $this->db->query($sql);
+
+        foreach ($customer_history->rows as $key => $value) {
+            if ($value['type'] == 'product') {
+                $info = $this->model_catalog_product->getProduct($value['type_id']);
+                $results[$key]['href']=$this->url->link('catalog/product/edit',  $data['url_token'] . '&product_id=' . $value['type_id'], true);
+
+            } elseif ($value['type'] == 'path') {
+                $value['type'] == 'category';
+                $info = $this->model_catalog_category->getCategory($value['type_id']);
+                $results[$key]['href']=$this->url->link('catalog/category/edit',  $data['url_token'] . '&category_id=' . $value['type_id'], true);
+
+            } elseif ($value['type'] == 'manufacturer') {
+                $info = $this->model_catalog_manufacturer->getManufacturer($value['type_id']);
+                $results[$key]['href']=$this->url->link('catalog/manufacturer/edit',  $data['url_token'] . '&manufacturer_id=' . $value['type_id'], true);
+
+            } elseif ($value['type'] == 'information') {
+                $info = $this->model_catalog_information->getInformation($value['type_id']);
+                $results[$key]['href']=$this->url->link('catalog/information/edit',  $data['url_token'] . '&information_id=' . $value['type_id'], true);
+            }
+        if(isset($info)){
+            $results[$key]['name']=$info['name'];
+            $results[$key]['keyword']=$value['text'];
+            $results[$key]['count']=$value['count'];
             $results[$key]['image']= isset($info['image']) && !empty($info['image']) ? $this->model_tool_image->resize($info['image'], 60, 60) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', 60, 60);
         }
 }

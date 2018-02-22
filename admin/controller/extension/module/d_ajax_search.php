@@ -284,7 +284,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
     public function updateCharts()
     {
-        
+
         if (isset($this->request->get['time'])) {
             $time = $this->request->get['time'];
         } else {
@@ -320,17 +320,33 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'access', 'extension/'.$this->codename);
         $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'modify', 'extension/'.$this->codename);
 
-        $this->load->model('extension/d_opencart_patch/modification');
-        $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
-        $this->model_extension_d_opencart_patch_modification->refreshCache();
+        if ($this->d_opencart_patch) {
+            $this->load->model('extension/d_opencart_patch/modification');
+            $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
+            $this->model_extension_d_opencart_patch_modification->refreshCache();
+        }
+
         $this->model_extension_module_d_ajax_search->createDatabase();
+
+        if ($this->d_event_manager) {
+            $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'admin/view/customer/customer_form/after', 'extension/module/d_ajax_search/view_customer_customer_form_after');
+        }
     }
 
     public function uninstall()
     {
-        $this->load->model('extension/d_opencart_patch/modification');
-        $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 0);
-        $this->model_extension_d_opencart_patch_modification->refreshCache();
+        if ($this->d_opencart_patch) {
+            $this->load->model('extension/d_opencart_patch/modification');
+            $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 0);
+            $this->model_extension_d_opencart_patch_modification->refreshCache();
+        }
+
+        if (file_exists(DIR_APPLICATION . 'model/extension/module/d_event_manager.php')) {
+            $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
+        }
+
         $this->model_extension_module_d_ajax_search->dropDatabase();
     }
 
@@ -349,5 +365,57 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         } else {
             return false;
         }
+    }
+
+    public function view_customer_customer_form_after(&$route, &$data, &$output){
+        $url_token='';
+
+        if (isset($this->session->data['token'])) {
+            $url_token .= 'token=' . $this->session->data['token'];
+        }
+
+        if (isset($this->session->data['user_token'])) {
+            $url_token .= 'user_token=' . $this->session->data['user_token'];
+        }
+
+        if (isset($this->request->get['page'])) {
+            $page = $this->request->get['page'];
+        } else {
+            $page = 1;
+        }
+
+        $html_dom = new d_simple_html_dom();
+        $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+
+        $html_dom->find('#form-customer .nav-tabs', 0)->innertext .= '<li><a href="#tab-customer-search-history" data-toggle="tab">Search History</a></li>';
+
+
+        $data=array();
+
+
+        $filter_data = array(
+            'customer_id' => isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : '',
+            'url_token' => $url_token,
+            'start' => ($page - 1) * 20,
+            'limit' => 20
+        );
+
+        $allHistory = $this->model_extension_module_d_ajax_search->allHistory();
+        $data['histories']    = $this->model_extension_module_d_ajax_search->getCustomerHistory($filter_data);
+
+        $pagination = new Pagination();
+        $pagination->total = count($allHistory);
+        $pagination->page = $page;
+        $pagination->limit = 10;
+        $pagination->url = $this->url->link($this->route, $url_token . '&page={page}', true);
+
+        $data['pagination'] = $pagination->render();
+
+       $data['results'] = sprintf($this->language->get('text_pagination'), (count($allHistory)) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > (count($allHistory) - 10)) ? count($allHistory) : ((($page - 1) * 10) + 10), count($allHistory), ceil(count($allHistory) / 10));
+
+        $html_dom->find('#form-customer .tab-content', 0)->innertext .= $this->model_extension_d_opencart_patch_load->view('extension/d_ajax_search/customer_search_history', $data);
+
+
+        $output = (string)$html_dom;
     }
 }
