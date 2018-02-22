@@ -409,7 +409,10 @@ $("{{ setting['class'] }}").attr('maxlength','64');
                 updown=0;
             }
             if(ev.keyCode == 13){
-                window.location.replace($('.result-link.selected').attr('href'));
+                if(typeof $('.result-link.selected').attr('href') != 'undefined'){
+                    window.location.replace($('.result-link.selected').attr('href'));
+                }
+
             }
         }
 
