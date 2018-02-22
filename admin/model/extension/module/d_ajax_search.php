@@ -241,7 +241,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
         }
 
         $customer_history = $this->db->query($sql);
-
+        $results=array();
         foreach ($customer_history->rows as $key => $value) {
             if ($value['type'] == 'product') {
                 $info = $this->model_catalog_product->getProduct($value['type_id']);
