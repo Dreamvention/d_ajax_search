@@ -131,6 +131,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
          $this->document->setTitle($this->language->get('heading_title_main'));
         if (!file_exists(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->id.'_pro.json')) {
             $data['info'] = $this->language->get('help_d_ajax_search_pack');
+            $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
         }
         $data['heading_title'] = $this->language->get('heading_title_main');
