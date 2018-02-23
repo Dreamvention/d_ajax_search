@@ -40,7 +40,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
             }
         }
     }
-
+    
     public function write_to_base(){
         if(isset($this->request->post)){
             $this->model_extension_module_d_ajax_search->save_statistic($this->request->post);
