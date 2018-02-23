@@ -42,22 +42,26 @@ function text_complite( ev, keywords ){
     }
 
      $.ajax({
-        url: $('base').attr('href') + 'index.php?route=extension/module/d_ajax_search/searchresults&keyword=' + keywords,
+        url: $('base').attr('href') + 'index.php?route=extension/module/d_ajax_search/getAutocomplite&keyword=' + keywords,
         dataType: 'json',
         beforeSend: function() {},
-        success: function(results) {
+        success: function(autocomplite) {
             $('#search-autocomplite').text('');
-            // $('#d_ajax_search_results').remove();
             $('#help').hide();
-            var result = $.map(results, function(value, index) {
-                return [value];
-            });
-
-            if ( typeof result != 'undefined' && result.length>0) {
+            if ( typeof autocomplite != 'undefined' && autocomplite != null) {
                 $('#search').find("{{ setting['class'] }}").first().val().toLowerCase();
-                if(result[0].autocomplite != ''){
-                    $('#search-autocomplite').text(result[0].autocomplite.toLowerCase());
+                if(autocomplite != ''){
+                    $('#search-autocomplite').text(autocomplite.toLowerCase());
                 }
+
+                $("{{ setting['class'] }}").keydown(function (event) {
+                    if (event.keyCode == 39) {
+                        $("{{ setting['class'] }}").val(autocomplite);
+                        $('#search-autocomplite').text('');
+                    } else if (event.keyCode == 08) {
+                        $('#search-autocomplite').text('');
+                    }
+                });
 
             }
         },
@@ -218,15 +222,7 @@ function doquick_search( ev, keywords ) {
                 $('#d_ajax_search_results_body >.sort-item').tsort({attr:'data-sort-order'},{defaults:{order:'desc'}});
             }
 
-                $("{{ setting['class'] }}").keydown(function(event) {
-                    if( event.keyCode == 39 ) {
-                        console.log(event.keyCode);
-                        $("{{ setting['class'] }}").val(result[0].autocomplite);
-                        $('#search-autocomplite').text('');
-                    }else if(event.keyCode == 08){
-                        $('#search-autocomplite').text('');
-                    }
-                });
+                
 
                 $('.all_results').click(function(){
                 $('.result-link').removeClass('hidden');

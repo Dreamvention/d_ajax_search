@@ -49,6 +49,17 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $this->response->setOutput(json_encode('error'));
     }
 
+    public function getAutocomplite(){
+        if(isset($this->request->get)){
+            $keyword=$this->request->get['keyword'];
+        }else{
+            $keyword='';
+        }
+
+        $result=$this->model_extension_module_d_ajax_search->autocomplite($keyword);
+        $this->response->setOutput(json_encode($result));
+    }
+
     public function searchresults(){
 
         if(isset($this->request->get)){

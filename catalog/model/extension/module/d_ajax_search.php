@@ -21,12 +21,9 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         }
         $sql_array = array();
         $sql       = '';
-
-        // echo "<pre>"; print_r($settings); echo "</pre>";
         $suggestion='';
         $redirect=0;
 
-        $settings['autocomplete'] = isset($settings['autocomplete']) ? $settings['autocomplete'] : 0;
         $settings['suggestion'] = isset($settings['suggestion']) ? $settings['suggestion'] : 0;
 
             $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
@@ -36,22 +33,6 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $redirect_text=$query->rows[0]['redirect'];
                     $redirect=1;
                 }
-
-            if($research != 1 && $redirect!=1 && $settings['autocomplete']){
-                $autocomplite_flag=0;
-                $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
-                $query=$this->db->query($sql_autocomplite);
-                $autocomplite=array();
-                foreach ($query->rows as $key => $row) {
-
-                    similar_text( $text , $row['text'], $percent);
-
-                    if($percent > $autocomplite_flag && $percent > 65){
-                            $autocomplite=$row['text'];
-                            $autocomplite_flag=$percent;
-                    }
-                }
-            }
 
             if($research && $settings['suggestion']){
                 $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
@@ -229,6 +210,31 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         array_splice($resultOut, $settings['max_results']);
         return $resultOut;
     }
+
+    public function autocomplite($keyword){
+                $setting1 = $this->model_setting_setting->getSetting('d_ajax_search');
+                $settings = $setting1['d_ajax_search_setting'];
+                $settings['autocomplete'] = isset($settings['autocomplete']) ? $settings['autocomplete'] : 0;
+
+                if($settings['autocomplete']){
+                $autocomplite_flag=0;
+
+                $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
+                $query=$this->db->query($sql_autocomplite);
+                $autocomplite=array();
+                foreach ($query->rows as $key => $row) {
+
+                    similar_text( $keyword , $row['text'], $percent);
+
+                    if($percent > $autocomplite_flag && $percent > 65){
+                            $autocomplite=$row['text'];
+                            $autocomplite_flag=$percent;
+                    }
+                }
+                return $autocomplite;
+            }
+    }
+
     public function save_statistic($value) {
 
        $sql = "INSERT INTO `" . DB_PREFIX . "as_query`
