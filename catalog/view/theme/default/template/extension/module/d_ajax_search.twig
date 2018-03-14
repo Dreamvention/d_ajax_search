@@ -137,7 +137,7 @@ function doquick_search( ev, keywords ) {
                         }
                     }
 
-                    html += '<a class="result-link '+ addclass +' sort-item row col-sm-12" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
+                    html += '<a class="result-link '+ addclass +' sort-item row col-sm-12" item_data="' + result[i].item_data + '" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
 
                     if (result[i].image){
                         html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
@@ -191,9 +191,10 @@ function doquick_search( ev, keywords ) {
 
             $(".result-link").click(function(ev){
                 var json = {};
-                var link=ev.currentTarget.href;
-                    json.type = link.split('&')[1].split('=')[0].split('_')[0];
-                    json.type_id = link.split('&')[1].split('=')[1];
+
+                var link=ev.currentTarget.attributes.item_data.value;
+                    json.type = link.split('=')[0].split('_')[0];
+                    json.type_id = link.split('=')[1];
 
                 json.select = $(ev.currentTarget).find('.forkeydon').html();
                 if({{mobile}}){

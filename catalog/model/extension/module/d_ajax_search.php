@@ -152,6 +152,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $result[$search][$key]['where_find']    = $this->language->get($search);
                     $result[$search][$key]['saggestion']    = isset($saggestion) ? $saggestion : '';
                     $result[$search][$key]['weight']        = isset($ai_result->rows[0]['count']) ? $ai_result->rows[0]['count'] : '';
+                    $result[$search][$key]['item_data']     = $search . '_id=' . $row[$search . '_id'];
                     if ($search == 'category') {
                         $result[$search][$key]['href'] = $this->url->link('product/' . $search, 'path=' . $row[$search . '_id']);
                     } else if ($search == 'manufacturer') {

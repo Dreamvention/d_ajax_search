@@ -1,6 +1,6 @@
 {
     "codename": "d_ajax_search",
-    "version": "6.0.8",
+    "version": "6.0.9",
     "name": "d_ajax_search",
     "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
     "index": "extension/module/d_ajax_search",
@@ -78,6 +78,10 @@
         "admin/view/image/d_ajax_search/"
     ],
     "changelog": [
+        {
+            "varsion": "6.0.8",
+            "change": "fix seo "
+        },
         {
             "varsion": "6.0.8",
             "change": "change autocmplite logic"

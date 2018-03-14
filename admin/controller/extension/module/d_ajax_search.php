@@ -49,7 +49,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
                 $this->response->redirect($this->model_extension_d_opencart_patch_url->getExtensionLink('module'));
             }
         }
-
+        
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
             if (VERSION >= '3.0.0.0') {
