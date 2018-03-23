@@ -63,7 +63,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 }
              }
          // }
-
+        $keywords=explode(' ', trim(preg_replace('/\s+/', ' ', $text)));
 
         foreach ($search_filter as $search => $filter) {
 
@@ -98,7 +98,14 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 } else {
 
                     if ($query['rule'] == 'LIKE') {
+
+                        if($query['key']=='pd.name' && $research){
+                            foreach ($keywords as $key => $word) {
+                            $implode[$search][] = $query['key'] . " LIKE '%" . $word . "%'";
+                            }
+                        }
                         $implode[$search][] = $query['key'] . " LIKE '%" . $text . "%'";
+
                     } else {
                         $implode[$search][] = $query['key'] . " " . $query['rule'] . " " . $text;
                     }
@@ -119,9 +126,10 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             } elseif ($search == 'product_simple') {
                 $search = 'product';
             }
+
             $sql_array[$search] = $sql;
         }
-        // echo "<pre>"; print_r($sql_array); echo "</pre>";exit;
+
         $result       = array();
         $product_ides = array();
         foreach ($searches as $kek => $search) {
@@ -185,6 +193,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                         foreach ($info as $gde => $string) {
                             $check = stripos($string, $text);
                             if ($check === false) {
+                                $result[$search][$key]['find_by']=$this->language->get('name');
                             } else {
                                 $result[$search][$key]['find_by'] = $this->language->get($gde);
                                 break;
