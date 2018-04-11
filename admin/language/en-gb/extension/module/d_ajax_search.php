@@ -38,8 +38,25 @@ $_['text_instructions_full']        = '
 <div class="col-sm-12 instruction">
 
 </div>';
+
+$_['where_was_found']               = 'Where was found';
+$_['display_results_in_block']      = 'Display results in block';
+$_['display_unic_image']            = 'Display product with unique image';
+$_['result_image_size']             = 'Result image size';
+$_['show_more_results_link']        = 'Show more results link';
+
+$_['text_24hour']            = '24 hours';
+$_['text_week']             = 'Week';
+$_['text_month']             = 'Month';
+$_['text_year']             = 'Year';
+$_['text_year']             = 'Year';
+$_['priority_search']      = 'Priority search';
+$_['filter_keyword']      = 'Filter keyword';
+
+
+
 // Entry
-$_['help_d_ajax_search_pack']						= '<div class="alert alert-info text-center" style="cursor: pointer" onclick="window.open(\'https://dreamvention.ee/live-ajax-search\', \'_blank\')">Unluck all of the features with <strong>Live Ajax Search Pro</strong></div>';
+$_['help_d_ajax_search_pack']						= '<div class="alert alert-info text-center" style="cursor: pointer" onclick="window.open(\'https://dreamvention.ee/live-ajax-search\', \'_blank\')">Unlock all of the features with <strong>Live Ajax Search Pro</strong></div>';
 
 $_['entry_get_update']              = 'You have version %s';
 $_['tooltip_smart_search']              = 'Ajax Search will learn your visitors queries and selected results and optimize the search results to increase click through rate.';

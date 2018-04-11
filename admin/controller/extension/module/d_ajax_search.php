@@ -183,6 +183,19 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['text_on'] = $this->language->get('text_on');
         $data['text_off'] = $this->language->get('text_off');
         $data['text_px'] = $this->language->get('text_px');
+        $data['priority_search'] = $this->language->get('priority_search');
+        $data['filter_keyword'] = $this->language->get('filter_keyword');
+
+        $data['where_was_found'] = $this->language->get('where_was_found');
+        $data['display_results_in_block'] = $this->language->get('display_results_in_block');
+        $data['display_unic_image'] = $this->language->get('display_unic_image');
+        $data['result_image_size'] = $this->language->get('result_image_size');
+        $data['show_more_results_link'] = $this->language->get('show_more_results_link');
+
+        $data['text_24hour'] = $this->language->get('text_24hour');
+        $data['text_week'] = $this->language->get('text_week');
+        $data['text_month'] = $this->language->get('text_month');
+        $data['text_year'] = $this->language->get('text_year');
 
         // Help
         $data['help_width'] = $this->language->get('help_width');

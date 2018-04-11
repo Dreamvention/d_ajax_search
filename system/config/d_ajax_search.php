@@ -12,5 +12,6 @@ $_['d_ajax_search_setting'] = array(
             'smart'=>0,
             'suggestion' => 0,
             'all_result_count' => 5,
-            'all_result_status' => 1
+            'all_result_status' => 1,
+            'no_dublicate_images' => 0
         );

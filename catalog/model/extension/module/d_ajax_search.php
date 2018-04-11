@@ -26,50 +26,50 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
         $settings['suggestion'] = isset($settings['suggestion']) ? $settings['suggestion'] : 0;
 
-            $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
-                $query=$this->db->query($sql_redirect);
-                if(!empty($query->rows[0]['redirect'])){
-                    $text=$query->rows[0]['redirect'];
-                    $redirect_text=$query->rows[0]['redirect'];
-                    $redirect=1;
+        $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
+        $query=$this->db->query($sql_redirect);
+        if(!empty($query->rows[0]['redirect'])){
+            $text=$query->rows[0]['redirect'];
+            $redirect_text=$query->rows[0]['redirect'];
+            $redirect=1;
+        }
+
+        if($research && $settings['suggestion']){
+            $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
+            $query=$this->db->query($sql_smart);
+            $gml=0;
+            $lev=20;
+            $new_text='';
+            foreach ($query->rows as $key => $row) {
+
+// LEVENSTEIN
+// if(levenshtein($text, $row['text']) < $lev){
+//     $new_text=$row['text'];
+//     $lev=levenshtein($text, $row['text']);
+
+// }
+// Oliver's algoritm
+
+                similar_text( $text , $row['text'], $percent);
+                if($percent > $gml && $percent > 65){
+                    $new_text=$row['text'];
+                    $saggestion= $row['text'];
+                    $gml=$percent;
                 }
+            }
 
-            if($research && $settings['suggestion']){
-                $sql_smart="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
-                $query=$this->db->query($sql_smart);
-                $gml=0;
-                $lev=20;
-                $new_text='';
-                foreach ($query->rows as $key => $row) {
-
-                    // LEVENSTEIN
-                    // if(levenshtein($text, $row['text']) < $lev){
-                    //     $new_text=$row['text'];
-                    //     $lev=levenshtein($text, $row['text']);
-
-                    // }
-                    // Oliver's algoritm
-
-                    similar_text( $text , $row['text'], $percent);
-                    if($percent > $gml && $percent > 65){
-                        $new_text=$row['text'];
-                        $saggestion= $row['text'];
-                        $gml=$percent;
-                    }
-                }
-
-                if(!empty($new_text)){
-                    $text=$new_text;
-                }
-             }
-         // }
+            if(!empty($new_text)){
+                $text=$new_text;
+            }
+        }
+// }
         $keywords=explode(' ', trim(preg_replace('/\s+/', ' ', $text)));
 
         foreach ($search_filter as $search => $filter) {
 
             $sql = 'SELECT ' . $filter['table']['name'] . '.' . $filter['table']['key'];
 
-            //what table to search and join tables
+//what table to search and join tables
 
             foreach ($filter['select'] as $key => $select) {
                 $sql .= ", " . $select . " as " . $key;
@@ -101,7 +101,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
                         if($query['key']=='pd.name' && $research){
                             foreach ($keywords as $key => $word) {
-                            $implode[$search][] = $query['key'] . " LIKE '%" . $word . "%'";
+                                $implode[$search][] = $query['key'] . " LIKE '%" . $word . "%'";
                             }
                         }
                         $implode[$search][] = $query['key'] . " LIKE '%" . $text . "%'";
@@ -140,7 +140,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
             }
             $query = $this->db->query($sql_array[$search]);
             foreach ($query->rows as $key => $row) {
-                if (isset($product_ides[$search]) && in_array($row[$search . '_id'], $product_ides[$search])) {
+
+                if ((isset($product_ides[$search]) && in_array($row[$search . '_id'], $product_ides[$search]['id'])) || (isset($product_ides[$search]) && !empty($row['image'])  && $settings['no_dublicate_images'] && in_array($row['image'], $product_ides[$search]['image']))  ) {
                 } else {
 
                     if(isset($settings['smart']) && $settings['smart']){
@@ -149,7 +150,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                         $ai_result = $this->db->query($sql);
                     }
 
-                    $product_ides[$search][]                = $row[$search . '_id'];
+                    $product_ides[$search]['id'][]                = $row[$search . '_id'];
+                    $product_ides[$search]['image'][]             = $row['image'];
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];
                     $result[$search][$key]['keyword'] = $text;
                     $result[$search][$key]['redirect'] = isset($redirect_text) ? $redirect_text : '';
@@ -222,88 +224,88 @@ class ModelExtensionModuleDAjaxSearch extends Model {
     }
 
     public function autocomplite($keyword){
-                $setting1 = $this->model_setting_setting->getSetting('d_ajax_search');
-                $settings = $setting1['d_ajax_search_setting'];
-                $settings['autocomplete'] = isset($settings['autocomplete']) ? $settings['autocomplete'] : 0;
+        $setting1 = $this->model_setting_setting->getSetting('d_ajax_search');
+        $settings = $setting1['d_ajax_search_setting'];
+        $settings['autocomplete'] = isset($settings['autocomplete']) ? $settings['autocomplete'] : 0;
 
-                if($settings['autocomplete']){
-                $autocomplite_flag=0;
+        if($settings['autocomplete']){
+            $autocomplite_flag=0;
 
-                $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
-                $query=$this->db->query($sql_autocomplite);
-                $autocomplite=array();
-                foreach ($query->rows as $key => $row) {
+            $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
+            $query=$this->db->query($sql_autocomplite);
+            $autocomplite=array();
+            foreach ($query->rows as $key => $row) {
 
-                    similar_text( $keyword , $row['text'], $percent);
+                similar_text( $keyword , $row['text'], $percent);
 
-                    if($percent > $autocomplite_flag && $percent > 65){
-                            $autocomplite=$row['text'];
-                            $autocomplite_flag=$percent;
-                    }
+                if($percent > $autocomplite_flag && $percent > 65){
+                    $autocomplite=$row['text'];
+                    $autocomplite_flag=$percent;
                 }
-                return $autocomplite;
             }
+            return $autocomplite;
+        }
     }
 
     public function save_statistic($value) {
 
-       $sql = "INSERT INTO `" . DB_PREFIX . "as_query`
-    (`text`, `redirect`, `count`, `date_modify`)
-    VALUES(
-        '" . $this->db->escape($value['search']) . "',
-        '" . '' . "',
-        '" . 1 . "',
-        NOW())
-        ON DUPLICATE KEY UPDATE
-        `count` = `count`+1,
-        `date_modify` = NOW()";
-
-        $this->db->query($sql);
-        $last_id = $this->db->getLastId();
-
-        $sql = "INSERT INTO `" . DB_PREFIX . "as_query_results`
-        (`query_id`, `type`, `type_id`, `count`, `status`, `date_modify`)
+        $sql = "INSERT INTO `" . DB_PREFIX . "as_query`
+        (`text`, `redirect`, `count`, `date_modify`)
         VALUES(
-            '" . $this->db->escape($last_id) . "',
-            '" . $this->db->escape($value['type']) . "',
-            '" . $this->db->escape($value['type_id']) . "',
-            '" . 1 . "',
+            '" . $this->db->escape($value['search']) . "',
+            '" . '' . "',
             '" . 1 . "',
             NOW())
             ON DUPLICATE KEY UPDATE
             `count` = `count`+1,
             `date_modify` = NOW()";
-        $this->db->query($sql);
 
-        if ($this->customer->getId()) {
-            $sql = "INSERT INTO `" . DB_PREFIX . "as_customer_query`
-            (`customer_id`, `text`, `choose`, `type`, `type_id`, `count`, `date_modify`)
+            $this->db->query($sql);
+            $last_id = $this->db->getLastId();
+
+            $sql = "INSERT INTO `" . DB_PREFIX . "as_query_results`
+            (`query_id`, `type`, `type_id`, `count`, `status`, `date_modify`)
             VALUES(
-                '" . $this->customer->getId() . "',
-                '" . $this->db->escape($value['search']) . "',
-                '" . $this->db->escape($value['select']) . "',
+                '" . $this->db->escape($last_id) . "',
                 '" . $this->db->escape($value['type']) . "',
                 '" . $this->db->escape($value['type_id']) . "',
+                '" . 1 . "',
                 '" . 1 . "',
                 NOW())
                 ON DUPLICATE KEY UPDATE
                 `count` = `count`+1,
                 `date_modify` = NOW()";
-            $this->db->query($sql);
-        }
+                $this->db->query($sql);
 
-        $sql = "INSERT INTO `" . DB_PREFIX . "as_statistic`
-        (`search`, `select`, `type`, `type_id`, `count`, `date_modify`)
-        VALUES(
-            '" . $this->db->escape($value['search']) . "',
-            '" . $this->db->escape($value['select']) . "',
-            '" . $this->db->escape($value['type']) . "',
-            '" . $this->db->escape($value['type_id']) . "',
-            '" . 1 . "',
-            NOW())
-            ON DUPLICATE KEY UPDATE
-            `count` = `count`+1,
-            `date_modify` = NOW()";
-        $this->db->query($sql);
-    }
-}
+                if ($this->customer->getId()) {
+                    $sql = "INSERT INTO `" . DB_PREFIX . "as_customer_query`
+                    (`customer_id`, `text`, `choose`, `type`, `type_id`, `count`, `date_modify`)
+                    VALUES(
+                        '" . $this->customer->getId() . "',
+                        '" . $this->db->escape($value['search']) . "',
+                        '" . $this->db->escape($value['select']) . "',
+                        '" . $this->db->escape($value['type']) . "',
+                        '" . $this->db->escape($value['type_id']) . "',
+                        '" . 1 . "',
+                        NOW())
+                        ON DUPLICATE KEY UPDATE
+                        `count` = `count`+1,
+                        `date_modify` = NOW()";
+                        $this->db->query($sql);
+                    }
+
+                    $sql = "INSERT INTO `" . DB_PREFIX . "as_statistic`
+                    (`search`, `select`, `type`, `type_id`, `count`, `date_modify`)
+                    VALUES(
+                        '" . $this->db->escape($value['search']) . "',
+                        '" . $this->db->escape($value['select']) . "',
+                        '" . $this->db->escape($value['type']) . "',
+                        '" . $this->db->escape($value['type_id']) . "',
+                        '" . 1 . "',
+                        NOW())
+                        ON DUPLICATE KEY UPDATE
+                        `count` = `count`+1,
+                        `date_modify` = NOW()";
+                        $this->db->query($sql);
+                    }
+                }

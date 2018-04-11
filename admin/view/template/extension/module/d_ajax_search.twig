@@ -127,7 +127,7 @@
                                 <thead>
                                     <tr class="fields">
                                         <td class="field">
-                                            <h4 class="m-b-none"><span class="fa fa-sort-amount-asc"></span> Priority search  <span class="info-window-item" data-href="https://dreamvention.ee/setup-live-ajax-search-blocks"><i class="fa fa-question info-load"></i></span></h4>
+                                            <h4 class="m-b-none"><span class="fa fa-sort-amount-asc"></span> {{priority_search}} <span class="info-window-item" data-href="https://dreamvention.ee/setup-live-ajax-search-blocks"><i class="fa fa-question info-load"></i></span></h4>
                                         </td>
                                     </tr>
                                 </thead>
@@ -182,7 +182,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-where_search">Where was found</label>
+                <label class="col-sm-2 control-label" for="input-where_search">{{where_was_found}}</label>
                 <div class="col-sm-10">
                     <input type="hidden" name="{{ id }}_setting[where_search]" value="0" />
                     <input type="checkbox" name="{{ id }}_setting[where_search]" {{ setting['where_search'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
@@ -201,14 +201,23 @@
                         </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-block_result">Display results in block</label>
+                <label class="col-sm-2 control-label" for="input-block_result">{{display_results_in_block}}</label>
                 <div class="col-sm-10">
                     <input type="hidden" name="{{ id }}_setting[block_result]" value="0" />
                     <input type="checkbox" name="{{ id }}_setting[block_result]" {{ setting['block_result'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
                 </div>
             </div>
+             {% if extension_plus %}
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input_text">Result image size</label>
+                <label class="col-sm-2 control-label" for="input-no_dublicate_images">{{display_unic_image}}</label>
+                <div class="col-sm-10">
+                    <input type="hidden" name="{{ id }}_setting[no_dublicate_images]" value="0" />
+                    <input type="checkbox" name="{{ id }}_setting[no_dublicate_images]" {{ setting['no_dublicate_images'] ? 'checked="checked"' : '' }} value="1" class="switcher"/>
+                </div>
+            </div>
+            {% endif %}
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input_text">{{result_image_size}}</label>
                 <div class="col-sm-5">
                     <div class="input-group">
                         <span class="input-group-addon">Width</span>
@@ -223,7 +232,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input_text">Show more results link </label>
+                <label class="col-sm-2 control-label" for="input_text">{{show_more_results_link}}</label>
                 <div class="col-sm-5"">
                     <div class="input-group">
                          <input type="hidden" name="{{ id }}_setting[all_result_status]" value="0" />
@@ -243,16 +252,16 @@
             <div class="first_chart">
                 <ul class="nav nav-pills">
                     <li class="active" >
-                        <a id="first_load" class='chose-hour' href="{{ hour }}"><span>24 hours</span></a>
+                        <a id="first_load" class='chose-hour' href="{{ hour }}"><span>{{text_24hour}}</span></a>
                     </li>
                     <li class="" >
-                        <a class='chose-hour' href="{{ week }}"><span>Week</span></a>
+                        <a class='chose-hour' href="{{ week }}"><span>{{text_week}}}</span></a>
                     </li>
                     <li class="" >
-                        <a class='chose-hour' href="{{ mounth }}"><span>Month</span></a>
+                        <a class='chose-hour' href="{{ mounth }}"><span>{{text_month}}</span></a>
                     </li>
                     <li class="" >
-                        <a class='chose-hour' href="{{ year }}"><span>Year</span></a>
+                        <a class='chose-hour' href="{{ year }}"><span>{{text_year}}</span></a>
                     </li>
                 </ul>
             </div>
@@ -275,7 +284,7 @@
                     <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
                     <div class="row">
                         <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-max-results">Filter keyword</label>
+                        <label class="col-sm-2 control-label" for="input-max-results">{{filter_keyword}}</label>
                         <div class="col-sm-6">
                             <input type="text" name="filter_name" value="" placeholder="keyword" id="input-name" class="form-control" />
                         </div>
