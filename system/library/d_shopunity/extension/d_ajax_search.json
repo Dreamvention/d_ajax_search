@@ -79,6 +79,10 @@
     ],
     "changelog": [
         {
+            "varsion": "6.1.2",
+            "change": "fix no_dublicate issue"
+        },
+        {
             "varsion": "6.1.1",
             "change": "add option for not display products with same images"
         },

@@ -23,7 +23,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         $sql       = '';
         $suggestion='';
         $redirect=0;
-
+        $settings['no_dublicate_images'] = isset($settings['no_dublicate_images']) ? $settings['no_dublicate_images'] : 0;
         $settings['suggestion'] = isset($settings['suggestion']) ? $settings['suggestion'] : 0;
 
         $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
