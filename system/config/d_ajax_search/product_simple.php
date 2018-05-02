@@ -13,6 +13,14 @@ $_['d_ajax_search_product_simple'] = array(
             'key' => 'product_id',
             'join' => 'LEFT JOIN',
             'multi_language' => 1
+        ),
+        array(
+            'name' => 'pt',
+            'join_to' => 'pd',
+            'full_name' => 'product_to_store',
+            'key' => 'product_id',
+            'join' => 'LEFT JOIN',
+            'multi_language' => 1
              )
     ),
     'query' => array(
@@ -39,6 +47,7 @@ $_['d_ajax_search_product_simple'] = array(
         'image' => 'p.image',
         'name' => 'pd.name',
         'description' => 'pd.description',
-        'price' => 'p.price'
+        'price' => 'p.price',
+        'store_id' => 'pt.store_id',
     )
 );

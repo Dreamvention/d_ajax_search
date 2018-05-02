@@ -91,7 +91,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 }
             }
 
-            $sql .= " WHERE ";
+            $sql .= " WHERE (";
             $implode = array();
             foreach ($filter['query'] as $key => $query) {
                 if (isset($settings['extension'][$search]['query'][$key]) && $settings['extension'][$search]['query'][$key] == 0) {
@@ -112,8 +112,19 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                 }
             }
             if ($implode) {
-                $sql .= " " . implode(" OR ", $implode[$search]) . "";
+                $sql .= " " . implode(" OR ", $implode[$search]) . ")";
             }
+
+            if($search == 'product_simple' || $search == 'product'){
+                // $sql .= " AND p.status = 1 AND pd.language_id = ". (int)$this->config->get('config_language_id');
+                $sql .= " AND p.status = 1 AND pd.language_id = ". (int)$this->config->get('config_language_id') . " AND pt.store_id = " . (int)$this->config->get('config_store_id');
+            }elseif ($search == 'category') {
+                // $sql .= " AND c.status = 1 AND cd.language_id = ". (int)$this->config->get('config_language_id');
+                $sql .= " AND c.status = 1 AND cd.language_id = ". (int)$this->config->get('config_language_id') . " AND ct.store_id = " . (int)$this->config->get('config_store_id');
+            }
+
+
+
 
             $settings['extension'][$search]['max_count'] = isset($settings['extension'][$search]['max_count']) && !empty($settings['extension'][$search]['max_count']) ? $settings['extension'][$search]['max_count'] : 100;
 
@@ -191,7 +202,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     } elseif ($search == 'information') {
                         $info = $this->model_catalog_information->getInformation($row[$search . '_id']);
                     }
-                    if (isset($info)) {
+                    if (isset($info) && is_array($info)) {
                         foreach ($info as $gde => $string) {
                             $check = stripos($string, $text);
                             if ($check === false) {
