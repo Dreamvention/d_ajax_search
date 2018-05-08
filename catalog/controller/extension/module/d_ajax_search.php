@@ -23,7 +23,9 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data['more_results'] = $this->language->get('more_results');
         $data['search_phase']='Enter search phase above...';
         $setting1 = $this->model_setting_setting->getSetting($this->id);
-        $this->document->addScript('catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js');
+        if($this->request->get['route'] != 'checkout/checkout'){
+            $this->document->addScript('catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js');
+        }
         if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
             $mobile = $data['mobile'] = 1;
              $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '_mobile.css');
@@ -40,7 +42,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
             }
         }
     }
-    
+
     public function write_to_base(){
         if(isset($this->request->post)){
             $this->model_extension_module_d_ajax_search->save_statistic($this->request->post);
