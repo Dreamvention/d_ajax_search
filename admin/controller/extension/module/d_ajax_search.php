@@ -43,13 +43,9 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         if($this->d_twig_manager){
             $this->load->model('extension/module/d_twig_manager');
-            if(!$this->model_extension_module_d_twig_manager->isCompatible()){
-                $this->model_extension_module_d_twig_manager->installCompatibility();
-                $this->session->data['success'] = $this->language->get('success_twig_compatible');
-                $this->response->redirect($this->model_extension_d_opencart_patch_url->getExtensionLink('module'));
-            }
+            $this->model_extension_module_d_twig_manager->installCompatibility();
         }
-        
+
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
             if (VERSION >= '3.0.0.0') {
@@ -132,7 +128,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         if (!file_exists(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->id.'_pro.json')) {
             $data['info'] = $this->language->get('help_d_ajax_search_pack');
             $this->load->model('extension/module/d_event_manager');
-            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
+            // $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
         }
         $data['heading_title'] = $this->language->get('heading_title_main');
         // Tab
@@ -346,6 +342,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         if ($this->d_event_manager) {
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->addEvent($this->codename, 'admin/view/customer/customer_form/after', 'extension/module/d_ajax_search/view_customer_customer_form_after');
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/view/common/header/after', 'extension/module/d_ajax_search/view_common_header_after');
         }
     }
 

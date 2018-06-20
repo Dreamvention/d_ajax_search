@@ -23,7 +23,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data['more_results'] = $this->language->get('more_results');
         $data['search_phase']='Enter search phase above...';
         $setting1 = $this->model_setting_setting->getSetting($this->id);
-        if($this->request->get['route'] != 'checkout/checkout'){
+        if(!empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
             $this->document->addScript('catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js');
         }
         if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
@@ -41,6 +41,13 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
                 return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
             }
         }
+    }
+
+    public function view_common_header_after(&$route, &$data, &$output){
+        $html_dom = new d_simple_html_dom();
+        $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+        $html_dom->find('body', 0)->innertext .= $this->load->controller('extension/module/d_ajax_search');
+        $output = (string)$html_dom;
     }
 
     public function write_to_base(){
