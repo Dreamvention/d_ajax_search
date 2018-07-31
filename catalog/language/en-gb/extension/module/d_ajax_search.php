@@ -1,6 +1,7 @@
 <?php
 
 $_['results_for'] = 'Showing results for';
+$_['search_phase'] ='Enter search phase above...';
 //what find
 $_['product'] = 'product';
 $_['category'] = 'category';

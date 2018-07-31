@@ -1,6 +1,6 @@
 {
     "codename": "d_ajax_search",
-    "version": "6.1.4",
+    "version": "6.1.5",
     "name": "d_ajax_search",
     "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
     "index": "extension/module/d_ajax_search",
@@ -79,7 +79,11 @@
     ],
     "changelog": [
         {
-            "varsion": "6.1.6",
+            "varsion": "6.1.5",
+            "change": "small fix"
+        },
+        {
+            "varsion": "6.1.4",
             "change": "change front-end from ocmod to event"
         },
         {
