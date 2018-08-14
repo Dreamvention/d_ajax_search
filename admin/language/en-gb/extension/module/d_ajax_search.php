@@ -53,6 +53,15 @@ $_['text_year']             = 'Year';
 $_['priority_search']      = 'Priority search';
 $_['filter_keyword']      = 'Filter keyword';
 
+$_['text_welcome_title']            = 'Live Ajax Search';
+$_['text_welcome_description']      = 'What if your live search results could adjust to trends. With this module your search will get smarter every time it is used. This will helps you reduce search time and increase conversions.';
+
+$_['text_welcome_simple_setup']    = 'Simple setup';
+$_['text_welcome_live_search_results']  = 'Live search results';
+$_['text_welcome_search_products']     = 'Search products, categories and more';
+$_['text_welcome_intelligent_search']   = 'Intelligent search';
+$_['button_setup']          = 'SETUP';
+
 
 
 // Entry

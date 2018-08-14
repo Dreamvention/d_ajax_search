@@ -49,7 +49,7 @@ function text_complite( ev, keywords ){
             $('#search-autocomplite').text('');
             $('#help').hide();
             if ( typeof autocomplite != 'undefined' && autocomplite != null) {
-                $('#search').find("{{ setting['class'] }}").first().val().toLowerCase();
+                $("{{ setting['class'] }}").find("{{ setting['class'] }}").first().val().toLowerCase();
                 if(autocomplite != ''){
                     $('#search-autocomplite').text(autocomplite.toLowerCase());
                 }
@@ -93,8 +93,8 @@ function doquick_search( ev, keywords ) {
             if({{mobile}}){
                 $('#search_mobile').after(html);
             }else{
-                $('#search').after(html);
-                $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+                $("{{ setting['class'] }}").after(html);
+                $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
             }
         },
         success: function(results) {
@@ -107,8 +107,8 @@ function doquick_search( ev, keywords ) {
 
             if ( typeof result != 'undefined' && result.length>0) {
                 // $('#search-autocomplite').text(result[0].autocomplite);
-                if(result[0].keyword !== $('#search').find("{{ setting['class'] }}").first().val()){
-                    // $('#search').find("{{ setting['class'] }}").first().val(result[0].keyword);
+                if(result[0].keyword !== $("{{ setting['class'] }}").find("{{ setting['class'] }}").first().val()){
+                    // $("{{ setting['class'] }}").find("{{ setting['class'] }}").first().val(result[0].keyword);
                 }
                 var html, i,name;
                 html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
@@ -185,8 +185,8 @@ function doquick_search( ev, keywords ) {
                 if({{mobile}}){
                     $('.modal-body').append(html);
             }else{
-                $('#search').after(html);
-                $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+                $("{{ setting['class'] }}").after(html);
+                $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
             }
 
             $(".result-link").click(function(ev){
@@ -211,7 +211,7 @@ function doquick_search( ev, keywords ) {
                     }else if($('.redirect').text() != ''){
                         json.search = $('.redirect').text();
                     }else{
-                        json.search = $('#search').find("{{ setting['class'] }}").first().val();
+                        json.search = $("{{ setting['class'] }}").find("{{ setting['class'] }}").first().val();
                     }
                 }
 
@@ -240,10 +240,10 @@ function doquick_search( ev, keywords ) {
            html += '<span class="no-results"><i class="fa fa-exclamation-circle"></i> no results</span></a></div></div>';
            if({{mobile}}){
             $('.modal-body').append(html);
-                    // $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+                    // $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
                 }else{
-                    $('#search').after(html);
-                    $('#d_ajax_search_results').css('margin-top', '-' + $('#search').css('margin-bottom'));
+                    $("{{ setting['class'] }}").after(html);
+                    $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
                 }
             }
         },
@@ -361,7 +361,7 @@ $("{{ setting['class'] }}").attr('maxlength','64');
             var min_el = 0;
         }
         var xxx=0;
-        var fkey = $('#search').find('{{ setting['class'] }}').first();
+        var fkey = $("{{ setting['class'] }}").find('{{ setting['class'] }}').first();
 
         if( elem ) {
 
@@ -399,7 +399,7 @@ $("{{ setting['class'] }}").attr('maxlength','64');
 
                 var text = $(elem.childNodes[updown]).find('.forkeydon').html();
 
-                $('#search').find('{{ setting['class'] }}').first().val(text);
+                $("{{ setting['class'] }}").find('{{ setting['class'] }}').first().val(text);
             }
             if(updown >= length && xxx != 5  && typeof(check[block+1]) != 'undefined'){
                 block++;

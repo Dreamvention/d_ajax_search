@@ -34,6 +34,12 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
     public function index()
     {
+
+        if(!$this->checkInstallModule()){
+            $this->welcome();
+            return;
+        }
+
         $data = array();
 
         if($this->d_shopunity){
@@ -319,6 +325,100 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
     }
 
+    public function checkInstallModule() {
+        $this->load->model('extension/d_opencart_patch/extension');
+        if(!$this->model_extension_d_opencart_patch_extension->isInstalled($this->codename)) {
+            return false;
+        }
+        $this->load->model('setting/setting');
+        $setting_module = $this->model_setting_setting->getSetting($this->codename);
+        if(!$setting_module) {
+            return false;
+        }
+        return true;
+     }
+
+     public function welcome() {
+
+        $this->load->model('extension/d_opencart_patch/load');
+        $this->load->model('extension/d_opencart_patch/url');
+        if($this->d_admin_style){
+            $this->load->model('extension/d_admin_style/style');
+            $this->model_extension_d_admin_style_style->getAdminStyle('light');
+        }
+
+        $url_params = array();
+
+        if (isset($this->response->get['store_id'])) {
+            $url_params['store_id'] = $this->store_id;
+        }
+
+        $url = ((!empty($url_params)) ? '&' : '') . http_build_query($url_params);
+
+        // Breadcrumbs
+        $data['breadcrumbs'] = array();
+        $data['breadcrumbs'][] = array(
+            'text' => $this->language->get('text_home'),
+            'href' => $this->model_extension_d_opencart_patch_url->link('common/home')
+            );
+        $data['breadcrumbs'][] = array(
+            'text'      => $this->language->get('text_module'),
+            'href'      => $this->model_extension_d_opencart_patch_url->link('marketplace/extension', 'type=module')
+        );
+        $data['breadcrumbs'][] = array(
+            'text' => $this->language->get('heading_title_main'),
+            'href' => $this->model_extension_d_opencart_patch_url->link('marketplace/extension', $url)
+        );
+
+        // Notification
+        foreach ($this->error as $key => $error) {
+            $data['error'][$key] = $error;
+        }
+
+        // Heading
+        $this->document->setTitle($this->language->get('heading_title_main'));
+        $data['heading_title'] = $this->language->get('heading_title_main');
+        $data['text_edit'] = $this->language->get('text_edit');
+        $data['version'] = $this->extension['version'];
+
+        $data['text_welcome_title'] = $this->language->get('text_welcome_title');
+        $data['text_welcome_description'] = $this->language->get('text_welcome_description');
+        $data['text_welcome_simple_setup'] = $this->language->get('text_welcome_simple_setup');
+        $data['text_welcome_live_search_results'] = $this->language->get('text_welcome_live_search_results');
+        $data['text_welcome_search_products'] = $this->language->get('text_welcome_search_products');
+        $data['text_welcome_intelligent_search'] = $this->language->get('text_welcome_intelligent_search');
+
+        $data['button_setup'] = $this->language->get('button_setup');
+        $data['quick_setup'] = $this->model_extension_d_opencart_patch_url->ajax($this->route.'/quickSetup');
+
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+        $this->response->setOutput($this->model_extension_d_opencart_patch_load->view('extension/d_ajax_search/welcome', $data));
+    }
+
+    public function quickSetup(){
+        $this->load->model('extension/d_opencart_patch/url');
+        $ajs_post_array = array();
+        $data=array();
+        $this->config->load('d_ajax_search');
+        $this->config->get('d_ajax_search_setting');
+        //2.x
+        $data[$this->codename.'_status'] = 1;
+        $data['d_ajax_search_setting']=$this->config->get('d_ajax_search_setting');
+        //3.x
+        $ajs_post_array['d_ajax_search_setting']=$this->config->get('d_ajax_search_setting');
+        $ajs_post_array['module_'.$this->codename.'_status'] = 1;
+        //3.x
+        $this->model_setting_setting->editSetting('module_'.$this->id, $ajs_post_array);
+        //2.
+        $this->model_setting_setting->editSetting($this->codename, $data);
+
+        $json['redirect'] = $this->model_extension_d_opencart_patch_url->ajax($this->route);
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
     public function install()
     {
         if ($this->d_shopunity) {
@@ -358,7 +458,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
         }
-
+        $this->model_setting_setting->deleteSetting($this->codename);
         $this->model_extension_module_d_ajax_search->dropDatabase();
     }
 
