@@ -59,6 +59,7 @@
         "admin/view/javascript/d_ajax_search/d_ajax_search.css",
         "admin/view/javascript/d_ajax_search/d_design.css",
         "admin/view/template/extension/d_ajax_search/customer_search_history.twig",
+        "admin/view/template/extension/d_ajax_search/welcome.twig",
         "admin/view/javascript/d_ajax_search/jquery.tinysort.min.js",
         "catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js",
         "image/catalog/d_ajax_search/no_image_search.png",
