@@ -82,7 +82,9 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->config->load('d_ajax_search');
         $this->config->get('d_ajax_search_setting');
 
-        if ($this->model_setting_setting->getSetting($this->codename)) {
+        $setting = $this->model_setting_setting->getSetting($this->codename);
+
+        if ($this->model_setting_setting->getSetting($this->codename) && isset($setting['d_ajax_search_setting'])){
             $setting = $this->model_setting_setting->getSetting($this->codename);
         }else{
             $setting['d_ajax_search_setting']=$this->config->get('d_ajax_search_setting');
@@ -405,9 +407,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->config->get('d_ajax_search_setting');
         //2.x
         $data[$this->codename.'_status'] = 1;
-        $data['d_ajax_search_setting']=$this->config->get('d_ajax_search_setting');
         //3.x
-        $ajs_post_array['d_ajax_search_setting']=$this->config->get('d_ajax_search_setting');
         $ajs_post_array['module_'.$this->codename.'_status'] = 1;
         //3.x
         $this->model_setting_setting->editSetting('module_'.$this->id, $ajs_post_array);

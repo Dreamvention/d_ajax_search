@@ -26,6 +26,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
             $this->document->addScript('catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js');
         }
+        $this->document->addScript('catalog/view/javascript/d_ajax_search/vue.js');
         if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
             $mobile = $data['mobile'] = 1;
              $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '_mobile.css');
@@ -38,7 +39,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
             $settings = $setting1['d_ajax_search_setting'];
             $data['setting']=$settings;
             if($setting1['d_ajax_search_status'] == 1){
-                return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
+                return $this->model_extension_d_opencart_patch_load->view('' . $this->route.'_vue', $data);
             }
         }
     }
@@ -46,8 +47,25 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
     public function view_common_header_after(&$route, &$data, &$output){
         $html_dom = new d_simple_html_dom();
         $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
-        $html_dom->find('body', 0)->innertext .= $this->load->controller('extension/module/d_ajax_search');
+        $html_dom->find('#search', 0)->outertext .= $this->load->controller('extension/module/d_ajax_search');
         $output = (string)$html_dom;
+    }
+
+    public function getState(){
+        $data=array();
+        $this->load->language($this->route);
+        $data['results_for'] = $this->language->get('results_for');
+        $data['more_results'] = $this->language->get('more_results');
+        $data['search_phase']= $this->language->get('search_phase');
+        $setting1 = $this->model_setting_setting->getSetting($this->id);
+        if(isset($setting1['d_ajax_search_setting'])){
+            $settings = $setting1['d_ajax_search_setting'];
+            $data['setting']=$settings;
+            if($setting1['d_ajax_search_status'] == 1){
+                $this->response->setOutput(json_encode($data['setting']));
+            }
+        }
+
     }
 
     public function write_to_base(){

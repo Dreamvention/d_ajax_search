@@ -1,0 +1,86 @@
+<div id="ajaxsearch">
+    <div id="d-search" class="input-group">
+        <?php echo $state ?>
+      <input v-model="keyword" type="text" name="search" value="" placeholder="" class="form-control input-lg" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
+      </span>
+    </div>
+    <div id="d_ajax_search_results">
+        <div id="d_ajax_search_results_body">
+            <a v-for="result in response" class="result-link sort-item row col-sm-12" :item_data="result.item_data" :data-sort-order="result.weight" :href="result.href">
+                <div class="col pull-left col-sm-2 va-center text-center"><img :src="result.image" /></div>
+                <div class="col name col-sm-7 col-xs-5 va-center text-left"><span class="forkeydon">${ result.name }</span>
+                <br><span class="where-find">in ${ result.where_find} ${ result.find_by}</span></div>
+                <div class="col price col-sm-3 va-center text-center"><span class="">${ result.price }</span></div>
+            </a>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+<script>
+
+var ajaxsearch = new Vue({
+      delimiters: ['${', '}'],
+      el: '#ajaxsearch',
+      data: {
+        state: '',
+        keyword: '',
+        response: '',
+      },
+      watch: {
+        keyword: function (newQuestion, oldQuestion) {
+          this.answer = 'Please enter keyword'
+          if(this.keyword.length > 2){
+            this.debouncedGetAutocoplite();
+            this.debouncedGetAnswer();
+          }
+
+
+        }
+      },
+      created: function () {
+        this.debouncedGetAnswer = _.debounce(this.getResults, 500);
+        this.debouncedGetAutocoplite = _.debounce(this.getAutocomplite, 200);
+        var vm = this
+        axios.post('index.php?route=extension/module/d_ajax_search/getState', {
+          })
+            .then(function (state) {
+                // console.log(state.data)
+                $(state.data.class).first().parent().remove();
+                vm.state = state.data;
+            })
+            .catch(function (error) {
+              console.log('Sorry, something wrong. ' + error);
+            })
+      },
+      methods: {
+        getAutocomplite: function(){
+            var vm = this
+          axios.post('index.php?route=extension/module/d_ajax_search/getAutocomplite&keyword='+this.keyword, {
+          })
+            .then(function (autocomplite) {
+                console.log(autocomplite)
+                // vm.response = response.data;
+            })
+            .catch(function (error) {
+              vm.answer = 'Sorry, something wrong. ' + error
+            })
+        },
+        getResults: function () {
+
+          var vm = this
+          axios.post('index.php?route=extension/module/d_ajax_search/searchresults&keyword='+this.keyword, {
+          })
+            .then(function (response) {
+                vm.response = response.data;
+            })
+            .catch(function (error) {
+              vm.answer = 'Sorry, something wrong. ' + error
+            })
+        }
+      }
+})
+
+</script>
