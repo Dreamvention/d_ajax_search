@@ -8,13 +8,14 @@
     </div>
     <div id="d_ajax_search_results">
         <div id="d_ajax_search_results_body">
-            <a v-for="result in response" class="result-link sort-item row col-sm-12" :item_data="result.item_data" :data-sort-order="result.weight" :href="result.href">
+            <a v-for="(result, index) in response" v-if="count > index" class="result-link sort-item row col-sm-12" :item_data="result.item_data" :data-sort-order="result.weight" :href="result.href">
                 <div class="col pull-left col-sm-2 va-center text-center"><img :src="result.image" /></div>
                 <div class="col name col-sm-7 col-xs-5 va-center text-left"><span class="forkeydon">${ result.name }</span>
                 <br><span class="where-find">in ${ result.where_find} ${ result.find_by}</span></div>
                 <div class="col price col-sm-3 va-center text-center"><span class="">${ result.price }</span></div>
             </a>
         </div>
+       <a v-on:click="showMoreResults" v-if="response.length != '' && state.all_result_status == 1" class="all_results">All results <i v-bind:class="up_down_class" ></i></a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
@@ -25,21 +26,24 @@ var ajaxsearch = new Vue({
       delimiters: ['${', '}'],
       el: '#ajaxsearch',
       data: {
+        block: 0,
+        up_down_class: 'fa fa-caret-down',
+        count: '',
         state: '',
         keyword: '',
         response: '',
       },
+
       watch: {
         keyword: function (newQuestion, oldQuestion) {
           this.answer = 'Please enter keyword'
-          if(this.keyword.length > 2){
+          if(this.keyword.length >= this.state.max_symbols){
             this.debouncedGetAutocoplite();
             this.debouncedGetAnswer();
           }
-
-
         }
       },
+
       created: function () {
         this.debouncedGetAnswer = _.debounce(this.getResults, 500);
         this.debouncedGetAutocoplite = _.debounce(this.getAutocomplite, 200);
@@ -50,11 +54,17 @@ var ajaxsearch = new Vue({
                 // console.log(state.data)
                 $(state.data.class).first().parent().remove();
                 vm.state = state.data;
+                if(vm.state.all_result_status){
+                    vm.count = state.data.all_result_count;
+                }else{
+                    vm.count = state.data.max_results;
+                }
             })
             .catch(function (error) {
               console.log('Sorry, something wrong. ' + error);
             })
       },
+
       methods: {
         getAutocomplite: function(){
             var vm = this
@@ -79,6 +89,18 @@ var ajaxsearch = new Vue({
             .catch(function (error) {
               vm.answer = 'Sorry, something wrong. ' + error
             })
+        },
+        showMoreResults: function(){
+            var vm = this;
+            if(!vm.block){
+                vm.count = vm.state.max_results;
+                vm.block=1;
+                vm.up_down_class= 'fa fa-caret-up';
+            }else if(vm.block==1){
+                vm.count = vm.state.all_result_count ;
+                vm.block=0;
+                vm.up_down_class= 'fa fa-caret-down';
+            }
         }
       }
 })
