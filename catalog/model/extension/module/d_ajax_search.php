@@ -101,10 +101,10 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
                         if($query['key']=='pd.name' && $research){
                             foreach ($keywords as $key => $word) {
-                                $implode[$search][] = $query['key'] . " LIKE '%" . $word . "%'";
+                                $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $word . "%')";
                             }
                         }
-                        $implode[$search][] = $query['key'] . " LIKE '%" . $text . "%'";
+                        $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $text . "%')";
 
                     } else {
                         $implode[$search][] = $query['key'] . " " . $query['rule'] . " " . $text;
