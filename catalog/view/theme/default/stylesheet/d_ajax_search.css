@@ -9,6 +9,7 @@
     position: absolute;
     z-index: 1005;
     padding: 10px 0;
+        margin-top: 36px;
 }
 #search-autocomplite {
         width: 100%;

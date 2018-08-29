@@ -37,6 +37,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         if(isset($setting1['d_ajax_search_setting'])){
             $settings = $setting1['d_ajax_search_setting'];
             $data['setting']=$settings;
+            $data['setting']['class'] = str_replace('&gt;', " ", $data['setting']['class']);
+
             if($setting1['d_ajax_search_status'] == 1){
                 return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
             }

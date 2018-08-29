@@ -94,7 +94,7 @@ function doquick_search( ev, keywords ) {
                 $('#search_mobile').after(html);
             }else{
                 $("{{ setting['class'] }}").after(html);
-                $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
+                // $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
             }
         },
         success: function(results) {
@@ -186,7 +186,7 @@ function doquick_search( ev, keywords ) {
                     $('.modal-body').append(html);
             }else{
                 $("{{ setting['class'] }}").after(html);
-                $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
+                // $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
             }
 
             $(".result-link").click(function(ev){
@@ -243,7 +243,7 @@ function doquick_search( ev, keywords ) {
                     // $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
                 }else{
                     $("{{ setting['class'] }}").after(html);
-                    $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
+                    // $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
                 }
             }
         },
