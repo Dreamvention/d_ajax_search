@@ -20,6 +20,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data=array();
         $this->load->language($this->route);
         $data['results_for'] = $this->language->get('results_for');
+        $data['no_results'] = $this->language->get('no_results');
         $data['more_results'] = $this->language->get('more_results');
         $data['search_phase']= $this->language->get('search_phase');
         $setting1 = $this->model_setting_setting->getSetting($this->id);
