@@ -129,8 +129,9 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['status_off']=$this->language->get('status_off');
         $data['action'] = $this->model_extension_d_opencart_patch_url->link($this->route);
         $data['cancel'] = $this->model_extension_d_opencart_patch_url->getExtensionLink('module');
-        $data['token'] = $this->model_extension_d_opencart_patch_user->getUrlToken();
-
+        // $data['token'] = $this->model_extension_d_opencart_patch_user->getUrlToken();
+        $data['token'] = $this->model_extension_d_opencart_patch_user->getToken();
+        $data['d_shopunity'] = $this->d_shopunity;
          $this->document->setTitle($this->language->get('heading_title_main'));
         if (!file_exists(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->id.'_pro.json')) {
             $data['info'] = $this->language->get('help_d_ajax_search_pack');
