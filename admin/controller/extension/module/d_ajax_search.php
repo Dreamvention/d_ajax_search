@@ -69,6 +69,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
             $this->session->data['success'] = $this->language->get('text_success');
 
+
             $this->response->redirect($this->model_extension_d_opencart_patch_url->getExtensionLink('module'));
         }
 
@@ -89,7 +90,12 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $setting['d_ajax_search_setting']=$this->config->get('d_ajax_search_setting');
         }
 
-
+if (isset($this->session->data['success'])) {
+            $data['success'] = $this->session->data['success'];
+            unset($this->session->data['success']);
+        } else {
+            $data['success'] = '';
+        }
 
         $this->document->addStyle('view/javascript/d_ajax_search/d_ajax_search.css');
         $this->document->addStyle('view/javascript/d_ajax_search/d_design.css');
