@@ -211,6 +211,7 @@ class ModelExtensionModuleDAjaxSearch extends Model
             } elseif ($value['type'] == 'information') {
                 $info = $this->model_catalog_information->getInformation($value['type_id']);
                 $description = $this->model_catalog_information->getInformationDescriptions($value['type_id']);
+                //kek
                 $info['name'] = $description[1]['title'];
                 $results[$key]['href']=$this->url->link('catalog/information/edit',  $url_token . '&information_id=' . $value['type_id'], true);
             }
