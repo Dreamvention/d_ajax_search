@@ -76,7 +76,8 @@
     ],
     "dirs": [
 
-        "admin/view/image/d_ajax_search/"
+        "admin/view/image/d_ajax_search/",
+        "admin/view/image/d_ajax_search/icons"
     ],
     "changelog": [
         {

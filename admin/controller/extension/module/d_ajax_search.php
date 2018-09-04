@@ -94,7 +94,7 @@ if (isset($this->session->data['success'])) {
             $data['success'] = $this->session->data['success'];
             unset($this->session->data['success']);
         } else {
-            $data['success'] = ' ';
+            // $data['success'] = ' dasdasd';
         }
 
         $this->document->addStyle('view/javascript/d_ajax_search/d_ajax_search.css');
