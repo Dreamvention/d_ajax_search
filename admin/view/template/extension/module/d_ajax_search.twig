@@ -84,6 +84,7 @@
         <div class="tab-content">
             <div class="tab-pane active" id="tab_setting">
                 <div class="tab-body">
+                <div {% if not extension_plus %} class="col-md-9" {% endif %}>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-status">
                             <span data-toggle="tooltip" title="{{ entry_status }}">
@@ -107,6 +108,22 @@
                             <input name="{{ id }}_setting[max_symbols]" value="{{ setting['max_symbols'] }}" class="form-control">
                         </div>
                     </div>
+                    </div>
+                    {% if not extension_plus %}
+                        <div class="col-md-3">
+                            <div class="d_shopunity_widget_2"></div>
+                            <script src="view/javascript/d_shopunity/d_shopunity_widget.js" type="text/javascript"></script>
+                            <script type="text/javascript">
+                                var d_shopunity_widget_2 = jQuery.extend(true, {}, d_shopunity_widget);
+                                d_shopunity_widget_2.init({
+                                    class: '.d_shopunity_widget_2',
+                                    token: '{{token}}',
+                                    //extension_id: '120'
+                                    extension_id: '148'
+                                })
+                            </script>
+                        </div>
+                    {% endif %}
                     {% if extension_plus %}
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-smart-search"><span data-toggle="tooltip" title="{{ tooltip_smart_search }}">Smart search</span></label>
@@ -132,6 +149,7 @@
                     {% endif %}
                 </div>
             </div>
+
             <div class="tab-pane" id="tab_main">
                 <div class="tab-body">
                     <div class="form-group">

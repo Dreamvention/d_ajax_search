@@ -419,7 +419,7 @@ if (isset($this->session->data['success'])) {
         $this->model_setting_setting->editSetting('module_'.$this->id, $ajs_post_array);
         //2.
         $this->model_setting_setting->editSetting($this->codename, $data);
-
+        $this->install();
         $json['redirect'] = $this->model_extension_d_opencart_patch_url->ajax($this->route);
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));

@@ -39,6 +39,7 @@ input[name="search"]{
 }
 .fa-spinner{
     align-self: center;
+    color: black;
 }
 h4{
     margin-bottom: 0px;

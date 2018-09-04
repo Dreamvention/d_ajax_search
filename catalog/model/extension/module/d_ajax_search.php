@@ -162,12 +162,12 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     }
 
                     $product_ides[$search]['id'][]                = $row[$search . '_id'];
-                    $product_ides[$search]['image'][]             = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_width']);;
+                    $product_ides[$search]['image'][]             = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']);;
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];
                     $result[$search][$key]['keyword'] = $text;
                     $result[$search][$key]['redirect'] = isset($redirect_text) ? $redirect_text : '';
                     $result[$search][$key]['autocomplite'] = isset($autocomplite) ? $autocomplite : '';
-                    $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_width']);
+                    $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']);
                     $result[$search][$key]['name']          = $row['name'];
                     $result[$search][$key]['description']   = isset($row['description']) ? $row['description'] : '';
                     $result[$search][$key]['where_find']    = $this->language->get($search);
