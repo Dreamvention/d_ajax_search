@@ -82,6 +82,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
 
         $setting1 = $this->model_setting_setting->getSetting($this->id);
         $settings = $setting1['d_ajax_search_setting'];
+
         $params=array();
         foreach ($settings['extension'] as $key => $value) {
             if($value['enabled'] == 1){
