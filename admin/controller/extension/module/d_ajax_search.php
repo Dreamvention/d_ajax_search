@@ -385,16 +385,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->model_extension_d_shopunity_mbooth->installDependencies($this->codename);
         }
 
-        if ($this->d_opencart_patch) {
-            $this->load->model('extension/d_opencart_patch/modification');
-            $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
-            $this->model_extension_d_opencart_patch_modification->refreshCache();
-
-            $this->load->model('user/user_group');
-            $this->load->model('extension/d_opencart_patch/user');
-            $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'access', 'extension/'.$this->codename);
-            $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'modify', 'extension/'.$this->codename);
-        }
+        $this->load->model('extension/module/d_ajax_search');
+        $this->model_extension_module_d_ajax_search->createDatabase();
 
         if ($this->d_event_manager) {
             $this->load->model('extension/module/d_event_manager');
@@ -402,10 +394,17 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/view/common/header/after', 'extension/module/d_ajax_search/view_common_header_after');
         }
 
+        if ($this->d_opencart_patch) {
+            $this->load->model('user/user_group');
+            $this->load->model('extension/d_opencart_patch/user');
+            $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'access', 'extension/'.$this->codename);
+            $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'modify', 'extension/'.$this->codename);
 
-
-        $this->load->model('extension/module/d_ajax_search');
-        $this->model_extension_module_d_ajax_search->createDatabase();
+            $this->load->model('extension/d_opencart_patch/modification');
+            $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
+            $this->model_extension_d_opencart_patch_modification->refreshCache();
+        }
+        
     }
 
     public function uninstall()
