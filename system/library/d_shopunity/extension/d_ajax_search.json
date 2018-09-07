@@ -51,33 +51,30 @@
         "d_tinysort": ">=2.3.7"
     },
     "files": [
+        "system/library/d_shopunity/extension/d_ajax_search.json",
+
         "admin/controller/extension/module/d_ajax_search.php",
         "admin/model/extension/module/d_ajax_search.php",
         "admin/controller/extension/d_ajax_search/product_simple.php",
         "admin/language/en-gb/extension/module/d_ajax_search.php",
         "admin/view/template/extension/module/d_ajax_search.twig",
-        "admin/view/javascript/d_ajax_search/d_ajax_search.css",
-        "admin/view/javascript/d_ajax_search/d_design.css",
         "admin/view/template/extension/d_ajax_search/customer_search_history.twig",
-        "admin/view/template/extension/d_ajax_search/welcome.twig",
-        "admin/view/javascript/d_ajax_search/jquery.tinysort.min.js",
-        "catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js",
-        "image/catalog/d_ajax_search/no_image_search.png",
+
         "catalog/controller/extension/module/d_ajax_search.php",
         "catalog/language/en-gb/extension/module/d_ajax_search.php",
         "catalog/model/extension/module/d_ajax_search.php",
         "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
-        "catalog/view/theme/default/stylesheet/d_ajax_search.css",
-        "catalog/view/theme/default/stylesheet/d_ajax_search_mobile.css",
+
         "system/library/d_shopunity/install/d_ajax_search.xml",
-        "system/library/d_shopunity/extension/d_ajax_search.json",
         "system/config/d_ajax_search/product_simple.php",
         "system/config/d_ajax_search.php"
     ],
     "dirs": [
 
-        "admin/view/image/d_ajax_search/",
-        "admin/view/image/d_ajax_search/icons"
+        "admin/view/image/d_ajax_search",
+        "admin/view/stylesheet/d_ajax_search",
+        "image/catalog/d_ajax_search",
+        "catalog/view/theme/default/stylesheet/d_ajax_search"
     ],
     "changelog": [
         {

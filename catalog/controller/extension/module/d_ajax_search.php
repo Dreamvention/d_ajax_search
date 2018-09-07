@@ -24,24 +24,26 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data['more_results'] = $this->language->get('more_results');
         $data['search_phase']= $this->language->get('search_phase');
         $setting1 = $this->model_setting_setting->getSetting($this->id);
-        if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
-            $this->document->addScript('catalog/view/javascript/d_ajax_search/jquery.tinysort.min.js');
-        }
-        if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
-            $mobile = $data['mobile'] = 1;
-             $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '_mobile.css');
-        }
-        else {
-            $mobile = $data['mobile'] = 0;
-             $this->document->addStyle('catalog/view/theme/default/stylesheet/' . $this->id . '.css');
-        }
-        if(isset($setting1['d_ajax_search_setting'])){
-            $settings = $setting1['d_ajax_search_setting'];
-            $data['setting']=$settings;
-            $data['setting']['class'] = str_replace('&gt;', " ", $data['setting']['class']);
+        if( $setting1['d_ajax_search_status']){
+            if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
+                $this->document->addScript('catalog/view/javascript/d_tinysort/jquery.tinysort.min.js');
+            }
+            if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
+                $mobile = $data['mobile'] = 1;
+                 $this->document->addStyle('catalog/view/theme/default/stylesheet/mobile.css');
+            }
+            else {
+                $mobile = $data['mobile'] = 0;
+                $this->document->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search.css');
+            }
+            if(isset($setting1['d_ajax_search_setting'])){
+                $settings = $setting1['d_ajax_search_setting'];
+                $data['setting']=$settings;
+                $data['setting']['class'] = str_replace('&gt;', " ", $data['setting']['class']);
 
-            if($setting1['d_ajax_search_status'] == 1){
-                return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
+                if($setting1['d_ajax_search_status'] == 1){
+                    return $this->model_extension_d_opencart_patch_load->view('' . $this->route, $data);
+                }
             }
         }
     }

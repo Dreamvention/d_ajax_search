@@ -4,8 +4,8 @@ $_['heading_title']                 = '<span style="color:#449DD0; font-weight:b
 $_['heading_title_main']            = 'Live Ajax Search';
 
 $_['entry_status']                  ='Status';
-$_['status_on']                     ='On';
-$_['status_off']                    ='Off';
+$_['text_on']                     ='On';
+$_['text_off']                    ='Off';
 $_['more_details']                  ='More details';
 
 
