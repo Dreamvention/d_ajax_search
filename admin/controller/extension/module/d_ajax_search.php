@@ -91,6 +91,12 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $data['success'] = '';
         }
 
+        if (isset($this->error['warning'])) {
+			$data['error_warning'] = $this->error['warning'];
+		} else {
+			$data['error_warning'] = '';
+		}
+
         if (isset($this->request->get['page'])) {
             $page = $this->request->get['page'];
         } else {
