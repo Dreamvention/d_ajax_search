@@ -26,15 +26,16 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $setting1 = $this->model_setting_setting->getSetting($this->id);
         if( $setting1['d_ajax_search_status']){
             if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
+                $this->document->addScript('catalog/view/javascript/d_tinysort/tinysort.min.js');
                 $this->document->addScript('catalog/view/javascript/d_tinysort/jquery.tinysort.min.js');
             }
             if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
                 $mobile = $data['mobile'] = 1;
-                 $this->document->addStyle('catalog/view/theme/default/stylesheet/mobile.css');
+                 $this->document->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/mobile.css');
             }
             else {
                 $mobile = $data['mobile'] = 0;
-                $this->document->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search.css');
+                $this->document->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/d_ajax_search.css');
             }
             if(isset($setting1['d_ajax_search_setting'])){
                 $settings = $setting1['d_ajax_search_setting'];
