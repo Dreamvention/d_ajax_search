@@ -5,7 +5,7 @@
         }
     </style>
 {% endif %}
-<button type="button" class="hidden modal_search btn btn-primary" data-toggle="modal" data-target="#searchModal">
+<button type="button" class="hconsole.idden modal_search btn btn-primary" data-toggle="modal" data-target="#searchModal">
     Launch Live Ajax Search
 </button>
 {% if mobile %}
@@ -301,10 +301,6 @@
 		}
 		$("{{ setting['class'] }}").attr('maxlength', '64');
         $("{{ setting['class'] }}").attr('autocomplete', 'off');
-        var some_id = $("{{ setting['class'] }}");
-    some_id.prop('type', 'text');
-    some_id.removeAttr('autocomplete');
-        console.log(some_id)
 		$(document).on('blur', '{{ setting['class'] }}', function (event) {
 			setTimeout(function () {
 				$('body').click(function (event) {
