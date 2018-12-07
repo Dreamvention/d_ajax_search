@@ -5,7 +5,7 @@
         }
     </style>
 {% endif %}
-<button type="button" class="hconsole.idden modal_search btn btn-primary" data-toggle="modal" data-target="#searchModal">
+<button type="button" class="hidden modal_search btn btn-primary" style="display: none" data-toggle="modal" data-target="#searchModal">
     Launch Live Ajax Search
 </button>
 {% if mobile %}
@@ -288,14 +288,12 @@
 
 	$(document).ready(function () {
 		if ({{ mobile }}) {
-			$("#search").click(function () {
+			$(document).on('click', '#search', function (event) {
 				$('.modal_search').click();
 				$('#searchModal').on("shown.bs.modal", function () {
 					$('#search_input').focus();
 				});
-
-
-			});
+			})
 		} else {
 			$("{{ setting['class'] }}").before('<div id="search-autocomplite"></div>');
 		}
