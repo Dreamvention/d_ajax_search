@@ -1,6 +1,6 @@
 {
     "codename": "d_ajax_search",
-    "version": "6.1.6",
+    "version": "6.1.7",
     "name": "d_ajax_search",
     "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
     "index": "extension/module/d_ajax_search",
@@ -77,6 +77,10 @@
         "catalog/view/theme/default/stylesheet/d_ajax_search"
     ],
     "changelog": [
+        {
+            "varsion": "fixes for VD",
+            "change": "admin welcome"
+        },
         {
             "varsion": "6.1.6",
             "change": "admin welcome"
