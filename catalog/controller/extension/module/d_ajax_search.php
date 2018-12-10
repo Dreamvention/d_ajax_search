@@ -24,7 +24,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data['more_results'] = $this->language->get('more_results');
         $data['search_phase']= $this->language->get('search_phase');
         $setting1 = $this->model_setting_setting->getSetting($this->id);
-        if( $setting1['d_ajax_search_status']){
+        if( !empty($setting1)&&$setting1['d_ajax_search_status']){
             if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
                 $this->document->addScript('catalog/view/javascript/d_tinysort/tinysort.min.js');
                 $this->document->addScript('catalog/view/javascript/d_tinysort/jquery.tinysort.min.js');
