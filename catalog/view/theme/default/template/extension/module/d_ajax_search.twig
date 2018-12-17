@@ -99,8 +99,8 @@
 				}
 			},
 			success: function (results) {
-				// $('#search-autocomplite').text('');
-				$('#d_ajax_search_results').remove();
+                // $('#search-autocomplite').text('');
+                $('[id="d_ajax_search_results"]').remove();
 				$('#help').hide();
 				var result = $.map(results, function (value, index) {
 					return [value];
