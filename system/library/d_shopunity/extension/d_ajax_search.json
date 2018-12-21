@@ -1,6 +1,6 @@
 {
     "codename": "d_ajax_search",
-    "version": "6.1.7",
+    "version": "6.1.8",
     "name": "d_ajax_search",
     "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
     "index": "extension/module/d_ajax_search",
@@ -78,8 +78,12 @@
     ],
     "changelog": [
         {
+            "varsion": "6.1.8",
+            "change": "fix bug for customer tab history;"
+        },
+        {
             "varsion": "6.1.7",
-            "change": "fixes for VD; fix bug for customer tab history;"
+            "change": "fixes for VD;"
         },
         {
             "varsion": "6.1.6",
