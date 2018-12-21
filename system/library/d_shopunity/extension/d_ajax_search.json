@@ -79,7 +79,7 @@
     "changelog": [
         {
             "varsion": "6.1.7",
-            "change": "fixes for VD"
+            "change": "fixes for VD; fix bug for customer tab history;"
         },
         {
             "varsion": "6.1.6",

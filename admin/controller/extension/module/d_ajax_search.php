@@ -503,6 +503,9 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             'start' => ($page - 1) * 20,
             'limit' => 20
         );
+        $this->load->model($this->route);
+        $this->load->model('extension/d_opencart_patch/url');
+        $this->load->model('extension/d_opencart_patch/load');
 
         $allHistory = $this->model_extension_module_d_ajax_search->allHistory();
         $data['histories']    = $this->model_extension_module_d_ajax_search->getCustomerHistory($filter_data);
