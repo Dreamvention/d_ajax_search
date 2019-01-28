@@ -506,6 +506,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->load->model($this->route);
         $this->load->model('extension/d_opencart_patch/url');
         $this->load->model('extension/d_opencart_patch/load');
+        $this->load->model('extension/module/d_ajax_search');
 
         $allHistory = $this->model_extension_module_d_ajax_search->allHistory();
         $data['histories']    = $this->model_extension_module_d_ajax_search->getCustomerHistory($filter_data);
