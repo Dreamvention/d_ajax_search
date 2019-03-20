@@ -90,7 +90,7 @@
 			dataType: 'json',
 			beforeSend: function () {
 				var html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
-				html += '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>';
+				html += '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="margin-left: 50%;"></i>';
 				if ({{ mobile }}) {
 					$('#search_mobile').after(html);
 				} else {
@@ -288,7 +288,7 @@
 
 	$(document).ready(function () {
 		if ({{ mobile }}) {
-			$(document).on('click', '#search', function (event) {
+			$(document).on('click', '{{ setting['class'] }}', function (event) {
 				$('.modal_search').click();
 				$('#searchModal').on("shown.bs.modal", function () {
 					$('#search_input').focus();

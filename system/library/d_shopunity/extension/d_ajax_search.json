@@ -79,6 +79,10 @@
     ],
     "changelog": [
         {
+            "varsion": "6.2.0",
+            "change": "Fix trigger for mobile"
+        },
+        {
             "varsion": "6.1.9",
             "change": "add support 3.0.3.1"
         },
