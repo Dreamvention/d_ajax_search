@@ -1,19 +1,27 @@
 <div id="ajaxsearch">
     <div id="search" class="input-group">
       <input v-model="keyword" type="text" name="search" value="" placeholder="" class="form-control input-lg" />
+      <div id="search-autocomplite" type="text" name="autocomplite" value="" placeholder="">${ autocomplite }</div>
       <span class="input-group-btn">
         <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
       </span>
     </div>
     <div id="d_ajax_search_results" :class="hidden_val">
         <div id="d_ajax_search_results_body">
-        
-            <a v-for="(result, index) in response" v-if="count > index" @click="write_to_database(result)" class="result-link sort-item row col-sm-12" :class='{"active-item": selectedResult === index}' :item_data="result.item_data" :data-sort-order="result.weight" :href="result.href">
+        {#Suggestion#}
+        <div v-if="state.saggestion ==1 && response.length > 0 && response[0].saggestion" class="saggestion">{{ results_for }} <span class="saggestion-result">${ response[0].saggestion } </span></div>
+            <div  id="result_block" class="result_block" v-for="(result, index) in response">
+            
+            {#Display block structure#}
+            <p v-if="state.block_result == 1 && index > 1 && response[index].where_find != response[index - 1].where_find || state.block_result == 1 && index == 0" class="pull-right block-text text-left">${ result.where_find } </p>
+
+            <a  v-if="count > index" @click="write_to_database(result)" class="result-link sort-item row col-sm-12" :class='{"active-item": selectedResult === index}' :item_data="result.item_data" :data-sort-order="result.weight" :href="result.href">
                 <div class="col pull-left col-sm-2 va-center text-center"><img :src="result.image" /></div>
                 <div class="col name col-sm-7 col-xs-5 va-center text-left"><span class="forkeydon">${ result.name }</span>
-                <br><span class="where-find">in ${ result.where_find} ${ result.find_by}</span></div>
-                <div class="col price col-sm-3 va-center text-center"><span class="">${ result.price }</span></div>
+                <br><span v-if="state.where_search == 1" class="where-find">in ${ result.where_find} ${ result.find_by}</span></div>
+                <div v-if="state.price == 1" class="col price col-sm-3 va-center text-center"><span class="">${ result.price }</span></div>
             </a>
+            </div>
         </div>
        <a v-on:click="showMoreResults" v-if="response.length != '' && state.all_result_status == 1 && response.length > state.all_result_count" class="all_results">All results <i v-bind:class="up_down_class" ></i></a>
     </div>
@@ -32,8 +40,9 @@ var ajaxsearch = new Vue({
         up_down_class: 'fa fa-caret-down',
         count: '',
         state: '',
+        autocomplite: '',
         keyword: '',
-        response: '',
+        response: [],
         hidden_val: 'hidden',
         no_results: 'hidden',
       },
@@ -42,7 +51,7 @@ var ajaxsearch = new Vue({
         keyword: function (newQuestion, oldQuestion) {
           this.answer = 'Please enter keyword'
           if(this.keyword.length >= this.state.max_symbols){
-            //this.debouncedGetAutocoplite();
+            this.debouncedGetAutocoplite();
             this.debouncedGetAnswer();
           }
         }
@@ -50,7 +59,7 @@ var ajaxsearch = new Vue({
 
       created: function () {
         this.debouncedGetAnswer = _.debounce(this.getResults, 700);
-       // this.debouncedGetAutocoplite = _.debounce(this.getAutocomplite, 200);
+        this.debouncedGetAutocoplite = _.debounce(this.getAutocomplite, 200);
         var vm = this
         axios.post('index.php?route=extension/module/d_ajax_search/getState', {
           })
@@ -78,8 +87,8 @@ var ajaxsearch = new Vue({
           axios.post('index.php?route=extension/module/d_ajax_search/getAutocomplite&keyword='+this.keyword, {
           })
             .then(function (autocomplite) {
-                //console.log(autocomplite)
-                // vm.response = response.data;
+                console.log(autocomplite.data)
+                vm.autocomplite = autocomplite.data;
             })
             .catch(function (error) {
               vm.answer = 'Sorry, something wrong. ' + error
@@ -92,6 +101,7 @@ var ajaxsearch = new Vue({
           })
             .then(function (response) {
                 vm.response = response.data;
+                console.log(vm.response)
                 if(response.data.length > 0){
                     vm.hidden_val = '';
                 }else{
@@ -141,8 +151,12 @@ var ajaxsearch = new Vue({
             vm.selectedResult--
             } else if (event.keyCode == 40 && vm.selectedResult < (vm.count-1)) {
             vm.selectedResult++
+            }else if(event.keyCode == 39){
+                vm.keyword = vm.autocomplite;
+                this.getResults();
             }
         }
+
       }
 })
 
