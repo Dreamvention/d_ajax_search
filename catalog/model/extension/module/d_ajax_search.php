@@ -101,10 +101,10 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
                         if($query['key']=='pd.name' && $research){
                             foreach ($keywords as $key => $word) {
-                                $implode[$search][] = $query['key'] . " LIKE '%" . $word . "%'";
+                                $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $word . "%')";
                             }
                         }
-                        $implode[$search][] = $query['key'] . " LIKE '%" . $text . "%'";
+                        $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $text . "%')";
 
                     } else {
                         $implode[$search][] = $query['key'] . " " . $query['rule'] . " " . $text;
@@ -162,12 +162,12 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     }
 
                     $product_ides[$search]['id'][]                = $row[$search . '_id'];
-                    $product_ides[$search]['image'][]             = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_width']);;
+                    $product_ides[$search]['image'][]             = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']);;
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];
                     $result[$search][$key]['keyword'] = $text;
                     $result[$search][$key]['redirect'] = isset($redirect_text) ? $redirect_text : '';
                     $result[$search][$key]['autocomplite'] = isset($autocomplite) ? $autocomplite : '';
-                    $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_width']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_width']);
+                    $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']);
                     $result[$search][$key]['name']          = $row['name'];
                     $result[$search][$key]['description']   = isset($row['description']) ? $row['description'] : '';
                     $result[$search][$key]['where_find']    = $this->language->get($search);
@@ -175,13 +175,13 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $result[$search][$key]['weight']        = isset($ai_result->rows[0]['count']) ? $ai_result->rows[0]['count'] : '';
                     $result[$search][$key]['item_data']     = $search . '_id=' . $row[$search . '_id'];
                     if ($search == 'category') {
-                        $result[$search][$key]['href'] = $this->url->link('product/' . $search, 'path=' . $row[$search . '_id']);
+                        $result[$search][$key]['href'] = html_entity_decode($this->url->link('product/' . $search, 'path=' . $row[$search . '_id']));
                     } else if ($search == 'manufacturer') {
-                        $result[$search][$key]['href'] = $this->url->link('product/' . $search . '/info', $search . '_id=' . $row[$search . '_id']);
+                        $result[$search][$key]['href'] = html_entity_decode($this->url->link('product/' . $search . '/info', $search . '_id=' . $row[$search . '_id']));
                     } else if ($search == 'post') {
-                        $result[$search][$key]['href'] = $this->url->link('extension/d_blog_module/post', $search . '_id=' . $row[$search . '_id']);
+                        $result[$search][$key]['href'] = html_entity_decode($this->url->link('extension/d_blog_module/post', $search . '_id=' . $row[$search . '_id']));
                     } else {
-                        $result[$search][$key]['href'] = $this->url->link($search . '/' . $search, $search . '_id=' . $row[$search . '_id']);
+                        $result[$search][$key]['href'] = html_entity_decode($this->url->link($search . '/' . $search, $search . '_id=' . $row[$search . '_id']));
                     }
                     if ($settings['price'] == 0) {
                         $result[$search][$key]['price'] = 0;
@@ -259,7 +259,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
     }
 
     public function save_statistic($value) {
-
+        
         $sql = "INSERT INTO `" . DB_PREFIX . "as_query`
         (`text`, `redirect`, `count`, `date_modify`)
         VALUES(

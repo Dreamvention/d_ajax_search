@@ -2,6 +2,7 @@
 
 $_['results_for'] = 'Showing results for';
 $_['search_phase'] ='Enter search phase above...';
+$_['no_results'] ='no results';
 //what find
 $_['product'] = 'product';
 $_['category'] = 'category';

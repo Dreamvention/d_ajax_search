@@ -1,25 +1,26 @@
 <div id="ajaxsearch">
-    <div id="d-search" class="input-group">
-        <?php echo $state ?>
+    <div id="search" class="input-group">
       <input v-model="keyword" type="text" name="search" value="" placeholder="" class="form-control input-lg" />
       <span class="input-group-btn">
         <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
       </span>
     </div>
-    <div id="d_ajax_search_results">
+    <div id="d_ajax_search_results" :class="hidden_val">
         <div id="d_ajax_search_results_body">
-            <a v-for="(result, index) in response" v-if="count > index" class="result-link sort-item row col-sm-12" :item_data="result.item_data" :data-sort-order="result.weight" :href="result.href">
+        
+            <a v-for="(result, index) in response" v-if="count > index" @click="write_to_database(result)" class="result-link sort-item row col-sm-12" :class='{"active-item": selectedResult === index}' :item_data="result.item_data" :data-sort-order="result.weight" :href="result.href">
                 <div class="col pull-left col-sm-2 va-center text-center"><img :src="result.image" /></div>
                 <div class="col name col-sm-7 col-xs-5 va-center text-left"><span class="forkeydon">${ result.name }</span>
                 <br><span class="where-find">in ${ result.where_find} ${ result.find_by}</span></div>
                 <div class="col price col-sm-3 va-center text-center"><span class="">${ result.price }</span></div>
             </a>
         </div>
-       <a v-on:click="showMoreResults" v-if="response.length != '' && state.all_result_status == 1" class="all_results">All results <i v-bind:class="up_down_class" ></i></a>
+       <a v-on:click="showMoreResults" v-if="response.length != '' && state.all_result_status == 1 && response.length > state.all_result_count" class="all_results">All results <i v-bind:class="up_down_class" ></i></a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+
 <script>
 
 var ajaxsearch = new Vue({
@@ -27,42 +28,48 @@ var ajaxsearch = new Vue({
       el: '#ajaxsearch',
       data: {
         block: 0,
+        selectedResult: 0,
         up_down_class: 'fa fa-caret-down',
         count: '',
         state: '',
         keyword: '',
         response: '',
+        hidden_val: 'hidden',
+        no_results: 'hidden',
       },
 
       watch: {
         keyword: function (newQuestion, oldQuestion) {
           this.answer = 'Please enter keyword'
           if(this.keyword.length >= this.state.max_symbols){
-            this.debouncedGetAutocoplite();
+            //this.debouncedGetAutocoplite();
             this.debouncedGetAnswer();
           }
         }
       },
 
       created: function () {
-        this.debouncedGetAnswer = _.debounce(this.getResults, 500);
-        this.debouncedGetAutocoplite = _.debounce(this.getAutocomplite, 200);
+        this.debouncedGetAnswer = _.debounce(this.getResults, 700);
+       // this.debouncedGetAutocoplite = _.debounce(this.getAutocomplite, 200);
         var vm = this
         axios.post('index.php?route=extension/module/d_ajax_search/getState', {
           })
-            .then(function (state) {
+            .then(function (res_state) {
                 // console.log(state.data)
-                $(state.data.class).first().parent().remove();
-                vm.state = state.data;
-                if(vm.state.all_result_status){
-                    vm.count = state.data.all_result_count;
+                $(res_state.data.class).first().parent().remove();
+                vm.state = res_state.data;
+                if(vm.state.all_result_status>0){
+                    vm.count = res_state.data.all_result_count;
                 }else{
-                    vm.count = state.data.max_results;
+                    vm.count = res_state.data.max_results;
                 }
             })
             .catch(function (error) {
               console.log('Sorry, something wrong. ' + error);
             })
+      },
+      mounted(){
+        document.addEventListener("keyup", this.keyBoardNavigation);
       },
 
       methods: {
@@ -71,7 +78,7 @@ var ajaxsearch = new Vue({
           axios.post('index.php?route=extension/module/d_ajax_search/getAutocomplite&keyword='+this.keyword, {
           })
             .then(function (autocomplite) {
-                console.log(autocomplite)
+                //console.log(autocomplite)
                 // vm.response = response.data;
             })
             .catch(function (error) {
@@ -85,11 +92,37 @@ var ajaxsearch = new Vue({
           })
             .then(function (response) {
                 vm.response = response.data;
+                if(response.data.length > 0){
+                    vm.hidden_val = '';
+                }else{
+                    vm.no_results = '';
+                }
             })
             .catch(function (error) {
               vm.answer = 'Sorry, something wrong. ' + error
+              vm.hidden_val = 'hidden';
             })
         },
+        write_to_database: function(val) {
+            var vm = this
+            var json={};
+
+            json.type=val.item_data.split('=')[0].split('_')[0];
+            json.type_id=val.item_data.split('=')[1];
+            json.search=val.keyword;
+            json.select=val.name;
+            
+            axios.post('index.php?route=extension/module/d_ajax_search/write_to_base', {
+                data:json,
+            })
+            .then(function (response) {
+                
+            })
+            .catch(function (error) {
+              //vm.answer = 'Sorry, something wrong. ' + error
+              //vm.hidden_val = 'hidden';
+            })
+	    },
         showMoreResults: function(){
             var vm = this;
             if(!vm.block){
@@ -100,6 +133,14 @@ var ajaxsearch = new Vue({
                 vm.count = vm.state.all_result_count ;
                 vm.block=0;
                 vm.up_down_class= 'fa fa-caret-down';
+            }
+        },
+        keyBoardNavigation () {
+            var vm = this
+            if (event.keyCode == 38 && vm.selectedResult > 0) {
+            vm.selectedResult--
+            } else if (event.keyCode == 40 && vm.selectedResult < (vm.count-1)) {
+            vm.selectedResult++
             }
         }
       }

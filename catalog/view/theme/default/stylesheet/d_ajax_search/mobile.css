@@ -1,0 +1,240 @@
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px!important;
+    background: #eee;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  select,
+  textarea,
+  input {
+    font-size: 16px!important;
+  }
+}
+
+input:focus {
+    font-size: 16px!important;
+    background: #eee;
+  }
+
+#d_ajax_search_results {
+    width: 100%!important;
+    margin:0px;
+    /* margin-left: 20px; */
+    margin-top: 3px;
+    position: absolute;
+    list-style-type: none;
+    z-index:1005;
+    background-color: #ffffff;
+    border-top: none;
+    color: #555;
+}
+#d_ajax_search_results #d_ajax_search_results_body {
+    position: relative;
+    padding: 5px;
+}
+#d_ajax_search_results_body > .result_block > .result-link > div > img, #d_ajax_search_results_body > .result-link > div > img {
+    border: 1px solid rgb(238, 238, 238);
+}
+#search_input::-webkit-input-placeholder {color:#fff;}
+#search_input{
+    background-color: transparent;
+    color: #fff;
+    margin-top: -9px;
+    width: 72%;
+    font-size: 16px;
+    display: inline-block;
+    box-shadow: none!important;
+    border: 0;
+}
+.fa-arrow-left{
+    margin-left: 0px!important;
+}
+#search-autocomplite {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    padding: 10px;
+    font-size: 16px;
+    padding-left: 38px;
+    margin-top: -6px;
+}
+#help {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    text-align: center;
+    margin-top: -20px;
+    margin-left: -15px;
+    font-size: 20px;
+    font-weight: 600;
+    color: grey;
+}
+#search_mobile{
+    width: 100%;
+    background-color: transparent;
+}
+.no-results{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    text-align: center;
+    /* margin-top: -20px; */
+    margin-left: -30px;
+    font-size: 20px;
+    font-weight: 600;
+    color: grey;
+}
+.modal .fa{
+    color: white;
+    margin-right: 10px;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+/* .block-text {
+    padding-right: 20px;
+    background-color: lightgray;
+    width: 106%;
+    margin-top: 0px;
+} */
+.block-text{
+    width: 100%;
+    margin-top: 10px;
+    padding-left: 10px;
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+}
+.block-text:first-letter {
+    text-transform: uppercase;
+}
+.where-find{
+    background-color: #f5f5f5;
+    color: #929292;
+}
+.saggestion{
+      margin-top: -23px;
+      font-size: 15px;
+      padding-left: 25px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+      color: rgb(131, 131, 131);
+      line-height: 1.333;
+      background-color: #f5f5f5;
+      margin-left: -20px;
+      border-bottom: 1px solid #e0e0e0;
+}
+.saggestion-result{
+    color: #000;
+    font-weight: 600;
+}
+.fa-exclamation-circle, .lul{
+    color: grey!important;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.modal-dialog {
+  position: fixed;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.modal-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 2px solid #3c7dcf;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.modal-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 50px;
+  padding: 10px;
+  background: #6598d9;
+  border: 0;
+}
+
+.modal-title {
+  font-weight: 300;
+  font-size: 2em;
+  color: #fff;
+  line-height: 30px;
+}
+
+.modal-body {
+  position: absolute;
+  top: 50px;
+  bottom: 60px;
+  width: 100%;
+  font-weight: 300;
+  overflow: auto;
+  height: 91%;
+}
+
+.modal-open{
+    position: fixed;
+}
+
+.btn-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -20px;
+  margin-left: -100px;
+  width: 200px;
+}
+
+.fa-spinner{
+    align-self: center;
+}
+.name {
+    margin-left: 18px;
+}
+/*  */
+#d_ajax_search_results .row {
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    line-height: 1.538;
+    margin: 0px;
+    width: 100%;
+    height: 50px;
+    display: table;
+    margin-right: 20px!important;
+    padding-bottom: 12px;
+    padding-right: 33px;
+}
+#d_ajax_search_results .row .col {
+    display: table-cell;
+    float: none;
+    padding: 0px 0px;
+}
+#d_ajax_search_results .row .col.va-center {
+    vertical-align: middle;
+}
+#d_ajax_search_results .row .col .old-price {
+    text-decoration:line-through;
+}
+.price{
+    margin-top: -10px!important;
+    font-weight: 700;
+    margin-right: 9px;
+}
