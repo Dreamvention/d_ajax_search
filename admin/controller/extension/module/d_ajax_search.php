@@ -21,6 +21,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
         $this->d_admin_style = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_admin_style.json'));
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
+        $this->load->model('extension/module/d_ajax_search');
     }
 
     public function index()

@@ -88,7 +88,7 @@ input:focus {
     font-weight: 600;
     color: grey;
 }
-.modal .fa{
+.modal-mask .fa{
     color: white;
     margin-right: 10px;
     margin-top: 8px;
@@ -134,13 +134,14 @@ input:focus {
 .fa-exclamation-circle, .lul{
     color: grey!important;
 }
-.modal {
+.modal-mask {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   overflow: hidden;
+  z-index: 1040;
 }
 
 .modal-dialog {

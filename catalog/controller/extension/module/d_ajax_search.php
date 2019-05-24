@@ -25,6 +25,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data['search_phase']= $this->language->get('search_phase');
         $setting1 = $this->model_setting_setting->getSetting($this->id);
         if( !empty($setting1)&&$setting1['d_ajax_search_status']){
+            $this->document->addScript("catalog/view/javascript/d_vue/vue.min.js");
             if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
                 $this->document->addScript('catalog/view/javascript/d_tinysort/tinysort.min.js');
                 $this->document->addScript('catalog/view/javascript/d_tinysort/jquery.tinysort.min.js');
@@ -52,13 +53,21 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
     public function view_common_header_after(&$route, &$data, &$output){
         $html_dom = new d_simple_html_dom();
         $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+        $html_dom->find('#search', 0)->outertext = '';
         $html_dom->find('#search', 0)->outertext .= $this->load->controller('extension/module/d_ajax_search');
+        
+        
         $output = (string)$html_dom;
     }
 
     public function getState(){
         $data=array();
         $this->load->language($this->route);
+        $mobile=0;
+        if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
+            $mobile = $data['mobile'] = 1;
+            $this->document->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/mobile.css');
+        }
         $data['results_for'] = $this->language->get('results_for');
         $data['more_results'] = $this->language->get('more_results');
         $data['search_phase']= $this->language->get('search_phase');
@@ -66,6 +75,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         if(isset($setting1['d_ajax_search_setting'])){
             $settings = $setting1['d_ajax_search_setting'];
             $data['setting']=$settings;
+            $data['setting']['mobile']=$mobile;
             if($setting1['d_ajax_search_status'] == 1){
                 $this->response->setOutput(json_encode($data['setting']));
             }
@@ -116,6 +126,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         }
         if(!empty($params) && $setting1['d_ajax_search_status'] == 1){
             $result=$this->model_extension_module_d_ajax_search->search($keyword,$params);
+            if(empty($result))
+                $result = 'noresults';
             $this->response->setOutput(json_encode($result));
         }
 

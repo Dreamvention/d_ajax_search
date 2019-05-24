@@ -234,7 +234,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         return $resultOut;
     }
 
-    public function autocomplite($keyword){
+    public function autocomplite($keyword=''){
         $setting1 = $this->model_setting_setting->getSetting('d_ajax_search');
         $settings = $setting1['d_ajax_search_setting'];
         $settings['autocomplete'] = isset($settings['autocomplete']) ? $settings['autocomplete'] : 0;
@@ -244,7 +244,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
             $sql_autocomplite="SELECT text FROM `" . DB_PREFIX . "as_query` ORDER BY count DESC LIMIT 100";
             $query=$this->db->query($sql_autocomplite);
-            $autocomplite=array();
+            $autocomplite='0';
             foreach ($query->rows as $key => $row) {
 
                 similar_text( $keyword , $row['text'], $percent);
@@ -254,7 +254,14 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     $autocomplite_flag=$percent;
                 }
             }
+            if($keyword !='' && strpos($autocomplite,$keyword) !== false){
+                
+
+            }else{
+                $autocomplite='';
+            }
             return $autocomplite;
+
         }
     }
 

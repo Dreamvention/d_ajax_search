@@ -42,6 +42,9 @@ h4 {
 #extensions > div > span.extension > label:hover {
     cursor: pointer;
 }
+#tab_analytics .tab-body{
+    padding-top:20px;
+}
 .marbot{
     margin-bottom: 5px;
     /* margin-left: 50px; */

@@ -1,6 +1,6 @@
 {
     "codename": "d_ajax_search",
-    "version": "6.2.0",
+    "version": "6.2.1",
     "name": "d_ajax_search",
     "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
     "index": "extension/module/d_ajax_search",
@@ -25,7 +25,8 @@
         "3.0.1.1",
         "3.0.1.2",
         "3.0.2.0",
-        "3.0.3.1"
+        "3.0.3.1",
+        "3.0.3.2"
     ],
     "type": "module",
     "license": {
@@ -49,6 +50,7 @@
         "d_admin_style": ">= 1.0.4",
         "d_simple_html_dom": ">= 2.0.0",
         "d_event_manager": ">= 1.3.1",
+        "d_vue": ">= 2.5.16",
         "d_tinysort": ">=2.3.7"
     },
     "files": [
@@ -64,7 +66,7 @@
         "catalog/controller/extension/module/d_ajax_search.php",
         "catalog/language/en-gb/extension/module/d_ajax_search.php",
         "catalog/model/extension/module/d_ajax_search.php",
-        "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
+        "catalog/view/theme/default/template/extension/module/d_ajax_search_vue.twig",
 
         "system/library/d_shopunity/install/d_ajax_search.xml",
         "system/config/d_ajax_search/product_simple.php",
@@ -78,6 +80,10 @@
         "catalog/view/theme/default/stylesheet/d_ajax_search"
     ],
     "changelog": [
+        {
+            "varsion": "6.2.1",
+            "change": "change to vue"
+        },
         {
             "varsion": "6.2.0",
             "change": "Fix trigger for mobile"
