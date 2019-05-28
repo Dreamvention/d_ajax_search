@@ -48,7 +48,7 @@
         <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
       </span>
     </div>
-    <div v-if="!showModal">
+    <div v-if="!state.mobile">
         <d_results
             v-bind:state="state" 
             v-bind:response="response" 
