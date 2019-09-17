@@ -62,91 +62,91 @@
     ],
     "changelog": [
         {
-            "varsion": "6.2.1",
+            "version": "6.2.1",
             "change": "sem var"
         },
         {
-            "varsion": "6.2.0",
+            "version": "6.2.0",
             "change": "Fix trigger for mobile"
         },
         {
-            "varsion": "6.1.9",
+            "version": "6.1.9",
             "change": "add support 3.0.3.1"
         },
         {
-            "varsion": "6.1.8",
+            "version": "6.1.8",
             "change": "fix bug for customer tab history;"
         },
         {
-            "varsion": "6.1.7",
+            "version": "6.1.7",
             "change": "fixes for VD;"
         },
         {
-            "varsion": "6.1.6",
+            "version": "6.1.6",
             "change": "admin welcome"
         },
         {
-            "varsion": "6.1.5",
+            "version": "6.1.5",
             "change": "small fix"
         },
         {
-            "varsion": "6.1.4",
+            "version": "6.1.4",
             "change": "change front-end from ocmod to event"
         },
         {
-            "varsion": "6.1.3",
+            "version": "6.1.3",
             "change": "fix checkout sort"
         },
         {
-            "varsion": "6.1.2",
+            "version": "6.1.2",
             "change": "fix no_dublicate issue"
         },
         {
-            "varsion": "6.1.1",
+            "version": "6.1.1",
             "change": "add option for not display products with same images"
         },
         {
-            "varsion": "6.1.0",
+            "version": "6.1.0",
             "change": "explode keyword"
         },
         {
-            "varsion": "6.0.9",
+            "version": "6.0.9",
             "change": "fix seo "
         },
         {
-            "varsion": "6.0.8",
+            "version": "6.0.8",
             "change": "change autocmplite logic"
         },
         {
-            "varsion":"6.0.7",
+            "version":"6.0.7",
             "change": "add currency"
         },
         {
-            "varsion":"6.0.6",
+            "version":"6.0.6",
             "change": "add customer history"
         },
         {
-            "varsion":"6.0.5",
+            "version":"6.0.5",
             "change": "add smart search"
         },
         {
-            "varsion":"6.0.4",
+            "version":"6.0.4",
             "change": "fix style on mobile design"
         },
         {
-            "varsion":"6.0.3",
+            "version":"6.0.3",
             "change": "modal design"
         },
         {
-            "varsion":"6.0.2",
+            "version":"6.0.2",
             "change": "one ajax request"
         },
         {
-            "varsion":"6.0.1",
+            "version":"6.0.1",
             "change": "admin css"
         },
         {
-            "varsion":"6.0.0",
+            "version":"6.0.0",
             "change": "First version"
         }
     ]
