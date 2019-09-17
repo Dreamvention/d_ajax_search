@@ -1,6 +1,6 @@
 {
     "codename": "d_ajax_search",
-    "version": "6.2.2",
+    "version": "6.2.4",
     "name": "d_ajax_search",
     "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
     "index": "extension/module/d_ajax_search",
@@ -62,6 +62,10 @@
         "catalog/view/theme/default/stylesheet/d_ajax_search"
     ],
     "changelog": [
+        {
+            "version": "6.2.4",
+            "change": "v 6.2.4"
+        },
         {
             "version": "6.2.2",
             "change": "Validator dependency"
