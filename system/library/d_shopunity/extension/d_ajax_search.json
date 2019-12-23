@@ -1,6 +1,6 @@
 {
     "codename": "d_ajax_search",
-    "version": "6.2.3",
+    "version": "6.2.0",
     "name": "d_ajax_search",
     "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
     "index": "extension/module/d_ajax_search",
@@ -9,7 +9,24 @@
         "email": "info@shopunity.com",
         "url": "https://shopunity.net/"
     },
-    "opencart_version": "2-4",
+    "opencart_version": [
+        "2.0.0.0",
+        "2.0.1.0",
+        "2.0.1.1",
+        "2.0.2.0",
+        "2.0.3.1",
+        "2.1.0.1",
+        "2.1.0.2",
+        "2.2.0.0",
+        "2.3.0.0",
+        "2.3.0.1",
+        "2.3.0.2",
+        "3.0.0.0",
+        "3.0.1.1",
+        "3.0.1.2",
+        "3.0.2.0",
+        "3.0.3.1"
+    ],
     "type": "module",
     "license": {
         "type": "free",
@@ -32,8 +49,7 @@
         "d_admin_style": ">= 1.0.4",
         "d_simple_html_dom": ">= 2.0.0",
         "d_event_manager": ">= 1.3.1",
-        "d_tinysort": ">=2.3.7",
-        "d_validator": ">=1.0.2"
+        "d_tinysort": ">=2.3.7"
     },
     "files": [
         "system/library/d_shopunity/extension/d_ajax_search.json",
@@ -63,99 +79,87 @@
     ],
     "changelog": [
         {
-            "version": "6.2.3",
-            "change": "v 6.2.3"
-        },
-        {
-            "version": "6.2.2",
-            "change": "Validator dependency"
-        },
-        {
-            "version": "6.2.1",
-            "change": "sem var"
-        },
-        {
-            "version": "6.2.0",
+            "varsion": "6.2.0",
             "change": "Fix trigger for mobile"
         },
         {
-            "version": "6.1.9",
+            "varsion": "6.1.9",
             "change": "add support 3.0.3.1"
         },
         {
-            "version": "6.1.8",
+            "varsion": "6.1.8",
             "change": "fix bug for customer tab history;"
         },
         {
-            "version": "6.1.7",
+            "varsion": "6.1.7",
             "change": "fixes for VD;"
         },
         {
-            "version": "6.1.6",
+            "varsion": "6.1.6",
             "change": "admin welcome"
         },
         {
-            "version": "6.1.5",
+            "varsion": "6.1.5",
             "change": "small fix"
         },
         {
-            "version": "6.1.4",
+            "varsion": "6.1.4",
             "change": "change front-end from ocmod to event"
         },
         {
-            "version": "6.1.3",
+            "varsion": "6.1.3",
             "change": "fix checkout sort"
         },
         {
-            "version": "6.1.2",
+            "varsion": "6.1.2",
             "change": "fix no_dublicate issue"
         },
         {
-            "version": "6.1.1",
+            "varsion": "6.1.1",
             "change": "add option for not display products with same images"
         },
         {
-            "version": "6.1.0",
+            "varsion": "6.1.0",
             "change": "explode keyword"
         },
         {
-            "version": "6.0.9",
+            "varsion": "6.0.9",
             "change": "fix seo "
         },
         {
-            "version": "6.0.8",
+            "varsion": "6.0.8",
             "change": "change autocmplite logic"
         },
         {
-            "version":"6.0.7",
+            "varsion":"6.0.7",
             "change": "add currency"
         },
         {
-            "version":"6.0.6",
+            "varsion":"6.0.6",
             "change": "add customer history"
         },
         {
-            "version":"6.0.5",
+            "varsion":"6.0.5",
             "change": "add smart search"
         },
         {
-            "version":"6.0.4",
+            "varsion":"6.0.4",
             "change": "fix style on mobile design"
         },
         {
-            "version":"6.0.3",
+            "varsion":"6.0.3",
             "change": "modal design"
         },
         {
-            "version":"6.0.2",
+            "varsion":"6.0.2",
             "change": "one ajax request"
         },
         {
-            "version":"6.0.1",
+            "varsion":"6.0.1",
             "change": "admin css"
         },
         {
-            "version":"6.0.0",
+            "varsion":"6.0.0",
             "change": "First version"
         }
     ]

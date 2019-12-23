@@ -21,7 +21,6 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
         $this->d_admin_style = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_admin_style.json'));
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
-        $this->d_validator = (file_exists(DIR_SYSTEM . 'library/d_shopunity/extension/d_validator.json'));
     }
 
     public function index()
@@ -40,11 +39,6 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         if($this->d_event_manager){
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->installCompatibility();
-        }
-
-        if ($this->d_validator) {
-            $this->load->model('extension/d_shopunity/d_validator');
-            $this->model_extension_d_shopunity_d_validator->installCompatibility();
         }
 
         if ($this->d_admin_style){
