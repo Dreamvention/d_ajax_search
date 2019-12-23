@@ -20,6 +20,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->d_ajax_search_pro =(file_exists(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'_pro.json'));
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
         $this->d_admin_style = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_admin_style.json'));
+        $this->d_validator = (file_exists(DIR_SYSTEM . 'library/d_shopunity/extension/d_validator.json'));
         $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
     }
 
@@ -44,6 +45,11 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         if ($this->d_admin_style){
             $this->load->model('extension/d_admin_style/style');
             $this->model_extension_d_admin_style_style->getStyles('light');
+        }
+
+        if ($this->d_validator) {
+            $this->load->model('extension/d_shopunity/d_validator');
+            $this->model_extension_d_shopunity_d_validator->installCompatibility();
         }
 
         $this->load->language($this->route);
@@ -74,7 +80,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->response->redirect($this->model_extension_d_opencart_patch_url->getExtensionLink('module'));
         }
 
-        
+
         $this->document->addScript('view/javascript/d_tinysort/tinysort.min.js');
         $this->document->addScript('view/javascript/d_tinysort/jquery.tinysort.min.js');
         $this->document->addStyle('view/javascript/d_rubaxa_sortable/sortable.css');
@@ -116,7 +122,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         $data['token'] = $this->model_extension_d_opencart_patch_user->getToken();
         $data['url_token'] = $this->model_extension_d_opencart_patch_user->getUrlToken();
-        
+
         // Tab
         $data['text_settings'] = $this->language->get('text_settings');
         $data['text_instructions'] = $this->language->get('text_instructions');
@@ -408,7 +414,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
             $this->model_extension_d_opencart_patch_modification->refreshCache();
         }
-        
+
     }
 
     public function uninstall()
