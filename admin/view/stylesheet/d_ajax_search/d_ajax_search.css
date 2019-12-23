@@ -69,7 +69,7 @@ h4 {
 .table-responsive{
     overflow: inherit;
 }
-@media screen and (min-width: 1500px) {
+@media screen and (max-width: 1500px) {
     .table-responsive .more-details{
         margin-left: 15px!important;
     }
