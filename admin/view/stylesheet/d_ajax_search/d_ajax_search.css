@@ -74,9 +74,9 @@ h4 {
         margin-left: 15px!important;
     }
 }
-.table-responsive.products{
-    position: relative;
-}
+/*.table-responsive.products{*/
+/*    position: relative;*/
+/*}*/
 .bootbox-form .checkbox > label > input{
     position:absolute;
 }
