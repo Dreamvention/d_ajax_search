@@ -1,162 +1,158 @@
 {
-    "codename": "d_ajax_search",
-    "version": "6.2.3",
-    "name": "d_ajax_search",
-    "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
-    "index": "extension/module/d_ajax_search",
-    "author": {
-        "name": "Shopunity",
-        "email": "info@shopunity.com",
-        "url": "https://shopunity.net/"
+  "codename": "d_ajax_search",
+  "version": "6.2.6",
+  "name": "d_ajax_search",
+  "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
+  "index": "extension/module/d_ajax_search",
+  "author": {
+    "name": "Shopunity",
+    "email": "info@shopunity.com",
+    "url": "https://shopunity.net/"
+  },
+  "opencart_version": "2-4",
+  "type": "module",
+  "license": {
+    "type": "free",
+    "url": "https://shopunity.net/licenses/free"
+  },
+  "install": {
+    "url": "extension/extension/module/install&extension=d_ajax_search"
+  },
+  "uninstall": {
+    "url": "extension/extension/module/uninstall&extension=d_ajax_search"
+  },
+  "support": {
+    "email": "support@shopunity.com",
+    "url": "https://shopunity.net/"
+  },
+  "required": {
+    "d_opencart_patch": ">= 1.0.0",
+    "d_twig_manager": ">= 1.5.0",
+    "d_rubaxa_sortable": ">= 1.4.1",
+    "d_admin_style": ">= 1.0.4",
+    "d_simple_html_dom": ">= 2.0.0",
+    "d_event_manager": ">= 1.3.1",
+    "d_tinysort": ">=2.3.7",
+    "d_validator": ">=1.0.2"
+  },
+  "files": [
+    "system/library/d_shopunity/extension/d_ajax_search.json",
+    "admin/controller/extension/module/d_ajax_search.php",
+    "admin/model/extension/module/d_ajax_search.php",
+    "admin/controller/extension/d_ajax_search/product_simple.php",
+    "admin/language/en-gb/extension/module/d_ajax_search.php",
+    "admin/view/template/extension/module/d_ajax_search.twig",
+    "admin/view/template/extension/d_ajax_search/customer_search_history.twig",
+    "catalog/controller/extension/module/d_ajax_search.php",
+    "catalog/language/en-gb/extension/module/d_ajax_search.php",
+    "catalog/model/extension/module/d_ajax_search.php",
+    "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
+    "system/library/d_shopunity/install/d_ajax_search.xml",
+    "system/config/d_ajax_search/product_simple.php",
+    "system/config/d_ajax_search.php"
+  ],
+  "dirs": [
+    "admin/view/image/d_ajax_search",
+    "admin/view/stylesheet/d_ajax_search",
+    "image/catalog/d_ajax_search",
+    "catalog/view/theme/default/stylesheet/d_ajax_search"
+  ],
+  "changelog": [
+    {
+      "version": "6.2.6",
+      "change": "fix pop-up window settings"
     },
-    "opencart_version": "2-4",
-    "type": "module",
-    "license": {
-        "type": "free",
-        "url": "https://shopunity.net/licenses/free"
+    {
+      "version": "6.2.5",
+      "change": "Add validator dependency"
     },
-    "install": {
-        "url": "extension/extension/module/install&extension=d_ajax_search"
+    {
+      "version": "6.2.4",
+      "change": "Revert 6.2.0 version"
     },
-    "uninstall": {
-        "url": "extension/extension/module/uninstall&extension=d_ajax_search"
+    {
+      "version": "6.2.0",
+      "change": "Fix trigger for mobile"
     },
-    "support": {
-        "email": "support@shopunity.com",
-        "url": "https://shopunity.net/"
+    {
+      "version": "6.1.9",
+      "change": "add support 3.0.3.1"
     },
-    "required": {
-        "d_opencart_patch": ">= 1.0.0",
-        "d_twig_manager": ">= 1.5.0",
-        "d_rubaxa_sortable": ">= 1.4.1",
-        "d_admin_style": ">= 1.0.4",
-        "d_simple_html_dom": ">= 2.0.0",
-        "d_event_manager": ">= 1.3.1",
-        "d_tinysort": ">=2.3.7",
-        "d_validator": ">=1.0.2"
+    {
+      "version": "6.1.8",
+      "change": "fix bug for customer tab history;"
     },
-    "files": [
-        "system/library/d_shopunity/extension/d_ajax_search.json",
-
-        "admin/controller/extension/module/d_ajax_search.php",
-        "admin/model/extension/module/d_ajax_search.php",
-        "admin/controller/extension/d_ajax_search/product_simple.php",
-        "admin/language/en-gb/extension/module/d_ajax_search.php",
-        "admin/view/template/extension/module/d_ajax_search.twig",
-        "admin/view/template/extension/d_ajax_search/customer_search_history.twig",
-
-        "catalog/controller/extension/module/d_ajax_search.php",
-        "catalog/language/en-gb/extension/module/d_ajax_search.php",
-        "catalog/model/extension/module/d_ajax_search.php",
-        "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
-
-        "system/library/d_shopunity/install/d_ajax_search.xml",
-        "system/config/d_ajax_search/product_simple.php",
-        "system/config/d_ajax_search.php"
-    ],
-    "dirs": [
-
-        "admin/view/image/d_ajax_search",
-        "admin/view/stylesheet/d_ajax_search",
-        "image/catalog/d_ajax_search",
-        "catalog/view/theme/default/stylesheet/d_ajax_search"
-    ],
-    "changelog": [
-        {
-            "version": "6.2.3",
-            "change": "v 6.2.3"
-        },
-        {
-            "version": "6.2.2",
-            "change": "Validator dependency"
-        },
-        {
-            "version": "6.2.1",
-            "change": "sem var"
-        },
-        {
-            "version": "6.2.0",
-            "change": "Fix trigger for mobile"
-        },
-        {
-            "version": "6.1.9",
-            "change": "add support 3.0.3.1"
-        },
-        {
-            "version": "6.1.8",
-            "change": "fix bug for customer tab history;"
-        },
-        {
-            "version": "6.1.7",
-            "change": "fixes for VD;"
-        },
-        {
-            "version": "6.1.6",
-            "change": "admin welcome"
-        },
-        {
-            "version": "6.1.5",
-            "change": "small fix"
-        },
-        {
-            "version": "6.1.4",
-            "change": "change front-end from ocmod to event"
-        },
-        {
-            "version": "6.1.3",
-            "change": "fix checkout sort"
-        },
-        {
-            "version": "6.1.2",
-            "change": "fix no_dublicate issue"
-        },
-        {
-            "version": "6.1.1",
-            "change": "add option for not display products with same images"
-        },
-        {
-            "version": "6.1.0",
-            "change": "explode keyword"
-        },
-        {
-            "version": "6.0.9",
-            "change": "fix seo "
-        },
-        {
-            "version": "6.0.8",
-            "change": "change autocmplite logic"
-        },
-        {
-            "version":"6.0.7",
-            "change": "add currency"
-        },
-        {
-            "version":"6.0.6",
-            "change": "add customer history"
-        },
-        {
-            "version":"6.0.5",
-            "change": "add smart search"
-        },
-        {
-            "version":"6.0.4",
-            "change": "fix style on mobile design"
-        },
-        {
-            "version":"6.0.3",
-            "change": "modal design"
-        },
-        {
-            "version":"6.0.2",
-            "change": "one ajax request"
-        },
-        {
-            "version":"6.0.1",
-            "change": "admin css"
-        },
-        {
-            "version":"6.0.0",
-            "change": "First version"
-        }
-    ]
+    {
+      "version": "6.1.7",
+      "change": "fixes for VD;"
+    },
+    {
+      "version": "6.1.6",
+      "change": "admin welcome"
+    },
+    {
+      "version": "6.1.5",
+      "change": "small fix"
+    },
+    {
+      "version": "6.1.4",
+      "change": "change front-end from ocmod to event"
+    },
+    {
+      "version": "6.1.3",
+      "change": "fix checkout sort"
+    },
+    {
+      "version": "6.1.2",
+      "change": "fix no_dublicate issue"
+    },
+    {
+      "version": "6.1.1",
+      "change": "add option for not display products with same images"
+    },
+    {
+      "version": "6.1.0",
+      "change": "explode keyword"
+    },
+    {
+      "version": "6.0.9",
+      "change": "fix seo "
+    },
+    {
+      "version": "6.0.8",
+      "change": "change autocmplite logic"
+    },
+    {
+      "version": "6.0.7",
+      "change": "add currency"
+    },
+    {
+      "version": "6.0.6",
+      "change": "add customer history"
+    },
+    {
+      "version": "6.0.5",
+      "change": "add smart search"
+    },
+    {
+      "version": "6.0.4",
+      "change": "fix style on mobile design"
+    },
+    {
+      "version": "6.0.3",
+      "change": "modal design"
+    },
+    {
+      "version": "6.0.2",
+      "change": "one ajax request"
+    },
+    {
+      "version": "6.0.1",
+      "change": "admin css"
+    },
+    {
+      "version": "6.0.0",
+      "change": "First version"
+    }
+  ]
 }
