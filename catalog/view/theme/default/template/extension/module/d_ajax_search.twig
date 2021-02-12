@@ -178,7 +178,7 @@
 
 					}
 					if (addclass == 'hidden') {
-						html += '</div>{% if not mobile and setting['all_result_status'] %}<a class="all_results">All results <i class="fa fa-caret-down"></i></a>{% endif %}</div>';
+						html += '</div>{% if not mobile and setting['all_result_status'] %}<a class="all_results">{{ more_results }} <i class="fa fa-caret-down"></i></a>{% endif %}</div>';
 					}
 					if ($('#d_ajax_search_results').length > 0) {
 						$('#d_ajax_search_results').remove();
