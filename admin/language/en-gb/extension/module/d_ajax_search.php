@@ -13,9 +13,12 @@ $_['success_twig_compatible']       = 'Twig support successfully installed.';
 
 // Text
 //
+
+$_['main_settings']                 = 'Custom Settings';
 $_['text_success']                  = 'Edit Live Ajax Search settings';
 $_['text_edit']                     = 'Edit Live Ajax Search settings';
 $_['text_modules']                  = 'Modules';
+$_['text_analitycs']                = 'Analytics';
 $_['text_settings']                 = 'Settings';
 $_['text_instructions']             = 'Instructions';
 $_['text_product']                  = 'Product';
@@ -79,20 +82,26 @@ $_['entry_max_results']             = 'Max Number of results';
 $_['entry_first_symbols']           = 'Search only for first symbols in the title';
 $_['entry_priority']                = 'Priority search';
 $_['entry_class']                   = 'Set selector of the search feild';
+$_['entry_class_form']              = 'Set selector of the search form';
 $_['entry_price']                   = 'Display product price';
 $_['entry_special']                 = 'Display product special';
 $_['entry_tax']                     = 'Display product price and special with tax';
 $_['entry_model']                   = 'Display product model:';
 $_['entry_extended']                = 'Extend default search result';
+$_['entry_custom_style']              = 'Custom Style';
+$_['entry_design']                  = 'Design';
+$_['entry_history_redirects']       ='History & Redirects';
 
 //Help
 $_['help_width']                    = 'Set the width of the result dropdown form. i.e. 100px or 100%';
 $_['help_max_symbols']              = 'Min symbols for start search (if 0 - cut disabled)';
 $_['help_max_results']              = 'Max number items in the result list ( if 0 - use default value(5) )';
 $_['help_on_off']                   = 'Turn Ajax Search on/off';
-$_['help_class']                    = 'Use in case you have a custom theme. Some themes create their own class for the input field which breaks the ajax search. You can learn your input selector by looking at the source code of the search field for class=search (write .search) or name=search (write [name=search]) or id=search (write #search), separate by comma ';
+$_['help_class']                    = 'Use in case you have a custom theme. Some themes create their own class for the input field which breaks the ajax search. You can learn your input selector by looking at the source code of the search field for class=search (write .search) or name=search (write [name=search]) or id=search (write #search), separate by comma.';
+$_['help_class_form']               = 'Use in case you have a custom theme. Some themes create their own class for the search form which break correct display of ajax search visually. You can learn your selector of search form by looking at the source code of the search form for class=search (write .search) or name=search (write [name=search]) or id=search (write #search), separate by comma.';
 $_['help_first_symbols']            = 'This will force the search to look only from the begining of the product name (or category). i.e. writing letter c will show CD player, but will not show iMac';
 $_['help_general_version']          = 'When there is a new version available, you can download it from the location you have purchased the module.';
+$_['help_custom_style']             = 'You can add your own style settings.';
 
 // Button
 $_['button_save']                   = 'Save';

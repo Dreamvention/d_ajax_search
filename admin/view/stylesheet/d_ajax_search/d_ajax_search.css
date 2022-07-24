@@ -66,8 +66,13 @@ h4 {
 .pagination > li{
     cursor:pointer;
 }
-.table-responsive.products{
-    position: relative;
+.table-responsive{
+    overflow: inherit;
+}
+@media screen and (max-width: 1500px) {
+    .table-responsive .more-details{
+        margin-left: 15px!important;
+    }
 }
 .bootbox-form .checkbox > label > input{
     position:absolute;

@@ -20,8 +20,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->d_ajax_search_pro =(file_exists(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'_pro.json'));
         $this->d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
         $this->d_admin_style = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_admin_style.json'));
-        $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
         $this->d_validator = (file_exists(DIR_SYSTEM . 'library/d_shopunity/extension/d_validator.json'));
+        $this->extension = json_decode(file_get_contents(DIR_SYSTEM.'library/d_shopunity/extension/'.$this->codename.'.json'), true);
     }
 
     public function index()
@@ -42,14 +42,14 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->model_extension_module_d_event_manager->installCompatibility();
         }
 
-        if ($this->d_validator) {
-            $this->load->model('extension/d_shopunity/d_validator');
-            $this->model_extension_d_shopunity_d_validator->installCompatibility();
-        }
-
         if ($this->d_admin_style){
             $this->load->model('extension/d_admin_style/style');
             $this->model_extension_d_admin_style_style->getStyles('light');
+        }
+
+        if ($this->d_validator) {
+            $this->load->model('extension/d_shopunity/d_validator');
+            $this->model_extension_d_shopunity_d_validator->installCompatibility();
         }
 
         $this->load->language($this->route);
@@ -80,7 +80,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->response->redirect($this->model_extension_d_opencart_patch_url->getExtensionLink('module'));
         }
 
-        
+
         $this->document->addScript('view/javascript/d_tinysort/tinysort.min.js');
         $this->document->addScript('view/javascript/d_tinysort/jquery.tinysort.min.js');
         $this->document->addStyle('view/javascript/d_rubaxa_sortable/sortable.css');
@@ -122,7 +122,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         $data['token'] = $this->model_extension_d_opencart_patch_user->getToken();
         $data['url_token'] = $this->model_extension_d_opencart_patch_user->getUrlToken();
-        
+
         // Tab
         $data['text_settings'] = $this->language->get('text_settings');
         $data['text_instructions'] = $this->language->get('text_instructions');
@@ -136,7 +136,12 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['more_details'] = $this->language->get('more_details');
 
         // Entry
+        $data['entry_history_redirects'] = $this->language->get('entry_history_redirects');
+        $data['main_settings'] = $this->language->get('main_settings');
+        $data['entry_custom_style'] = $this->language->get('entry_custom_style');
         $data['entry_status'] = $this->language->get('entry_status');
+        $data['entry_design'] = $this->language->get('entry_design');
+        $data['text_analitycs'] = $this->language->get('text_analitycs');
         $data['entry_width'] = $this->language->get('entry_width');
         $data['entry_max_symbols'] = $this->language->get('entry_max_symbols');
         $data['entry_max_results'] = $this->language->get('entry_max_results');
@@ -147,6 +152,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['entry_tax'] = $this->language->get('entry_tax');
         $data['entry_model'] = $this->language->get('entry_model');
         $data['entry_class'] = $this->language->get('entry_class');
+        $data['entry_class_form'] = $this->language->get('entry_class_form');
         $data['entry_extended'] = $this->language->get('entry_extended');
         $data['tooltip_suggestion'] = $this->language->get('tooltip_suggestion');
         $data['tooltip_smart_search'] = $this->language->get('tooltip_smart_search');
@@ -400,7 +406,9 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         if ($this->d_event_manager) {
             $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
             $this->model_extension_module_d_event_manager->addEvent($this->codename, 'admin/view/customer/customer_form/after', 'extension/module/d_ajax_search/view_customer_customer_form_after');
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/controller/common/header/before', 'extension/module/d_ajax_search/controller_common_header_before');
             $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/view/common/header/after', 'extension/module/d_ajax_search/view_common_header_after');
         }
 
@@ -410,20 +418,20 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
             $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'access', 'extension/'.$this->codename);
             $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'modify', 'extension/'.$this->codename);
 
-            $this->load->model('extension/d_opencart_patch/modification');
+            /*$this->load->model('extension/d_opencart_patch/modification');
             $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
-            $this->model_extension_d_opencart_patch_modification->refreshCache();
+            $this->model_extension_d_opencart_patch_modification->refreshCache();*/
         }
-        
+
     }
 
     public function uninstall()
     {
-        if ($this->d_opencart_patch) {
+        /*if ($this->d_opencart_patch) {
             $this->load->model('extension/d_opencart_patch/modification');
             $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 0);
             $this->model_extension_d_opencart_patch_modification->refreshCache();
-        }
+        }*/
 
         if ($this->d_event_manager) {
             $this->load->model('extension/module/d_event_manager');

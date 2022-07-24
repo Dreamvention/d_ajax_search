@@ -1,3 +1,9 @@
+<style type="text/css">
+{{ setting['class_form'] }} {
+		margin-bottom: 0;
+	}
+</style>
+
 {% if (setting['width']) %}
     <style type="text/css">
         #d_ajax_search_results {
@@ -5,6 +11,15 @@
         }
     </style>
 {% endif %}
+
+{% if (setting['custom_style']) %}
+    <style type="text/css">
+        
+        {{setting['custom_style']}}
+        
+    </style>
+{% endif %}
+
 <button type="button" class="hidden modal_search btn btn-primary" style="display: none" data-toggle="modal" data-target="#searchModal">
     Launch Live Ajax Search
 </button>
@@ -90,11 +105,11 @@
 			dataType: 'json',
 			beforeSend: function () {
 				var html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
-				html += '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="margin-left: 50%;"></i>';
+				html += '<center><i class="fa fa-spinner fa-spin fa-3x fa-fw" style="z-index: 2000; color: black;"></i></center>';
 				if ({{ mobile }}) {
 					$('#search_mobile').after(html);
 				} else {
-					$("{{ setting['class'] }}").after(html);
+					$("{{ setting['class_form'] }}").after(html);
 					// $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
 				}
 			},
@@ -141,9 +156,9 @@
 						html += '<a class="result-link ' + addclass + ' sort-item row col-sm-12" item_data="' + result[i].item_data + '" data-sort-order="' + result[i].weight + '" href="' + result[i].href + '">';
 
 						if (result[i].image) {
-							html += '<div class="col pull-left col-sm-2 va-center text-center"><img src="' + result[i].image + '" /></div>';
+							html += '<div class="col pull-left va-center text-center"><img src="' + result[i].image + '" /></div>';
 						} else {
-							html += '<div class="col col-sm-2 col-xs-2 va-center text-center"></div>';
+							html += '<div class="col va-center text-center"></div>';
 						}
 
 						if (result[i].name.length > 30) {
@@ -178,7 +193,7 @@
 
 					}
 					if (addclass == 'hidden') {
-						html += '</div>{% if not mobile and setting['all_result_status'] %}<a class="all_results">{{ more_results }} <i class="fa fa-caret-down"></i></a>{% endif %}</div>';
+						html += '</div>{% if not mobile and setting['all_result_status'] %}<a class="all_results"> {{ all_results }} <i class="fa fa-caret-down"></i></a>{% endif %}</div>';
 					}
 					if ($('#d_ajax_search_results').length > 0) {
 						$('#d_ajax_search_results').remove();
@@ -186,7 +201,7 @@
 					if ({{ mobile }}) {
 						$('.modal-body').append(html);
 					} else {
-						$("{{ setting['class'] }}").after(html);
+						$("{{ setting['class_form'] }}").after(html);
 						// $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
 					}
 
@@ -218,11 +233,11 @@
 
 						write_to_database(json);
 					});
-					if ({{ setting['block_result'] }}) {
+					/*if ({{ setting['block_result'] }}) {
 						$('#d_ajax_search_results_body > .result_block >.sort-item').tsort({attr: 'data-sort-order'}, {defaults: {order: 'desc'}});
 					} else {
 						$('#d_ajax_search_results_body >.sort-item').tsort({attr: 'data-sort-order'}, {defaults: {order: 'desc'}});
-					}
+					}*/
 
 
 					$('.all_results').click(function () {
@@ -237,18 +252,18 @@
 					var html;
 					html = '<div id="d_ajax_search_results"><div id="d_ajax_search_results_body">';
 					html += '<a class="row col-sm-12" href="#">';
-					html += '<span class="no-results"><i class="fa fa-exclamation-circle"></i> no results</span></a></div></div>';
+					html += '<span class="no-results"><i class="fa fa-exclamation-circle"></i> {{ no_results }}</span></a></div></div>';
 					if ({{ mobile }}) {
 						$('.modal-body').append(html);
 						// $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
 					} else {
-						$("{{ setting['class'] }}").after(html);
+						$("{{ setting['class_form'] }}").after(html);
 						// $('#d_ajax_search_results').css('margin-top', '-' + $("{{ setting['class'] }}").css('margin-bottom'));
 					}
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-				console.log('error');
+				console.log(thrownError);
 			}
 		});
 		return true;
@@ -284,6 +299,7 @@
 		$('#d_ajax_search_results').remove();
 		$('#search_input').val('');
 		$('#help').show();
+		$('#search_input').focus();
 	}
 
 	$(document).ready(function () {
@@ -402,3 +418,4 @@
 		}
 	});
 </script>
+

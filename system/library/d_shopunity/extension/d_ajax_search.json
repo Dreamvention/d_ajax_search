@@ -60,7 +60,7 @@
   "changelog": [
     {
       "version": "6.2.6",
-      "change": "fix pop-up window settings"
+      "change": "Fixed issues with styles and modification was remade to events"
     },
     {
       "version": "6.2.5",

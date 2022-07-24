@@ -99,7 +99,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
                     if ($query['rule'] == 'LIKE') {
 
-                        if($query['key']=='pd.name'){
+                        if($query['key']=='pd.name' && $research){
                             foreach ($keywords as $key => $word) {
                                 $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $word . "%')";
                             }
@@ -187,7 +187,8 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                         $result[$search][$key]['price'] = 0;
                     } else {
                         if(isset($row['price'])){
-                            $result[$search][$key]['price'] = $this->currency->format($row['price'] , $this->session->data['currency']);
+                            $tax_class = $this->model_catalog_product->getProduct($row[$search . '_id'])['tax_class_id'];
+                            $result[$search][$key]['price'] = $this->currency->format($this->tax->calculate($row['price'], $tax_class, $this->config->get('config_tax')), $this->session->data['currency']);
                         }else{
                             $result[$search][$key]['price']='';
                         }

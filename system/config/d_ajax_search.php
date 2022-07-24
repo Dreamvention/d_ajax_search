@@ -1,7 +1,8 @@
 <?php
 $_['d_ajax_search_setting'] = array(
-            'class' => '#search [name=search], #search [name=filter_name], #search [name=search_oc], #search_input',
-            'width' => '372px',
+            'class' => '[name=search], [name=filter_name], [name=search_oc], #search_input',
+            'class_form' => '#search',
+            'width' => '93.6%',
             'max_symbols' => 0,
             'max_results' => 7,
             'price' => 1,

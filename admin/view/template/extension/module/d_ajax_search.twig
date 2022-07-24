@@ -80,20 +80,21 @@
                                     </a></li>
                                 <li><a href="#tab_main" data-toggle="tab">
                                         <span class="fa fa-wrench"></span>
-                                        {{ main_settings }}Custom Settings
+                                        {{ main_settings }}
                                     </a></li>
                                 <li><a href="#tab_design" data-toggle="tab">
                                         <span class="fa fa-picture-o"></span>
-                                        Design
+                                        {{ entry_design }}
                                     </a></li>
                                 {% if pro %}
+                
                                     <li><a href="#tab_analytics" data-toggle="tab">
                                             <span class="fa fa-line-chart"></span>
-                                            Analytics
+                                            {{ text_analitycs }}
                                         </a></li>
                                     <li><a href="#tab_history" data-toggle="tab">
                                             <span class="fa fa-history"></span>
-                                            History & Redirects
+                                            {{ entry_history_redirects }}
                                         </a></li>
                                 {% endif %}
                                 <li><a href="#tab_instruction" data-toggle="tab">
@@ -116,6 +117,15 @@
                                                     <input type="checkbox" value="1"
                                                            name="{{ codename }}_status" {{ d_ajax_search_status ? 'checked="checked"' : '' }}
                                                            id="input-status"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-class"><span
+                                                            data-toggle="tooltip"
+                                                            title="{{ help_class_form }}">{{ entry_class_form }}</span></label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" name="{{ codename }}_setting[class_form]"
+                                                           value="{{ setting['class_form'] }}" class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -260,6 +270,8 @@
                                         </div>
                                     </div>
 
+                                    
+
                                     <div class="tab-pane" id="tab_design">
                                         <div class="tab-body">
                                             <div class="form-group">
@@ -370,6 +382,18 @@
                                                            class="form-control">
                                                 </div>
                                             </div>
+                                            {% if pro %}
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-custom_style"><span
+                                                            data-toggle="tooltip"
+                                                            title="{{ help_custom_style }}">{{ entry_custom_style }}</span></label>
+                                                <div class="col-sm-10">
+                                                    <!--<input name="{{ codename }}_setting[custom_style]"
+                                                           value="{{ setting['custom_style'] }}" class="form-control">-->
+                                                    <textarea class="form-control" id="input_custom_style" name="{{ codename }}_setting[custom_style]" rows="5">{{ setting['custom_style'] }}</textarea>
+                                                </div>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
 
@@ -512,15 +536,6 @@
                     </div>
                 </div>
 
-                <div class="info-window">
-                    <div class="info-window-wrap">
-                        <div class="info-window-block">
-                            <div class="info-window-close"><i class="fa fa-close"></i></div>
-                            <div class="info-window-description"></div>
-                        </div>
-                    </div>
-                </div>
-
                 {% if not pro and setup and d_shopunity %}
             </div>
 
@@ -539,7 +554,14 @@
         </div>
         {% endif %}
 
-        
+        <div class="info-window">
+            <div class="info-window-wrap">
+                <div class="info-window-block">
+                    <div class="info-window-close"><i class="fa fa-close"></i></div>
+                    <div class="info-window-description"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% if not setup %}
@@ -598,6 +620,7 @@
                     $('#content').fadeTo('slow', 1);
                 },
                 success: function (json) {
+                    alert(json);
                     showAlert(json);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

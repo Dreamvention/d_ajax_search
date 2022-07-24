@@ -23,6 +23,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data['no_results'] = $this->language->get('no_results');
         $data['more_results'] = $this->language->get('more_results');
         $data['search_phase']= $this->language->get('search_phase');
+        $data['all_results'] = $this->language->get('all_results');
+        
         $setting1 = $this->model_setting_setting->getSetting($this->id);
         if( !empty($setting1)&&$setting1['d_ajax_search_status']){
             if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
@@ -56,6 +58,10 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $output = (string)$html_dom;
     }
 
+    public function controller_common_header_before($route, &$data){
+        $data['d_ajax_search'] = $this->load->controller('extension/module/d_ajax_search');
+    }
+    
     public function write_to_base(){
         if(isset($this->request->post)){
             $this->model_extension_module_d_ajax_search->save_statistic($this->request->post);
