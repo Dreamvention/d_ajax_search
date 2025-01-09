@@ -67,12 +67,19 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
             if (VERSION >= '3.0.0.0') {
                 $new_post = array();
-                if ($this->request->post[$this->codename.'_status'] == 0) {
+                if (isset($this->request->post[$this->codename.'_status'] ) && $this->request->post[$this->codename.'_status'] == 0) {
                     $new_post['module_'.$this->codename.'_status'] = 0;
-                } elseif ($this->request->post[$this->codename.'_status'] == 1) {
+                } elseif (isset($this->request->post[$this->codename.'_status'] ) && $this->request->post[$this->codename.'_status'] == 1) {
                     $new_post['module_'.$this->codename.'_status'] = 1;
                 }
                 $this->model_setting_setting->editSetting('module_'.$this->codename, $new_post);
+            }
+            if (isset($this->request->post[$this->codename.'_status'])) {
+                if ($this->request->post[$this->codename.'_status'] == 1) {
+                    $this->installEvents();
+                } else {
+                    $this->uninstallEvents();
+                }
             }
 
             $this->model_setting_setting->editSetting($this->codename, $this->request->post);
@@ -136,6 +143,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['more_details'] = $this->language->get('more_details');
 
         // Entry
+        $data['entry_rtl'] = $this->language->get('entry_rtl');
         $data['entry_history_redirects'] = $this->language->get('entry_history_redirects');
         $data['main_settings'] = $this->language->get('main_settings');
         $data['entry_custom_style'] = $this->language->get('entry_custom_style');
@@ -200,6 +208,8 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $data['help_general_version'] = $this->language->get('help_general_version');
         $data['help_extended'] = $this->language->get('help_extended');
 
+        
+
 
         $data['action'] = $this->model_extension_d_opencart_patch_url->link($this->route);
         $data['cancel'] = $this->model_extension_d_opencart_patch_url->getExtensionLink('module');
@@ -235,6 +245,34 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         $this->load->model('extension/module/d_ajax_search');
         $extensions = $this->model_extension_module_d_ajax_search->getExtensions();
+
+        $this->load->model('localisation/language');
+
+        $results = $this->model_localisation_language->getLanguages();
+
+        $data['languages'] = array();
+
+		foreach ($results as $result) {
+			if ($result['status']) {
+				$data['languages'][] = array(
+					'name' => $result['name'],
+					'code' => $result['code'],
+                    'image' => VERSION < '2.2.0.0' ? $result['image'] : null
+				);
+			}
+		}
+
+        foreach ($data['languages'] as $language) {
+			if (isset($this->request->post['d_ajax_search_rtl'])) {
+                $rtl = json_decode($this->request->post['d_ajax_search_rtl']);
+                $data['d_ajax_search_rtl'.'['.$language['code'].']'] = $rtl[$language['code']];
+            }elseif ($this->config->get('d_ajax_search_rtl')) {
+                $rtl = $this->config->get('d_ajax_search_rtl');
+                $data['d_ajax_search_rtl'.'['.$language['code'].']'] = (isset($rtl[$language['code']]) ? $rtl[$language['code']] : 0);
+            }else {
+                $data['d_ajax_search_rtl'.'['.$language['code'].']'] = 0;
+            }
+		}
 
 
 //        $data['statistic'] = $this->model_extension_module_d_ajax_search->getStatistic();
@@ -404,35 +442,19 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
         $this->load->model('extension/module/d_ajax_search');
         $this->model_extension_module_d_ajax_search->createDatabase();
 
-        if ($this->d_event_manager) {
-            $this->load->model('extension/module/d_event_manager');
-            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
-            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'admin/view/customer/customer_form/after', 'extension/module/d_ajax_search/view_customer_customer_form_after');
-            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/controller/common/header/before', 'extension/module/d_ajax_search/controller_common_header_before');
-            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/view/common/header/after', 'extension/module/d_ajax_search/view_common_header_after');
-        }
+        $this->installEvents();
 
         if ($this->d_opencart_patch) {
             $this->load->model('user/user_group');
             $this->load->model('extension/d_opencart_patch/user');
             $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'access', 'extension/'.$this->codename);
             $this->model_user_user_group->addPermission($this->model_extension_d_opencart_patch_user->getGroupId(), 'modify', 'extension/'.$this->codename);
-
-            /*$this->load->model('extension/d_opencart_patch/modification');
-            $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 1);
-            $this->model_extension_d_opencart_patch_modification->refreshCache();*/
         }
 
     }
 
     public function uninstall()
     {
-        /*if ($this->d_opencart_patch) {
-            $this->load->model('extension/d_opencart_patch/modification');
-            $this->model_extension_d_opencart_patch_modification->setModification('d_ajax_search.xml', 0);
-            $this->model_extension_d_opencart_patch_modification->refreshCache();
-        }*/
-
         if ($this->d_event_manager) {
             $this->load->model('extension/module/d_event_manager');
             $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
@@ -443,6 +465,21 @@ class ControllerExtensionModuleDAjaxSearch extends Controller
 
         $this->load->model('extension/module/d_ajax_search');
         $this->model_extension_module_d_ajax_search->dropDatabase();
+    }
+
+    private function installEvents() {
+        if ($this->d_event_manager) {
+            $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'admin/view/customer/customer_form/after', 'extension/module/d_ajax_search/view_customer_customer_form_after');
+            $this->model_extension_module_d_event_manager->addEvent($this->codename, 'catalog/view/common/header/after', 'extension/module/d_ajax_search/view_common_header_after');
+        }
+    }
+    private function uninstallEvents() {
+        if ($this->d_event_manager) {
+            $this->load->model('extension/module/d_event_manager');
+            $this->model_extension_module_d_event_manager->deleteEvent($this->codename);
+        }
     }
 
     protected function validate()

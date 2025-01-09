@@ -87,14 +87,14 @@
     padding: 0px 6px;
 }
 .d-ajax-search-modal .d-ajax-search-modal__content .ve-card .ve-card__section .d_as-result-link .d_as-result-link__image-wrapper {
-    padding-left: 0;
+    padding-right: 0;
 }
 .d-ajax-search-modal .d-ajax-search-modal__content .ve-card .ve-card__section .d_as-result-link .d_as-result-link__image {
     min-width: 60px;
     min-height: 60px;
 }
 .d-ajax-search-modal .d-ajax-search-modal__content .ve-card .ve-card__section .d_as-result-link .d_as-result-link__price-wrapper {
-    padding-right: 0;
+    padding-left: 0;
 }
 .d-ajax-search-modal .d-ajax-search-modal__content .ve-card .ve-card__section .d_as-result-link .d_as-result-link__price-special {
     font-weight: 600;

@@ -119,6 +119,25 @@
                                                            id="input-status"/>
                                                 </div>
                                             </div>
+                                            {% for language in languages %}
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input_rtl[{{ language.code }}]">{{entry_rtl}}</label>                              
+                                            
+                                                <div class="col-sm-6">
+                                                <div class="language-flag" style="margin-top: 10px; padding-bottom: 10px;">
+                                                {% if constant('VERSION') < '2.2.0.0' %}
+                                                <img src="view/image/flags/{{ language.image }}" width="22" height="12" alt="{{ language.name }}" title="{{ language.name }}"/>
+                                                {% else %}
+                                                <img src="language/{{ language.code }}/{{ language.code }}.png" width="22" height="12" alt="{{ language.name }}" title="{{ language.name }}"/>
+                                                    
+                                                {% endif %} 
+                                                </div>      
+                                                    <input type="hidden" name="d_ajax_search_rtl[{{ language.code }}]" value="0" />
+                                                    <input type="checkbox" name="d_ajax_search_rtl[{{ language.code }}]" class="switcher" data-label-text="{{text_enabled}}" id="input_rtl[{{ language.code }}]"  {{attribute(_context, 'd_ajax_search_rtl['~ language.code ~']') ? 'checked="checked"' }} value="1" />
+                                                </div>
+                                                
+                                            </div>                               
+                                            {% endfor %}
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-class"><span
                                                             data-toggle="tooltip"
@@ -382,7 +401,6 @@
                                                            class="form-control">
                                                 </div>
                                             </div>
-                                            {% if pro %}
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-custom_style"><span
                                                             data-toggle="tooltip"
@@ -393,7 +411,6 @@
                                                     <textarea class="form-control" id="input_custom_style" name="{{ codename }}_setting[custom_style]" rows="5">{{ setting['custom_style'] }}</textarea>
                                                 </div>
                                             </div>
-                                            {% endif %}
                                         </div>
                                     </div>
 

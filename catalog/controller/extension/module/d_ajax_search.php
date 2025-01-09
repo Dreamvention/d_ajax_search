@@ -4,6 +4,10 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
     private $id = 'd_ajax_search';
     private $route = 'extension/module/d_ajax_search';
 
+    protected $scripts = array();
+
+    protected $styles = array();
+
 
     public function __construct($registry)
     {
@@ -15,7 +19,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $this->load->model('extension/d_opencart_patch/load');
     }
 
-    public function index(){
+    protected function renderLiveAjaxSearch(){
 
         $data=array();
         $this->load->language($this->route);
@@ -26,19 +30,35 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
         $data['all_results'] = $this->language->get('all_results');
         
         $setting1 = $this->model_setting_setting->getSetting($this->id);
-        if( !empty($setting1)&&$setting1['d_ajax_search_status']){
-            if(empty($this->request->get['route']) || !empty($this->request->get['route']) && ($this->request->get['route'] != 'checkout/checkout')){
-                $this->document->addScript('catalog/view/javascript/d_tinysort/tinysort.min.js');
-                $this->document->addScript('catalog/view/javascript/d_tinysort/jquery.tinysort.min.js');
+        if(!empty($setting1)){
+            $this->addScript('catalog/view/javascript/cash/cash.min.js');
+            $this->addScript('catalog/view/javascript/axios/axios.min.js');
+            $this->addScript('catalog/view/theme/default/javascript/d_ajax_search/autojs/autojs.min.js');
+            $this->addStyle('catalog/view/javascript/d_dialogify/dv_dialogify.min.css');
+            $this->addScript('catalog/view/javascript/d_dialogify/dv_dialogify.min.js');
+            $rtl = $this->config->get('d_ajax_search_rtl');
+            if (!empty($rtl[$this->session->data['language']])) {
+                $this->addStyle('catalog/view/javascript/ripecss/ripe.rtl.css');
+                if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
+                    $mobile = $data['mobile'] = 1;
+                    $this->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/mobile.rtl.css');
+                } else {
+                    $mobile = $data['mobile'] = 0;
+                    $this->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/d_ajax_search.rtl.css');
+                }
+            } else {
+                $this->addStyle('catalog/view/javascript/ripecss/ripe.css');
+                if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
+                    $mobile = $data['mobile'] = 1;
+                    $this->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/mobile.css');
+                } else {
+                    $mobile = $data['mobile'] = 0;
+                    $this->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/d_ajax_search.css');
+                }
             }
-            if (preg_match('/(iPhone|iPod|iPad|Android|Windows Phone)/', $this->request->server['HTTP_USER_AGENT'])) {
-                $mobile = $data['mobile'] = 1;
-                 $this->document->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/mobile.css');
-            }
-            else {
-                $mobile = $data['mobile'] = 0;
-                $this->document->addStyle('catalog/view/theme/default/stylesheet/d_ajax_search/d_ajax_search.css');
-            }
+            
+
+            
             if(isset($setting1['d_ajax_search_setting'])){
                 $settings = $setting1['d_ajax_search_setting'];
                 $data['setting']=$settings;
@@ -54,24 +74,26 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
     public function view_common_header_after(&$route, &$data, &$output){
         $html_dom = new d_simple_html_dom();
         $html_dom->load((string)$output, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
-        $html_dom->find('body', 0)->innertext .= $this->load->controller('extension/module/d_ajax_search');
-        $output = (string)$html_dom;
-    }
+        $html_dom->find('body', 0)->innertext .= $this->renderLiveAjaxSearch();
+        $output = $this->parseHeader((string)$html_dom);
 
-    public function controller_common_header_before($route, &$data){
-        $data['d_ajax_search'] = $this->load->controller('extension/module/d_ajax_search');
     }
     
     public function write_to_base(){
-        if(isset($this->request->post)){
-            $this->model_extension_module_d_ajax_search->save_statistic($this->request->post);
+        $rawData = file_get_contents('php://input');
+        $post = json_decode($rawData, true);
+        if(!$post){
+            $post = $this->request->post;
+        }
+        if(!empty($post)){
+            $this->model_extension_module_d_ajax_search->save_statistic($post);
             $this->response->setOutput(json_encode('ok'));
         }
         $this->response->setOutput(json_encode('error'));
     }
 
     public function getAutocomplite(){
-        if(isset($this->request->get)){
+        if(isset($this->request->get['keyword'])){
             $keyword=$this->request->get['keyword'];
         }else{
             $keyword='';
@@ -83,7 +105,7 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
 
     public function searchresults(){
 
-        if(isset($this->request->get)){
+        if(isset($this->request->get['keyword'])){
             $keyword=$this->request->get['keyword'];
         }else{
             $keyword='';
@@ -103,5 +125,41 @@ class ControllerExtensionModuleDAjaxSearch extends Controller {
             $this->response->setOutput(json_encode($result));
         }
 
+    }
+
+    protected function addScript($script) {
+        $this->scripts[] = $script;
+    }
+
+    protected function addStyle($style) {
+        $this->styles[] = $style;
+    }
+
+    protected function parseHeader($header)
+    {
+        $html_dom = new d_simple_html_dom();
+        $html_dom->load($header, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+
+        foreach ($this->scripts as $script) {
+            if (!$html_dom->find('head', 0)->find('script[src="' . $script . '"]')) {
+                if ($html_dom->find('head > script', -1)) {
+                    $html_dom->find('head > script', -1)->outertext .= '<script src="' . $script . '" type="text/javascript"></script>';
+                } else {
+                    $html_dom->find('head', -1)->innertext .= '<script src="' . $script . '" type="text/javascript"></script>';
+                    $html_dom->load((string)$html_dom, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+                }
+            }
+        }
+        foreach ($this->styles as $style) {
+            if (!$html_dom->find('head', 0)->find('link[href="' . $style . '"]')) {
+                if ($html_dom->find('head > link', -1)) {
+                    $html_dom->find('head > link', -1)->outertext .= '<link href="' . $style . '" rel="stylesheet" type="text/css"/>';
+                } else {
+                    $html_dom->find('head', -1)->innertext .= '<link href="' . $style . '" rel="stylesheet" type="text/css"/>';
+                    $html_dom->load((string)$html_dom, $lowercase = true, $stripRN = false, $defaultBRText = DEFAULT_BR_TEXT);
+                }
+            }
+        }
+        return (string)$html_dom;
     }
 }

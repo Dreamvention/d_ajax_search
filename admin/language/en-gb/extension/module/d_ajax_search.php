@@ -4,6 +4,7 @@ $_['heading_title']                 = '<span style="color:#449DD0; font-weight:b
 $_['heading_title_main']            = 'Live Ajax Search';
 
 $_['entry_status']                  ='Status';
+$_['entry_rtl']                     = 'RTl language <br/><small>If you have a RTL language, turn on for the Ajax Search to render in rtl</small>';
 $_['text_on']                     ='On';
 $_['text_off']                    ='Off';
 $_['more_details']                  ='More details';

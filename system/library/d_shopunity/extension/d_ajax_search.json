@@ -1,6 +1,6 @@
 {
   "codename": "d_ajax_search",
-  "version": "6.2.6",
+  "version": "6.2.10",
   "name": "d_ajax_search",
   "description": "This is the base for your tipical module. Use  this as a guide to make an awesome module.",
   "index": "extension/module/d_ajax_search",
@@ -47,6 +47,12 @@
     "catalog/language/en-gb/extension/module/d_ajax_search.php",
     "catalog/model/extension/module/d_ajax_search.php",
     "catalog/view/theme/default/template/extension/module/d_ajax_search.twig",
+    "catalog/view/javascript/d_dialogify/dv_dialogify.css",
+    "catalog/view/javascript/d_dialogify/dv_dialogify.min.css",
+    "catalog/view/javascript/d_dialogify/dv_dialogify.js",
+    "catalog/view/javascript/cash/cash.min.js",
+    "catalog/view/javascript/axios/axios.min.js",
+    "catalog/view/javascript/d_dialogify/dv_dialogify.min.js",
     "system/library/d_shopunity/install/d_ajax_search.xml",
     "system/config/d_ajax_search/product_simple.php",
     "system/config/d_ajax_search.php"
@@ -55,9 +61,27 @@
     "admin/view/image/d_ajax_search",
     "admin/view/stylesheet/d_ajax_search",
     "image/catalog/d_ajax_search",
-    "catalog/view/theme/default/stylesheet/d_ajax_search"
+    "catalog/view/javascript/ripecss",
+    "catalog/view/theme/default/stylesheet/d_ajax_search",
+    "catalog/view/theme/default/javascript/d_ajax_search"
   ],
   "changelog": [
+    {
+      "version": "6.2.10",
+      "change": "Fixed small bugs"
+    },
+    {
+      "version": "6.2.9",
+      "change": "Replaced jquery to cash js and added axios"
+    },
+    {
+      "version": "6.2.8",
+      "change": "Fixed bugs on dialogify"
+    },
+    {
+      "version": "6.2.7",
+      "change": "Remade from bootstrap to ripecss and dialogify, fixed bugs"
+    },
     {
       "version": "6.2.6",
       "change": "Fixed issues with styles and modification was remade to events"

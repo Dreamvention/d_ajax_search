@@ -26,7 +26,7 @@ class ModelExtensionModuleDAjaxSearch extends Model {
         $settings['no_dublicate_images'] = isset($settings['no_dublicate_images']) ? $settings['no_dublicate_images'] : 0;
         $settings['suggestion'] = isset($settings['suggestion']) ? $settings['suggestion'] : 0;
 
-        $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $text . "'";
+        $sql_redirect="SELECT * FROM " . DB_PREFIX . "as_query WHERE text = '" . $this->db->escape($text) . "'";
         $query=$this->db->query($sql_redirect);
         if(!empty($query->rows[0]['redirect'])){
             $text=$query->rows[0]['redirect'];
@@ -101,13 +101,13 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
                         if($query['key']=='pd.name' && $research){
                             foreach ($keywords as $key => $word) {
-                                $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $word . "%')";
+                                $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $this->db->escape($word) . "%')";
                             }
                         }
-                        $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $text . "%')";
+                        $implode[$search][] = "LOWER(".$query['key'] . ") LIKE LOWER('%" . $this->db->escape($text) . "%')";
 
                     } else {
-                        $implode[$search][] = $query['key'] . " " . $query['rule'] . " " . $text;
+                        $implode[$search][] = $query['key'] . " " . $query['rule'] . " " . $this->db->escape($text);
                     }
                 }
             }
@@ -157,17 +157,17 @@ class ModelExtensionModuleDAjaxSearch extends Model {
 
                     if(isset($settings['smart']) && $settings['smart']){
 
-                        $sql       = "SELECT qr.count FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.query_id = qr.query_id) WHERE q.text = '" . $text . "' AND qr.type = '" . $search . "' AND qr.type_id = " . $row[$search . '_id'] . " AND qr.status = " . 1 . "  ORDER BY qr.count DESC";
+                        $sql       = "SELECT qr.count FROM " . DB_PREFIX . "as_query q LEFT JOIN " . DB_PREFIX . "as_query_results qr ON (q.query_id = qr.query_id) WHERE q.text = '" . $this->db->escape($text) . "' AND qr.type = '" . $this->db->escape($search) . "' AND qr.type_id = " . $row[$search . '_id'] . " AND qr.status = " . 1 . "  ORDER BY qr.count DESC";
                         $ai_result = $this->db->query($sql);
                     }
 
                     $product_ides[$search]['id'][]                = $row[$search . '_id'];
-                    $product_ides[$search]['image'][]             = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']);;
+                    $product_ides[$search]['image'][]             = (isset($row['image']) && !empty($row['image']) && is_file(DIR_IMAGE . $row['image']) && is_readable(DIR_IMAGE . $row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']));
                     $result[$search][$key][$search . '_id'] = $row[$search . '_id'];
                     $result[$search][$key]['keyword'] = $text;
                     $result[$search][$key]['redirect'] = isset($redirect_text) ? $redirect_text : '';
                     $result[$search][$key]['autocomplite'] = isset($autocomplite) ? $autocomplite : '';
-                    $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']);
+                    $result[$search][$key]['image']         = isset($row['image']) && !empty($row['image']) && is_file(DIR_IMAGE . $row['image']) && is_readable(DIR_IMAGE . $row['image']) ? $this->model_tool_image->resize($row['image'], $settings['image_width'], $settings['image_height']) : $this->model_tool_image->resize('catalog/d_ajax_search/no_image_search.png', $settings['image_width'], $settings['image_height']);
                     $result[$search][$key]['name']          = $row['name'];
                     $result[$search][$key]['description']   = isset($row['description']) ? $row['description'] : '';
                     $result[$search][$key]['where_find']    = $this->language->get($search);
@@ -187,8 +187,13 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                         $result[$search][$key]['price'] = 0;
                     } else {
                         if(isset($row['price'])){
-                            $tax_class = $this->model_catalog_product->getProduct($row[$search . '_id'])['tax_class_id'];
+                            $current_product_data = $this->model_catalog_product->getProduct($row[$search . '_id']);
+                            $tax_class = $current_product_data['tax_class_id'];
+                            $special = (isset($current_product_data['special']) ? $current_product_data['special'] : 0);
                             $result[$search][$key]['price'] = $this->currency->format($this->tax->calculate($row['price'], $tax_class, $this->config->get('config_tax')), $this->session->data['currency']);
+                            if ($special) {
+                                $result[$search][$key]['special'] = $this->currency->format($this->tax->calculate($special, $tax_class, $this->config->get('config_tax')), $this->session->data['currency']);
+                            }
                         }else{
                             $result[$search][$key]['price']='';
                         }
@@ -205,7 +210,16 @@ class ModelExtensionModuleDAjaxSearch extends Model {
                     }
                     if (isset($info) && is_array($info)) {
                         foreach ($info as $gde => $string) {
-                            $check = stripos($string, $text);
+                            if (is_array($string)) {
+                                foreach ($string as $key => $value) {
+                                    $check = stripos($value, $text);
+                                    if ($check !== false) {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                $check = stripos($string, $text);
+                            }
                             if ($check === false) {
                                 $result[$search][$key]['find_by']=$this->language->get('name');
                             } else {
