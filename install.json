@@ -1,0 +1,14 @@
+{
+    "name": "Live Ajax Search",
+    "codename": "live_search",
+    "link": "dreamvention.com",
+    "license": "GPL",
+    "version": "1.0.8",
+    "author": "Dreamvention",
+    "dependencies": {
+        "dv_dialogify": ">=1.0.0",
+        "dv_simple_html_dom": ">=1.0.0",
+        "dv_opencart_patch": ">=1.0.0",
+        "ripecss": ">=1.0.0"
+    }
+}

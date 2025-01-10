@@ -1,0 +1,184 @@
+
+{{ header }} {{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline float-end">
+            </div>
+            <h1>{{heading_title}} {{version}}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if not pro %}
+            <div class="notify alert alert-info">{{text_get_pro}}</div>
+        {% endif %}
+        {% if error.warning %}
+            <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error.warning }}
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+            </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-pencil-alt"></i> {{text_edit}}
+            </div>
+            <div class="card-body">
+            <style>
+.welcome{
+    background: url("{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/bg.svg");
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: 50%;
+    min-height: 700px;
+    padding-top: 50px;
+    padding-bottom: 200px;
+}
+.welcome-into{
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+}
+.welcome-into-logo{
+    padding-bottom: 15px;
+}
+.welcome-into-heading{
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+.welcome-into-text{
+    font-size: 18px;
+    padding-bottom: 30px;
+}
+.welcome-into-start{
+    padding-bottom: 30px;
+}
+.welcome-features{
+    padding: 30px;
+}
+.welcome-features-icon{
+    padding: 20px;
+    height: 130px;
+    text-align: center;
+}
+.welcome-features-icon img{
+    height: 100%;
+}
+.welcome-features-text{
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+.panel .panel-body{
+    padding: 0px;
+}
+</style>
+                <div class="welcome">
+                    <div class="welcome-into">
+                        <div class="welcome-into-logo"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/logo.svg" /></div>
+                        <div class="welcome-into-heading">Live Ajax Search</div>
+                        <div class="welcome-into-text">People that use on-site search are 2x likely to convert. Learn your customer’s search trends and offer better results. With this module your search will get smarter every time it is used, offering the most relevant results automatically. This will reduce search time and increase conversions.</div>
+
+                        <label class="col-form-label">{{ entry_install_dependencies }}</label>
+                        <div style="justify-content: center;" class="row col-sm-12 mt-2">
+                            <div id="loading-bar" class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div id="loading-text"></div>
+                        </div>
+                    </div>
+                    <div class="welcome-features">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/extremely_fast.svg" /></div>
+                                <div class="welcome-features-text">Quick and <br/>Simple setup</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/search_suggestions.svg" /></div>
+                                <div class="welcome-features-text">Live search <br/>results</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/search_over_20_parameters.svg" /></div>
+                            <div class="welcome-features-text">Search products, <br/>categories and more</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/intelligent_search.svg" /></div>
+                                <div class="welcome-features-text">Intelligent <br/>search</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var dependencies = {{ non_installed }};
+{% if  constant('VERSION') > '4.0.1.1' %}
+var next = 'index.php?route=extension/live_search/module/live_search.installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+{% else %}
+var next = 'index.php?route=extension/live_search/module/live_search|installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+{% endif %}
+  
+
+  var step = 0;
+
+  var install = function () {
+      $.ajax({
+          url: next,
+          dataType: 'json',
+          success: function (json) {
+              if (json['error']) {
+                $('#loading-bar').addClass('bg-danger');
+                $('#loading-text').html('<div class="text-danger">' + json['error'] + '</div>');
+              }
+
+              if (json['success']) {
+                dependencies.shift();
+                if (!dependencies[0] && !json['dependencies']) {
+                  $('#loading-text').html('<div class="text-success">' + json['success'] + '</div>');
+                  location = '{{ location }}';
+                } else {
+                  if (json['dependencies']) {
+                    json['dependencies'].forEach(
+                      (dependency) => {
+                        dependencies.push(dependency);
+                      }
+                    );
+                  }
+                  step += 1;
+                  {% if  constant('VERSION') > '4.0.1.1' %}
+                    next = 'index.php?route=extension/live_search/module/live_search.installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+                  {% else %}
+                    next = 'index.php?route=extension/live_search/module/live_search|installDependencies&user_token={{ user_token }}&code=' + dependencies[0];
+                  {% endif %}
+                  install();
+                }
+              }
+
+              if (json['next']) {
+                  next = json['next'];
+                  install();
+              }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+              console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+      });
+  };
+
+  install();
+});
+</script>

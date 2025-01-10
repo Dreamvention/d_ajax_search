@@ -1,0 +1,939 @@
+{{ header }}{{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+
+            <div class="float-end">
+                <button id="save_and_stay" data-bs-toggle="tooltip" title="{{ button_save_and_stay }}"
+                        class="btn btn-success"><i class="fa fa-save"></i></button>
+                <button type="submit" form="form" data-bs-toggle="tooltip" title="{{ button_save }}"
+                        class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-bs-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light"><i
+                            class="fa fa-reply"></i></a>
+            </div>
+
+            <h1>{{ heading_title }} {{ version }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li  class="breadcrumb-item"><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        {% if not pro %}
+            <div class="notify alert alert-info">{{ text_pro }}</div>
+        {% endif %}
+        {% if (error_warning) %}
+            <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+            <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-pencil"></i> {{ text_edit }}
+            </div>
+
+            <div class="card-body">
+                {% if setup %}
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" href="#tab_setting" data-bs-toggle="tab">
+                                <span class="fa fa-cog"></span>
+                                {{ text_settings }}
+                            </a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tab_main" data-bs-toggle="tab">
+                                <span class="fa fa-wrench"></span>
+                                {{ main_settings }}
+                            </a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tab_design" data-bs-toggle="tab">
+                                <span class="fa fa-picture-o"></span>
+                                {{ entry_design }}
+                            </a></li>
+                        {% if pro %}
+        
+                            <li class="nav-item"><a class="nav-link" href="#tab_analytics" data-bs-toggle="tab">
+                                    <span class="fa fa-line-chart"></span>
+                                    {{ text_analitycs }}
+                                </a></li>
+                            <li class="nav-item"><a class="nav-link" href="#tab_history" data-bs-toggle="tab">
+                                    <span class="fa fa-history"></span>
+                                    {{ entry_history_redirects }}
+                                </a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="#tab_instruction" data-bs-toggle="tab">
+                                <span class="fa fa-graduation-cap"></span>
+                                {{ text_instructions }}
+                            </a></li>
+                    </ul>
+                    <form id="form" action="{{ action }}" method="post" enctype="multipart/form-data" id="form"
+                            class="form-horizontal">
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="tab_setting">
+                                <div class="tab-body">
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-status">
+                                            {{ entry_status }}
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="hidden" value="0" name="{{ codename }}_status"/>
+                                            <input type="checkbox" value="1"
+                                                    name="{{ codename }}_status" {{ live_search_status ? 'checked="checked"' : '' }}
+                                                    id="input-status"/>
+                                        </div>
+                                    </div>
+                                    {% for language in languages %}
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="input_rtl[{{ language.code }}]">{{entry_rtl}}</label>                              
+                                            
+                                                <div class="col-sm-6">
+                                                <div class="language-flag" style="margin-top: 10px; padding-bottom: 10px;">
+                                                <img src="language/{{ language.code }}/{{ language.code }}.png" width="22" height="12" alt="{{ language.name }}" title="{{ language.name }}"/>
+                                                </div>      
+                                                    <input type="hidden" name="live_search_rtl[{{ language.code }}]" value="0" />
+                                                    <input type="checkbox" name="live_search_rtl[{{ language.code }}]" class="switcher" data-label-text="{{text_enabled}}" id="input_rtl[{{ language.code }}]"  {{attribute(_context, 'live_search_rtl['~ language.code ~']') ? 'checked="checked"' }} value="1" />
+                                                </div>
+                                                
+                                            </div>                               
+                                            {% endfor %}
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-class"><span
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ help_class_form }}">{{ entry_class_form }}</span></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="{{ codename }}_setting[class_form]"
+                                                    value="{{ setting['class_form'] }}" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-class"><span
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ help_class }}">{{ entry_class }}</span></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="{{ codename }}_setting[class]"
+                                                    value="{{ setting['class'] }}" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-max-symbols"><span
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ help_max_symbols }}">{{ entry_max_symbols }}</span></label>
+                                        <div class="col-sm-10">
+                                            <input name="{{ codename }}_setting[max_symbols]"
+                                                    value="{{ setting['max_symbols'] }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    {% if pro %}
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label" for="input-smart-search"><span
+                                                        data-bs-toggle="tooltip"
+                                                        title="{{ tooltip_smart_search }}">Smart search</span></label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[smart]"
+                                                        value="0"/>
+                                                <input type="checkbox"
+                                                        name="{{ codename }}_setting[smart]" {{ setting['smart'] ? 'checked="checked"' : '' }}
+                                                        value="1" class="switcher"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label" for="input-max-sugg-and-auto"><span
+                                                        data-bs-toggle="tooltip" title="{{ tooltip_suggestion }}">Suggestion</span></label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[suggestion]"
+                                                        value="0"/>
+                                                <input type="checkbox"
+                                                        name="{{ codename }}_setting[suggestion]" {{ setting['suggestion'] ? 'checked="checked"' : '' }}
+                                                        value="1" class="switcher"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label" for="input-max-sugg-and-auto"><span
+                                                        data-bs-toggle="tooltip"
+                                                        title="{{ tooltip_autocomplete }}">Autocomplete</span></label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[autocomplete]"
+                                                        value="0"/>
+                                                <input type="checkbox"
+                                                        name="{{ codename }}_setting[autocomplete]" {{ setting['autocomplete'] ? 'checked="checked"' : '' }}
+                                                        value="1" class="switcher"/>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_main">
+                                <div class="tab-body">
+                                    <div class="row mb-3">
+                                        <div class="table-responsive col-sm-12">
+                                            <table class="table table-bordered table-hover control-elements">
+                                                <thead>
+                                                <tr class="fields">
+                                                    <td class="field">
+                                                        <h4 class="m-b-none">
+                                                            <span class="fa fa-sort-amount-asc"></span> {{ priority_search }}
+                                                        </h4>
+                                                    </td>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="control-elements">
+                                                <tr class="control-element">
+                                                    <td class="field">
+                                                        <div class="col-sm-12">
+                                                            <div id="extensions">
+                                                                {% for extension in extensions %}
+                                                                    <div class="sort-item {{ extension['id'] }}"
+                                                                            data-sort-order="{{ extension['sort_order'] }}">
+                                                            <span>
+                                                                <input type="hidden"
+                                                                        name="{{ codename }}_setting[extension][{{ extension['id'] }}][sort_order]"
+                                                                        class="sort-value"
+                                                                        value="{{ extension['sort_order'] }}"/>
+                                                                <span class="drag-handle"><i
+                                                                            class="fa fa-bars"></i></span>
+                                                            </span>
+                                                                        <span class="extension">
+                                                                <input type="hidden"
+                                                                        name="{{ codename }}_setting[extension][{{ extension['id'] }}][enabled]"
+                                                                        value="0"/>
+                                                                <input type="checkbox"
+                                                                        name="{{ codename }}_setting[extension][{{ extension['id'] }}][enabled]" {{ extension['enabled'] ? 'checked="checked"' : '' }} value="1"
+                                                                        id="{{ codename }}_module_item_{{ extension['id'] }}_enabled"/>
+                                                                <label onclick="check('{{ extension['id'] }}')"
+                                                                        for="{{ codename }}extension_{{ extension['id'] }}_enabled">Edit {{ extension['id']|capitalize|replace ({'_':' '}) }} <i
+                                                                            class="fa fa-caret-down"></i></label>
+                                                                <div class="pull-right form-inline">
+                                                                <label class="col-form-label lable_max_count"
+                                                                        for="{{ codename }}_setting[max_symbols]"><span
+                                                                            data-bs-toggle="tooltip"
+                                                                            title="Number of items in result of {{ extension['id']|capitalize|replace ({'_':' '}) }}">Count in results</span></label>
+                                                                <input name="{{ codename }}_setting[extension][{{ extension['id'] }}][max_count]"
+                                                                        value="{{ extension['max_count'] }}"
+                                                                        class="form-control">
+                                                                </div>
+                                                            </span>
+                                                                        <div class="more-details row mb-3 {{ extension['id'] }}_settings hidden_settings">
+                                                                            {% for key, extension_ in extension['query'] %}
+                                                                                <div class="col-sm-4 marbot">
+                                                                                    <input type="hidden"
+                                                                                            name="{{ codename }}_setting[extension][{{ extension['id'] }}][query][{{ key }}]"
+                                                                                            value="0"/>
+                                                                                    <input type="checkbox"
+                                                                                            name="{{ codename }}_setting[extension][{{ extension['id'] }}][query][{{ key }}]" {{ extension_['status'] ? 'checked="checked"' : '' }}
+                                                                                            value="1"
+                                                                                            class="form-control">
+                                                                                    <label class=" col-form-label"
+                                                                                            for="input-{{ extension['id'] }}-query-{{ key }}"><span
+                                                                                                data-bs-toggle="tooltip"
+                                                                                                title="{{ extension_['tooltip'] }}">{{ key }}</span></label>
+                                                                                </div>
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                        <hr>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="tab-pane" id="tab_design">
+                                <div class="tab-body">
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label"
+                                                for="input-price">{{ entry_price }}</label>
+                                        <div class="col-sm-10">
+                                            <input type="hidden" name="{{ codename }}_setting[price]"
+                                                    value="0"/>
+                                            <input type="checkbox"
+                                                    name="{{ codename }}_setting[price]" {{ setting['price'] ? 'checked="checked"' : '' }}
+                                                    value="1" class="switcher"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label"
+                                                for="input-where_search">{{ where_was_found }}</label>
+                                        <div class="col-sm-10">
+                                            <input type="hidden" name="{{ codename }}_setting[where_search]"
+                                                    value="0"/>
+                                            <input type="checkbox"
+                                                    name="{{ codename }}_setting[where_search]" {{ setting['where_search'] ? 'checked="checked"' : '' }}
+                                                    value="1" class="switcher"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-width"><span
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ help_width }}">{{ entry_width }}</span></label>
+                                        <div class="col-sm-10">
+                                            <input name="{{ codename }}_setting[width]"
+                                                    value="{{ setting['width'] }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-max-results"><span
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ help_max_results }}">{{ entry_max_results }}</span></label>
+                                        <div class="col-sm-10">
+                                            <input name="{{ codename }}_setting[max_results]"
+                                                    value="{{ setting['max_results'] }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label"
+                                                for="input-block_result">{{ display_results_in_block }}</label>
+                                        <div class="col-sm-10">
+                                            <input type="hidden" name="{{ codename }}_setting[block_result]"
+                                                    value="0"/>
+                                            <input type="checkbox"
+                                                    name="{{ codename }}_setting[block_result]" {{ setting['block_result'] ? 'checked="checked"' : '' }}
+                                                    value="1" class="switcher"/>
+                                        </div>
+                                    </div>
+                                    {% if pro %}
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label"
+                                                    for="input-no_dublicate_images">{{ display_unic_image }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden"
+                                                        name="{{ codename }}_setting[no_dublicate_images]"
+                                                        value="0"/>
+                                                <input type="checkbox"
+                                                        name="{{ codename }}_setting[no_dublicate_images]" {{ setting['no_dublicate_images'] ? 'checked="checked"' : '' }}
+                                                        value="1" class="switcher"/>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label"
+                                                for="input_text">{{ result_image_size }}</label>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <span class="input-group-text">Width</span>
+                                                <input name="{{ codename }}_setting[image_width]"
+                                                        value="{{ setting['image_width'] }}"
+                                                        class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <span class="input-group-text">Height</span>
+                                                <input name="{{ codename }}_setting[image_height]"
+                                                        value="{{ setting['image_height'] }}"
+                                                        class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label"
+                                                for="input_text">{{ show_more_results_link }}</label>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <input type="hidden"
+                                                        name="{{ codename }}_setting[all_result_status]"
+                                                        value="0"/>
+                                                <input type="checkbox"
+                                                        name="{{ codename }}_setting[all_result_status]" {{ setting['all_result_status'] ? 'checked="checked"' : '' }}
+                                                        value="1" class="switcher"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-max-symbols"><span
+                                                    data-bs-toggle="tooltip" title="for more results">Number of displayed results</span></label>
+                                        <div class="col-sm-2">
+                                            <input name="{{ codename }}_setting[all_result_count]"
+                                                    value="{{ setting['all_result_count'] }}"
+                                                    class="form-control">
+                                        </div>
+                                    </div>
+                                    {% if pro %}
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="input-custom_style"><span
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ help_custom_style }}">{{ entry_custom_style }}</span></label>
+                                        <div class="col-sm-10">
+                                            <!--<input name="{{ codename }}_setting[custom_style]"
+                                                    value="{{ setting['custom_style'] }}" class="form-control">-->
+                                            <textarea class="form-control" id="input_custom_style" name="{{ codename }}_setting[custom_style]" rows="5">{{ setting['custom_style'] }}</textarea>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_analytics">
+                                <div class="tab-body">
+                                    <div class="first_chart">
+                                        <ul class="nav nav-pills">
+                                            <li class="active">
+                                                <a id="first_load" class='choose-hour'
+                                                    href="{{ hour }}"><span>{{ text_24hour }}</span></a>
+                                            </li>
+                                            <li class="">
+                                                <a class='choose-hour'
+                                                    href="{{ week }}"><span>{{ text_week }}</span></a>
+                                            </li>
+                                            <li class="">
+                                                <a class='choose-hour'
+                                                    href="{{ mounth }}"><span>{{ text_month }}</span></a>
+                                            </li>
+                                            <li class="">
+                                                <a class='choose-hour'
+                                                    href="{{ year }}"><span>{{ text_year }}</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div id="table_analytics">
+
+                                        <div id="chartContainer" class="col-sm-6">
+                                            <canvas id="myChart" width="200" height="100"></canvas>
+                                        </div>
+                                        <div id="chartContainer2" class="second_chart col-sm-6">
+                                            <canvas id="myChart2" width="200" height="100"></canvas>
+                                        </div>
+                                        <div class="row">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_history">
+                                <div class="panel-body">
+                                    <div class="well">
+                                        <form method="post" enctype="multipart/form-data" id="form"
+                                                class="form-horizontal">
+                                            <div class="row">
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-2 col-form-label"
+                                                            for="input-max-results">{{ filter_keyword }}</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" name="filter_name" value=""
+                                                                placeholder="keyword" id="input-name"
+                                                                class="form-control"/>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <button type="button" id="button-filter"
+                                                                class="btn btn-primary "><i
+                                                                    class="fa fa-filter"></i>Filter
+                                                        </button>
+                                                        <div class="filter_inst info-window-item"
+                                                                data-href="https://dreamvention.ee/live-ajax-search-history-smart-search">
+                                                            <i class="fa fa-question info-load"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="table_history">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <td>Keyword</td>
+                                                    <td>Suggestions</td>
+                                                    <td>Selection</td>
+                                                    <td>Views</td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% if histories %}
+                                                    {% for history in histories %}
+                                                        <tr>
+                                                            <td class="text-center hidden">
+                                                                <input type="text"
+                                                                        name="settings[history][query_results_id]"
+                                                                        value="{{ history['query_id'] }}"
+                                                                        class="form-control">
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div type="text" name="settings[history][text]"
+                                                                        value="{{ history['keyword'] }}">{{ history['keyword'] }}</div>
+                                                            </td>
+                                                            <td class="redirect-cell text-left">
+                                                                <div id="redirect_{{ history['query_id'] }}"
+                                                                        class="redirect-field"
+                                                                        redirect_query_id="{{ history['query_id'] }}">
+                                                                    <span class="text-field">{{ history['redirect'] }}</span>
+                                                                    <input type="text"
+                                                                            value="{{ history['redirect'] }}"
+                                                                            class="input-field form-control hide"/>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <a href="{{ history['href'] }}"><img
+                                                                            src="{{ history['image'] }}"
+                                                                            alt="">{{ history['name'] }}</a>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div type="text" name="settings[history][hits]"
+                                                                        value="{{ history['count'] }}">{{ history['count'] }}</div>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <tr>
+                                                        <td class="text-center" colspan="8">No results!</td>
+                                                    </tr>
+                                                {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="row m-t-lg m-b-lg">
+                                            <div class="col-sm-6 text-left">{{ pagination }}</div>
+                                            <div class="col-sm-6 text-right">{{ results }}</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_instruction">
+                                <div class="tab-body">{{ text_instructions_full }}</div>
+                            </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <style>
+.welcome{
+    background: url("{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/bg.svg");
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: 50%;
+    min-height: 700px;
+    padding-top: 50px;
+    padding-bottom: 200px;
+}
+.welcome-into{
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+}
+.welcome-into-logo{
+    padding-bottom: 15px;
+}
+.welcome-into-heading{
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+.welcome-into-text{
+    font-size: 18px;
+    padding-bottom: 30px;
+}
+.welcome-into-start{
+    padding-bottom: 30px;
+}
+.welcome-features{
+    padding: 30px;
+}
+.welcome-features-icon{
+    padding: 20px;
+    height: 130px;
+    text-align: center;
+}
+.welcome-features-icon img{
+    height: 100%;
+}
+.welcome-features-text{
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+.panel .panel-body{
+    padding: 0px;
+}
+</style>
+<div class="welcome">
+    <div class="welcome-into">
+        <div class="welcome-into-logo"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/logo.svg" /></div>
+        <div class="welcome-into-heading">Live Ajax Search</div>
+        <div class="welcome-into-text">People that use on-site search are 2x likely to convert. Learn your customer’s search trends and offer better results. With this module your search will get smarter every time it is used, offering the most relevant results automatically. This will reduce search time and increase conversions.</div>
+
+        <div class="welcome-into-start">
+            <a class="btn btn-primary btn-lg setup" >Setup</a>
+        </div>
+    </div>
+    <div class="welcome-features">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/extremely_fast.svg" /></div>
+                <div class="welcome-features-text">Quick and <br/>Simple setup</div>
+            </div>
+            <div class="col-md-3">
+                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/search_suggestions.svg" /></div>
+                <div class="welcome-features-text">Live search <br/>results</div>
+            </div>
+            <div class="col-md-3">
+                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/search_over_20_parameters.svg" /></div>
+               <div class="welcome-features-text">Search products, <br/>categories and more</div>
+            </div>
+            <div class="col-md-3">
+                <div class="welcome-features-icon"><img src="{{ constant('HTTP_CATALOG') }}extension/live_search/admin/view/image/d_ajax_search/icons/intelligent_search.svg" /></div>
+                <div class="welcome-features-text">Intelligent <br/>search</div>
+            </div>
+        </div>
+    </div>
+</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="info-window">
+            <div class="info-window-wrap">
+                <div class="info-window-block">
+                    <div class="info-window-close"><i class="fa fa-close"></i></div>
+                    <div class="info-window-description"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if not setup %}
+    <script type="text/javascript">
+        $(document).on('click', '.setup', function () {
+            window.location.href = '{{ setup_link }}';
+        });
+    </script>
+{% else %}
+    <script type="text/javascript">
+        //General
+
+        $("[type='checkbox']").bootstrapSwitch({
+            'onColor': 'success',
+            'onText': '{{ text_on }}',
+            'offText': '{{ text_off }}',
+        });
+
+        $('body').on('click', '#save_and_stay', function () {
+            $.ajax({
+                type: 'post',
+                url: $('#form').attr('action'),
+                data: $('#form').serialize(),
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#content').fadeTo('slow', 0.5);
+                },
+                complete: function () {
+                    $('#content').fadeTo('slow', 1);
+                },
+                success: function (json) {
+                    alert(json);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+        });
+
+        //info window
+        var info_window = {
+            'item': new Array(),
+            'current_url': ''
+        }
+
+        $.each($('.info-window-item'), function (key, value) {
+            var url = $(this).attr('data-href');
+
+            if (url) {
+                $.getJSON(url + '?format=json&callback=?', function (data) {
+                    info_window.item[url] = data['description'];
+                });
+            }
+        });
+        //instructions
+        $(function () {
+            var url_inst = 'https://dreamvention.ee/instructions-quick-search';
+
+            $.getJSON(url_inst + '?format=json&callback=?', function (data) {
+                $('.instruction').html(data['description']);
+            });
+        })
+
+        //Analytics
+        $(document).on('click', '.choose-hour', function (ev) {
+            $('#tab_analytics li').removeClass('active')
+            $(ev.currentTarget).parent().addClass('active')
+            var url = $(ev.currentTarget).attr('href');
+
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: $('#form').serialize(),
+                dataType: 'json',
+                beforeSend: function () {
+                    // $('#content').fadeTo('slow', 0.5);
+                },
+                complete: function () {
+                    // $('#content').fadeTo('slow', 1);
+                },
+                success: function (json) {
+
+                    drawAnalyticsTab(json);
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+            return false;
+        });
+
+
+        $('#first_load').click();
+
+        //History
+        $('#button-filter').on('click', function () {
+            var url = 'index.php?route=extension/module/live_search&{{ url_token }}';
+
+            var filter_name = $('input[name=\'filter_name\']').val();
+
+            if (filter_name) {
+                url += '&filter_name=' + encodeURIComponent(filter_name);
+            }
+
+            location = url;
+        });
+
+        $(document).on('click', '.pagination li a', function (ev) {
+            $('#table_history').load(ev.currentTarget.href + ' #table_history > div')
+            // $(ev.currentTarget.href).
+            return false;
+        });
+
+        $('body').on('click', '.redirect-cell', function () {
+            var redirect = $(this).children('.redirect-field');
+
+            if ($(redirect).children('.input-field').hasClass('hide') && ($(redirect).children('.input-field').attr('type') != 'hidden')) {
+                $('.popover').popover('hide', function () {
+                    $('.popover').remove();
+                });
+
+                $('.text-field').removeClass('hide');
+                $('.input-field').addClass('hide');
+
+                $(redirect).popover({
+                    html: true,
+                    placement: 'top',
+                    trigger: 'manual',
+                    content: function () {
+                        return '<button type="button" id="button_save" class="btn btn-primary" redirect_field_id="' + redirect.attr('id') + '"><i class="fa fa-save"></i></button> <button type="button" id="button_cancel" class="btn btn-danger" redirect_field_id="' + redirect.attr('id') + '"><i class="fa fa-remove"></i></button>';
+                    }
+                });
+
+                $(redirect).popover('show');
+
+                $(redirect).children('.text-field').addClass('hide');
+                $(redirect).children('.input-field').removeClass('hide');
+            }
+        });
+
+        $('body').on('click', '#button_save', function () {
+            var redirect = $('#' + $(this).attr('redirect_field_id'));
+            var query_redirect_id = $(redirect).attr('redirect_query_id');
+            var value = $(redirect).children('.input-field').val();
+            $.ajax({
+                url: '{{ redirect }}',
+                type: 'post',
+                data: 'query_id=' + query_redirect_id + '&value=' + (value),
+                dataType: 'json',
+                success: function (json) {
+                    showAlert(json);
+
+                    $(redirect).popover('hide', function () {
+                        $('.popover').remove();
+                    });
+
+                    setTimeout(function () {
+                        if (json['error'] != 'error') {
+                            $(redirect).children('.input-field').val(json['value']);
+                            $(redirect).children('.text-field').text(json['value']);
+                        } else {
+                            $(redirect).children('.input-field').val($(redirect).children('.text-field').text());
+                        }
+
+                        $(redirect).children('.text-field').removeClass('hide');
+                        $(redirect).children('.input-field').addClass('hide');
+                    }, 200);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+        });
+
+        $('body').on('click', '#button_cancel', function () {
+            var redirect = $('#' + $(this).attr('redirect_field_id'));
+
+            $(redirect).popover('hide', function () {
+                $('.popover').remove();
+            });
+
+            setTimeout(function () {
+                $(redirect).children('.input-field').val($(redirect).children('.text-field').text());
+                $(redirect).children('.text-field').removeClass('hide');
+                $(redirect).children('.input-field').addClass('hide');
+            }, 200);
+        });
+
+        function drawAnalyticsTab(json) {
+            document.getElementById("chartContainer").innerHTML = '<canvas id="myChart" width="200" height="100"></canvas>';
+            document.getElementById("chartContainer2").innerHTML = '<canvas id="myChart2" width="200" height="100"></canvas>';
+            $('.right-table').remove();
+            $('.left-table').remove();
+            if (json.statistic.table_statistic.length > 0) {
+                var i, k;
+                html = '<div class="col-sm-6 right-table">'
+                html += '<div id="table_viewed">'
+                html += '<div class="table-responsive">'
+                html += '<table class="table table-bordered table-hover">'
+                html += '<thead>'
+                html += '<tr>'
+                html += '<td>#</td>'
+                html += '<td>results</td>'
+                html += '<td>type</td>'
+                html += '<td>Views</td>'
+                html += '</tr>'
+                html += '</thead>'
+                html += '<tbody>'
+                for (i = 0; i < json.statistic.table_statistic.length; i++) {
+                    html += '<tr>'
+                    html += '<td>' + (i + 1) + '</td>'
+                    html += '<td><a href="' + json.statistic.table_statistic[i].href + '">' + json.statistic.table_statistic[i].select + '</a></td>'
+                    html += '<td>' + json.statistic.table_statistic[i].type + '</td>'
+                    html += '<td>' + json.statistic.table_statistic[i].count + '</td>'
+                    html += '</tr>'
+                }
+                html += '</tbody>'
+                html += '</table>'
+                html += '</div>'
+                html += '</div>'
+                html += '</div>'
+                html += '<div class="col-sm-6 left-table">'
+                html += '<div id="table_viewed">'
+                html += '<div class="table-responsive">'
+                html += '<table class="table table-bordered table-hover">'
+                html += '<thead>'
+                html += '<tr>'
+                html += '<td>keyword</td>'
+                html += '<td>searches</td>'
+                html += '</tr>'
+                html += '</thead>'
+                html += '<tbody>'
+                for (k = 0; k < json.top_searches.table_searches.length; k++) {
+                    html += '<tr>'
+                    html += '<td>' + json.top_searches.table_searches[k].text + '</td>'
+                    html += '<td>' + json.top_searches.table_searches[k].count + '</td>'
+                    html += '</tr>'
+                }
+                html += '</tbody>'
+                html += '</table>'
+                html += '</div>'
+                html += '</div>'
+                html += '</div>'
+                $('#table_analytics > div.row').after(html);
+            }
+            var ctx1 = document.getElementById("myChart").getContext('2d');
+            var myChart1 = new Chart(ctx1, {
+                type: 'bar',
+                data: json.statistic,
+                options: {
+                    title: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx2 = document.getElementById("myChart2").getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: json.top_searches,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script>
+        function check(data) {
+            var classList = $('.' + data + '_settings').attr('class').split(/\s+/);
+            $.each(classList, function (index, item) {
+                if (item === 'hidden_settings' || item === 'hidden') {
+                    $('.' + data + '_settings').slideDown(500).removeClass('hidden_settings');
+                    $("label[for='live_searchextension_" + data + "_enabled'] > i").removeClass('fa-caret-down');
+                    $("label[for='live_searchextension_" + data + "_enabled'] > i").addClass('fa-caret-up');
+                } else {
+                    $('.' + data + '_settings').slideUp(500).addClass('hidden_settings');
+                    $("label[for='live_searchextension_" + data + "_enabled'] > i").removeClass('fa-caret-up');
+                    $("label[for='live_searchextension_" + data + "_enabled'] > i").addClass('fa-caret-down');
+                }
+            });
+
+        }
+    </script>
+    <style>
+        
+        ul.nav-tabs > li > a.active > i:after, ul.nav-tabs > li > a.active > span:after {
+            content: "";
+            position: relative;
+            display: block;
+            background-color: #3573ee !important;
+            width: 18px;
+            height: 3px;
+            top: 3px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%); 
+        }
+        .fa-picture-o:before {
+            content: "\f03e";
+        }
+        .col-form-label {
+            font-size: 15px;
+        }
+        .panel-title {
+            font-size: 15px;
+        }
+        {# #tab-design {
+            margin-bottom: 40%;
+        } #}
+    </style>
+    
+{% endif %}
+{{ footer }}
